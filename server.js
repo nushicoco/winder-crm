@@ -3,16 +3,18 @@ console.log('Starting Server......');
 
 const express = require('express');
 const app = express();
-const pg = require('pg');
+var sqlite3 = require('sqlite3').verbose();
 const port = process.env.PORT || 3001;
-// process.env.NODE_ENV = 'production';
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
 }
 
-pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    if (err) return console.error(err);
+var db = new sqlite3.Database(process.env.DATABASE_URL || './db/winder.db');
+
+// db.each("SELECT rowid AS id, info FROM user_info", function(err, row) {
+//     console.log(row.id + ": " + row.info);
+// });
 
     app.listen(port, function (){
 
@@ -21,22 +23,19 @@ pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         });
 
         app.post('/quotes', (req, res) => {
-            console.log('Hellooooooooooooooooo!');
+            res.sendStatus(200);
         });
 
-        app.post('/loco', (req, res) => {
-            console.log('loco loco!');
-            res.sendStatus(200);
+        app.get('/frequent_problems', (req, res) => {
+            console.log('frequent_problems');
+            db.all("SELECT id, env, sub_env, subject, solution FROM frequent_problems", function(err, rows) {
+                console.log(err);
+                res.send(rows);
+            });
         });
     });
 
 
+    // db.close();
 
-    done();
-
-    // client.query('SELECT * FROM test_table', function(err, result) {
-    //     done();
-    //
-    // });
-
-});
+    // done();
