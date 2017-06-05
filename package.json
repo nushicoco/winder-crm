@@ -7,12 +7,14 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
     "start": "concurrently \"npm run dev\" \"npm run client\"",
-    "client": "cd client && npm start"
+    "client": "cd client && npm start",
+    "resetdb": "cd db && node reset_db"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.15.3",
+    "react-bootstrap": "^0.31.0",
     "sqlite3": "^3.1.8"
   },
   "devDependencies": {

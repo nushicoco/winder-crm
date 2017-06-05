@@ -28,9 +28,9 @@ var db = new sqlite3.Database(process.env.DATABASE_URL || './db/winder.db');
 
         app.get('/frequent_problems', (req, res) => {
             console.log('frequent_problems');
-            db.all("SELECT id, env, sub_env, subject, solution FROM frequent_problems", function(err, rows) {
+            db.all("SELECT * FROM frequent_problems", function(err, rows) {
                 console.log(err);
-                res.send(rows);
+                res.send(JSON.stringify(rows));
             });
         });
     });
