@@ -3,8 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Winder</title>
+    <script>
+        alert('here!');
+        var coco = function (){
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "loco", true);
+            xhttp.send("fname=Henry&lname=Ford");
+        }
+    </script>
 </head>
 <body>
+<button onclick="coco()">Not Submit</button>
+
 <form action="/quotes" method="POST" target="_blank">
     <input type="text" placeholder="name" name="name">
     <input type="text" placeholder="quote" name="quote">

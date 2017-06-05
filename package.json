@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start": "concurrently \"npm run dev\" \"npm run client\"",
+    "client": "cd client && npm start"
   },
   "author": "",
   "license": "ISC",
@@ -14,8 +16,7 @@
     "pg": "6.x"
   },
   "devDependencies": {
-    "eslint": "^3.19.0",
-    "eslint-plugin-react": "^7.0.1",
+    "concurrently": "^3.4.0",
     "nodemon": "^1.11.0"
   }
 }
