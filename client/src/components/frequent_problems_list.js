@@ -37,7 +37,7 @@ export default class FrequentProblemsList extends Component {
                     return <tr key={problem.id} onClick={this.setProblemDetails(problem)}>
                         <td>
                             {/*<Link to={`/frequent/${problem.id}`}>*/}
-                            <Link to={{ pathname: '/frequent', problem }}>
+                            <Link to={{ pathname: `/frequent/${problem.id}`, problem }}>
                                 {problem.subject}
                             </Link>
                         </td>

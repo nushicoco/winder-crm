@@ -12,9 +12,9 @@ import { routes } from './routes';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 
-// This is only for production !!
 // todo - move token to a config file
-// mixpanel.init("0346f6d4a5e8caf80ac7fbcd8e73fa7e");
+mixpanel.init("0346f6d4a5e8caf80ac7fbcd8e73fa7e");
+mixpanel.disable(); // REMOVE This for production !!
 
 const history = createBrowserHistory();
 

@@ -19,7 +19,7 @@ export const routes = [
         'exact' : true
     },
     {
-        'path':'/frequent',
+        'path':'/frequent/:id',
         'component': FrequentProblem,
         'exact' : true
     },
