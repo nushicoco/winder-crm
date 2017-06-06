@@ -30,7 +30,6 @@ export default class FrequentProblemsList extends Component {
     render() {
         return (
             <div>
-                <Search></Search>
                 <h1>תקלות נפוצות</h1>
                 <Table bordered condensed hover>
                     <tbody>
