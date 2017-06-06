@@ -2,7 +2,9 @@
  * Created by einavcarmon on 06/06/2017.
  */
 
-import FrequentProblemsList from './components/frequent_problems_list/frequent_problems_list'
+import FrequentProblemsList from './components/frequent_problems_list';
+import FrequentProblem from './components/frequent_problem';
+import Ticket from './components/ticket'
 
 export const routes = [
 
@@ -11,8 +13,14 @@ export const routes = [
         'component': FrequentProblemsList,
         'exact' : true
     },
-    // {
-    //     'pattern':'/coco',
-    //     'component': App,
-    // },
+    {
+        'path':'/ticket',
+        'component': Ticket,
+        'exact' : true
+    },
+    {
+        'path':'/frequent',
+        'component': FrequentProblem,
+        'exact' : true
+    },
 ]

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
-import Search from '../search/search';
-import Footer from '../footer/footer';
+import { Link } from 'react-router-dom'
+import Search from './search';
+import Footer from './footer';
 
 
 export default class FrequentProblemsList extends Component {
@@ -34,7 +35,14 @@ export default class FrequentProblemsList extends Component {
                 <Table bordered condensed hover>
                     <tbody>
                 {this.state.problems.map(function (problem) {
-                    return <tr key={problem.id} onClick={this.setProblemDetails(problem)}><td>{problem.subject}</td></tr>
+                    return <tr key={problem.id} onClick={this.setProblemDetails(problem)}>
+                        <td>
+                            {/*<Link to={`/frequent/${problem.id}`}>*/}
+                            <Link to={{ pathname: '/frequent', problem }}>
+                                {problem.subject}
+                            </Link>
+                        </td>
+                    </tr>
                 }.bind(this))}
                     </tbody>
                 </Table>
