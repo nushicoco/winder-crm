@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
+import Search from '../search/search';
+import Footer from '../footer/footer';
+
 
 export default class FrequentProblemsList extends Component {
     constructor(props) {
@@ -25,13 +28,18 @@ export default class FrequentProblemsList extends Component {
 
     render() {
         return (
-            <Table bordered condensed hover>
-                <tbody>
-            {this.state.problems.map(function (problem) {
-                return <tr key={problem.id} onClick={this.setProblemDetails(problem)}><td>{problem.subject}</td></tr>
-            }.bind(this))}
-                </tbody>
-            </Table>
+            <div>
+                <Search></Search>
+                <h1>תקלות נפוצות</h1>
+                <Table bordered condensed hover>
+                    <tbody>
+                {this.state.problems.map(function (problem) {
+                    return <tr key={problem.id} onClick={this.setProblemDetails(problem)}><td>{problem.subject}</td></tr>
+                }.bind(this))}
+                    </tbody>
+                </Table>
+                <Footer/>
+            </div>
         )
     }
 }
