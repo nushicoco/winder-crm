@@ -2,6 +2,7 @@
  * Created by einavcarmon on 06/06/2017.
  */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Button,  ButtonToolbar, Glyphicon} from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 
@@ -27,12 +28,12 @@ export default class FrequentProblem extends Component {
     choseDidntHelp() {
         this.setState({ choseDidntHelp:true , choseSomething:true});
 
-        // todo: call server and update on didn't help
+        this.context.mixpanel.track('solution didn\'t help for problem' ,{problemId:this.state.problem.id});
     }
+
     choseHelp() {
         this.setState({ choseHelp:true , choseSomething:true});
-
-        // todo: call server and update on didn't help
+        this.context.mixpanel.track('solution did help for problem' ,{problemId:this.state.problem.id});
     }
 
     render() {
@@ -53,3 +54,7 @@ export default class FrequentProblem extends Component {
         );
     }
 }
+
+FrequentProblem.contextTypes = {
+    mixpanel: PropTypes.object.isRequired
+};

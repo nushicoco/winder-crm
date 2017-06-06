@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 
 
 import logo from './logo.svg';
@@ -17,5 +18,9 @@ class App extends Component {
     );
   }
 }
+
+App.contextTypes = {
+    mixpanel: PropTypes.object.isRequired
+};
 
 export default App;
