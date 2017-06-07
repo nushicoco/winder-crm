@@ -10,12 +10,13 @@
     "startdev": "concurrently \"npm run dev\" \"npm run client\"",
     "client": "cd client && npm start",
     "buildclient": "cd client && npm run build",
-    "resetdb": "cd db && node reset_db"
+    "resetdb": "node db/reset_db"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.15.3",
+    "sequelize": "^4.0.0",
     "sqlite3": "^3.1.8"
   },
   "devDependencies": {
