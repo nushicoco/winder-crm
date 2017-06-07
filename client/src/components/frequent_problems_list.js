@@ -30,17 +30,19 @@ export default class FrequentProblemsList extends Component {
     render() {
         return (
             <div className="frequents-container">
-                <h1>תקלות נפוצות</h1>
-                <div>
+                <h1>מדריכים ותקלות נפוצות</h1>
+                <div className="frequents-list-container">
                     <Table bordered condensed hover>
                         <tbody>
                     {this.state.problems.map(function (problem) {
                         return <tr key={problem.id} onClick={this.setProblemDetails(problem)}>
                             <td>
+                                <div>
                                 {/*<Link to={`/frequent/${problem.id}`}>*/}
-                                <Link to={{ pathname: `/frequent/${problem.id}`, problem }}>
-                                    {problem.subject}
-                                </Link>
+                                    <Link to={{ pathname: `/frequent/${problem.id}`, problem }} className="frequent-link">
+                                        {problem.subject}
+                                    </Link>
+                                </div>
                             </td>
                         </tr>
                     }.bind(this))}
