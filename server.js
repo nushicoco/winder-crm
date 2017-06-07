@@ -8,6 +8,7 @@ const port = process.env.PORT || 3001;
 
 console.log("port ="  +port);
 console.log("NODE_ENV =" + process.env.NODE_ENV);
+
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
 }
@@ -21,7 +22,11 @@ var db = new sqlite3.Database(process.env.DATABASE_URL || './db/winder.db');
     app.listen(port, function (){
 
         app.get('/', (req, res) => {
-            res.sendFile(__dirname + '/index.html');
+            if (process.env.NODE_ENV === 'production') {
+                res.sendFile(__dirname + '/index.html');
+            }else {
+                res.sendFile(__dirname + '/client/build/index.html');
+            }
         });
 
         app.get('/frequent_problem/:id', (req, res) => {
