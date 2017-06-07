@@ -9,6 +9,7 @@
     "start": "node server.js",
     "startdev": "concurrently \"npm run dev\" \"npm run client\"",
     "client": "cd client && npm start",
+    "buildclient": "cd client && npm run build",
     "resetdb": "cd db && node reset_db"
   },
   "author": "",
