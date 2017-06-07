@@ -25,6 +25,11 @@ export const routes = [
         exact : true
     },
     {
+        'path':'/frequent/:id',
+        'component': FrequentProblem,
+        'exact' : true
+    },
+    {
         path: '/login',
         component: Login,
         exact: true
