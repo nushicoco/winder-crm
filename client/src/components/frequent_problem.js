@@ -23,7 +23,7 @@ export default class FrequentProblem extends Component {
             let problemId = props.match.params.id;
             var self = this;
 
-            fetch("frequent_problem/problemId").then((response) =>{
+            fetch(`/frequent_problem/${problemId}`).then((response) =>{
                 return response.json();
             }).then((problem) =>{
                 self.setState({problem});
