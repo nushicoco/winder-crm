@@ -6,6 +6,8 @@ const app = express();
 var sqlite3 = require('sqlite3').verbose();
 const port = process.env.PORT || 3001;
 
+console.log("port ="  +port);
+console.log("NODE_ENV =" + process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
 }
