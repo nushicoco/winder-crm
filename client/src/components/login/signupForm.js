@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Tab, Row, Col, Nav, NavItem, FormControl, ControlLabel, Form, FormGroup } from 'react-bootstrap'
+import { Button, Col, FormControl, ControlLabel, Form, FormGroup } from 'react-bootstrap'
 
 import Strings from './strings.js'
 import validations from './validations.js'
@@ -9,24 +9,32 @@ export default class SignupForm extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            name: '',
+            fullname: '',
             email: '',
-            password: ''
+            password: '',
+            password2: ''
         }
     }
 
     handleInputChange = (e) => {
-        this.setState({[e.target.name]: e.target.value})
+        this.setState({
+            [e.target.name + '_touched']: true,
+            [e.target.name]: e.target.value
+        })
     }
 
     isValid () {
         return validations.email(this.state.email)
             && validations.passwordLength(this.state.password)
+            && this.state.password === this.state.password2
+            && validations.fullname(this.state.fullname)
     }
 
-    renderField ({name, type='text', stringName}) {
+    renderField ({name, type='text', stringName, validator}) {
         return (
-            <FormGroup controlId={ name }>
+            <FormGroup
+              validationState={ this.state[name + "_touched"] && (validator(this.state[name]) ? "success" : "error") }
+              controlId={ name }>
               <Col componentClass={ControlLabel} sm={2}>
                 { Strings[stringName] }
               </Col>
@@ -43,19 +51,23 @@ export default class SignupForm extends Component {
         )
     }
 
+    password2validator = (pass2) => {
+        return pass2 === this.state.password
+    }
+
     render () {
         return (
             <Form>
 
-              { this.renderField({name: 'fullname',  stringName: 'loginFullname'}) }
-              { this.renderField({name: 'email',     stringName: 'loginEmail',      type: 'email'}) }
-              { this.renderField({name: 'password',  stringName: 'loginPassword',   type: 'password'}) }
-              { this.renderField({name: 'password2', stringName: 'loginPassword2',  type: 'password'}) }
+              { this.renderField({name: 'fullname',  stringName: 'loginFullname', validator: validations.fullname}) }
+              { this.renderField({name: 'email',     stringName: 'loginEmail',    validator: validations.email,  type: 'email'}) }
+              { this.renderField({name: 'password',  stringName: 'loginPassword', validator: validations.passwordLength, type: 'password'}) }
+              { this.renderField({name: 'password2', stringName: 'loginPassword2',validator: this.password2validator, type: 'password'}) }
 
               <FormGroup>
                 <Col smOffset={2} sm={10}>
                   <Button
-                    onClick={ this.handleSignin }
+                    onClick={ this.props.onSubmit }
                     type="submit"
                     disabled={ !this.isValid() }
                     >

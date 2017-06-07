@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { Button, Tab, Row, Col, Nav, NavItem, FormControl, ControlLabel, Form, FormGroup } from 'react-bootstrap'
+import { Tab, Row, Col, Nav, NavItem } from 'react-bootstrap'
 
 import LoadingSpinner from './loadingSpinner.js'
 import SignupForm from './signupForm.js'
 import SigninForm from './signinForm.js'
 import Strings from './strings.js'
-import Validations from './validations.js'
 import './login.css'
 
 
@@ -64,11 +63,11 @@ export default class Login extends Component {
                   <Col sm={12}>
                     <Tab.Content animation>
                       <Tab.Pane eventKey="signin">
-                        <SigninForm />
+                        <SigninForm onSubmit={ this.handleSignin }/>
                       </Tab.Pane>
 
                       <Tab.Pane eventKey="signup">
-                        <SignupForm />
+                        <SignupForm onSubmit={ this.handleSignup }/>
                       </Tab.Pane>
 
                     </Tab.Content>

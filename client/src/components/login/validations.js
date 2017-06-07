@@ -3,11 +3,16 @@ const EMAIL_REGEX = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+
 
 export default {
 
-    email: (email) => {
-        return email && email.match(EMAIL_REGEX)
+    email (email) {
+        const valid = email && email.match(EMAIL_REGEX)
+        return valid
     },
 
-    passwordLength: (password) => {
+    passwordLength (password) {
         return password && password.length >= MIN_PASSWORD_LENGTH
+    },
+
+    fullname (fullname) {
+        return fullname && fullname.length > 2 //TODO: decide
     }
 }

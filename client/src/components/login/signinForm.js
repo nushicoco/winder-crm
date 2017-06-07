@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Tab, Row, Col, Nav, NavItem, FormControl, ControlLabel, Form, FormGroup } from 'react-bootstrap'
+import { Button, Col, FormControl, ControlLabel, Form, FormGroup } from 'react-bootstrap'
 
 import Strings from './strings.js'
 import validations from './validations.js'
@@ -26,7 +26,7 @@ export default class SigninForm extends Component {
     render () {
         return (
             <Form>
-              <FormGroup controlId="formEmail">
+              <FormGroup bsSize="large" controlId="formEmail">
                 <Col componentClass={ControlLabel} sm={2}>
                   { Strings.loginEmail }
                 </Col>
@@ -40,7 +40,7 @@ export default class SigninForm extends Component {
                 </Col>
               </FormGroup>
 
-              <FormGroup controlId="formSigninPassword">
+              <FormGroup bsSize="large" controlId="formSigninPassword">
                 <Col componentClass={ControlLabel} sm={2}>
                   { Strings.loginPassword }
                 </Col>
@@ -57,7 +57,7 @@ export default class SigninForm extends Component {
               <FormGroup>
                 <Col smOffset={2} sm={10}>
                   <Button
-                    onClick={ this.handleSignin }
+                    onClick={ this.props.onSubmit }
                     type="submit"
                     disabled={ !this.isValid() }
                     >
