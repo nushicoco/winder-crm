@@ -29,22 +29,24 @@ export default class FrequentProblemsList extends Component {
 
     render() {
         return (
-            <div>
+            <div className="frequents-container">
                 <h1>תקלות נפוצות</h1>
-                <Table bordered condensed hover>
-                    <tbody>
-                {this.state.problems.map(function (problem) {
-                    return <tr key={problem.id} onClick={this.setProblemDetails(problem)}>
-                        <td>
-                            {/*<Link to={`/frequent/${problem.id}`}>*/}
-                            <Link to={{ pathname: `/frequent/${problem.id}`, problem }}>
-                                {problem.subject}
-                            </Link>
-                        </td>
-                    </tr>
-                }.bind(this))}
-                    </tbody>
-                </Table>
+                <div>
+                    <Table bordered condensed hover>
+                        <tbody>
+                    {this.state.problems.map(function (problem) {
+                        return <tr key={problem.id} onClick={this.setProblemDetails(problem)}>
+                            <td>
+                                {/*<Link to={`/frequent/${problem.id}`}>*/}
+                                <Link to={{ pathname: `/frequent/${problem.id}`, problem }}>
+                                    {problem.subject}
+                                </Link>
+                            </td>
+                        </tr>
+                    }.bind(this))}
+                        </tbody>
+                    </Table>
+                </div>
                 <Footer/>
             </div>
         )
