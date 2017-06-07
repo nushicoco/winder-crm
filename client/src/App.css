@@ -5,14 +5,45 @@
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   float: right;
-  width: 100%;
+  height: 100%;
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
+  background-color: #ECEBF3;
+  /*height: 150px;*/
+  width:100%;
   padding: 20px;
   color: white;
+  display: inline-block;
+  /*background: url(bg_apple_little.gif) no - repeat center center;*/
+
+  border-bottom: 4px #0C120C solid;
+}
+
+pallete {
+  background-color: #0C120C;
+  background-color: #C20114;
+  background-color: #6D7275;
+  background-color: #C7D6D5;
+  background-color: #ECEBF3;
+}
+
+@font-face {
+  font-family: 'Simple';
+  src: url(http://res.cloudinary.com/dzbelv6cv/image/upload/v1496820255/assets/simpleclm-bold-webfont.ttf);
+}
+@font-face {
+  font-family: 'Aleph';
+  src: url(http://res.cloudinary.com/dzbelv6cv/image/upload/v1496820255/assets/Alef_regular.ttf);
+}
+
+.frequents-container {
+  margin: 10px 55px 55px 55px;
+}
+
+img.App-logo {
+  height: 275px;
+
 }
 
 .App-intro {
@@ -22,4 +53,8 @@
 @keyframes App-logo-spin {
   /*from { transform: rotate(0deg); }*/
   /*to { transform: rotate(360deg); }*/
+}
+
+.body {
+  font-family: 'Aleph';
 }
