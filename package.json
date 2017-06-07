@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
-    "start": "concurrently \"npm run dev\" \"npm run client\"",
+    "start": "node server.js",
+    "startdev": "concurrently \"npm run dev\" \"npm run client\"",
     "client": "cd client && npm start",
     "resetdb": "cd db && node reset_db"
   },
