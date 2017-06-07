@@ -22,11 +22,7 @@ var db = new sqlite3.Database(process.env.DATABASE_URL || './db/winder.db');
     app.listen(port, function (){
 
         app.get('/', (req, res) => {
-            if (process.env.NODE_ENV === 'production') {
-                res.sendFile(__dirname + '/index.html');
-            }else {
-                res.sendFile(__dirname + '/client/build/index.html');
-            }
+            res.sendFile(__dirname + '/client/build/index.html');
         });
 
         app.get('/frequent_problem/:id', (req, res) => {
