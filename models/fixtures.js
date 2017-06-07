@@ -1,4 +1,4 @@
-const { User, FrequentProblem } = require('../models')
+const { User, FrequentProblem } = require('.')
 
 const frequentProblemValues = [
     ["אביד", "רגיל", "לא מצליח להקליט", "מדריך להקלטה"],
