@@ -26,7 +26,11 @@ var db = new sqlite3.Database(process.env.DATABASE_URL || './db/winder.db');
             var problemId = req.params.id;
             db.all(`SELECT * FROM frequent_problems WHERE id = ${problemId}`, function(err, rows) {
                 console.log(err);
-                res.send(JSON.stringify(rows));
+                if (rows[0]) {
+                    res.send(JSON.stringify(rows[0]));
+                }else {
+                    res.sendStatus(400);
+                }
             });
         });
 
