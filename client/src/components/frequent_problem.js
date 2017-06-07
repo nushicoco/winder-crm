@@ -12,13 +12,22 @@ export default class FrequentProblem extends Component {
     constructor(props) {
         super(props);
 
-        // todo: if problem doesn't exist we should get it from the api
-
         this.state  = {
             problem:props.location.problem,
             choseDidntHelp:false,
             choseHelp:false,
             choseSomething:false,
+        }
+
+        if (!this.state.problem){
+            let problemId = props.match.params.id;
+            var self = this;
+
+            fetch("frequent_problem/problemId").then((response) =>{
+                return response.json();
+            }).then((problem) =>{
+                self.setState({problem});
+            });
         }
 
         this.choseDidntHelp = this.choseDidntHelp.bind(this);
@@ -50,6 +59,7 @@ export default class FrequentProblem extends Component {
                         {this.state.choseHelp ? <p>מגניב! תודה על העדכון</p> : ''}
                     </div>
                 }
+                <Button><Link to="/">חזרה</Link></Button>
             </div>
         );
     }

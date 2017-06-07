@@ -22,14 +22,18 @@ var db = new sqlite3.Database(process.env.DATABASE_URL || './db/winder.db');
             res.sendFile(__dirname + '/index.html');
         });
 
-        app.post('/quotes', (req, res) => {
-            res.sendStatus(200);
+        app.post('/frequent_problem/:id', (req, res) => {
+            var problemId = req.params.id;
+            db.all(`SELECT * FROM frequent_problems WHERE id == ${problemId}`, function(err, rows) {
+                // console.log(err);
+                res.send(JSON.stringify(rows));
+            });
         });
 
         app.get('/frequent_problems', (req, res) => {
             console.log('frequent_problems');
             db.all("SELECT * FROM frequent_problems", function(err, rows) {
-                console.log(err);
+                // console.log(err);
                 res.send(JSON.stringify(rows));
             });
         });
