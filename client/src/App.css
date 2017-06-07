@@ -57,6 +57,14 @@ pallete {
 
 h1 {
   font-size: 60px;
+
+  color: #C20114;
+  /*background-color: #ECEBF3;*/
+  /*padding: 10px;*/
+  /*border-radius: 15px;*/
+  /*width: 50%;*/
+  /*margin: 25px;*/
+  /*border: 2px solid black;*/
 }
 
 .frequents-container {
