@@ -15,7 +15,7 @@ export default class Footer extends Component {
                     {/*<Button className={ this.state.shouldHide ? 'hide' : ''} > <Glyphicon glyph="log-in" />  צ׳אט עם טכנאי</Button>*/}
                 {/*</ButtonToolbar>*/}
 
-                <p> במידת הצורך נא לחייג לטכנאי - 052-6613344</p>
+                <p className="call-us"> במידת הצורך נא לחייג לטכנאי - 052-6613344</p>
             </div>
         );
     }
