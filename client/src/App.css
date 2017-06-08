@@ -37,54 +37,18 @@ pallete {
   src: url(http://res.cloudinary.com/dzbelv6cv/raw/upload/v1496834846/assets/Alef-regular.ttf);
 }
 
-.frequent-link {
-  color: #0C120C;
-  font-family: Aleph;
-  font-size: x-large;
-  display:block;
-  width:100%;
-}
-.frequent-link:hover {
-  color: #C20114;
-  text-decoration: none;
-}
-
 .call-us {
   font-size: large;
   color: #6D7275;
   float: left;
 }
 
-h1 {
-  font-size: 60px;
-
-  color: #C20114;
-  /*background-color: #ECEBF3;*/
-  /*padding: 10px;*/
-  /*border-radius: 15px;*/
-  /*width: 50%;*/
-  /*margin: 25px;*/
-  /*border: 2px solid black;*/
-}
-
-.frequents-container {
-  margin: 10px 55px 55px 55px;
-}
-
-.frequents-list-container{
-  border: solid 4px lightgray;
-  border-radius: 16px;
-  overflow: hidden;
-}
 
 img.App-logo {
   height: 275px;
 
 }
 
-.table {
-  margin-bottom: 0px;
-}
 
 .App-intro {
   font-size: large;

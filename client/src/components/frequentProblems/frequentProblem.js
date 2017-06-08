@@ -47,7 +47,7 @@ export default class FrequentProblem extends Component {
 
     render() {
         return (
-            <div>
+            <div className="container">
                 { !this.state.problem ?
                     <p>No Problem</p> :
                     <div>
