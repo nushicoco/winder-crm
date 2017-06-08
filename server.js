@@ -44,10 +44,6 @@ var db = new sqlite3.Database(process.env.DATABASE_URL || './db/winder.db');
                 res.send(JSON.stringify(rows));
             });
         });
-
-        app.get('/login', (req, res) => {
-            res.sendFile(__dirname + '/login.html');
-        })
     });
 
 
