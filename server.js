@@ -2,6 +2,7 @@
 console.log('Starting Server......');
 
 const express = require('express');
+const bodyParser = require('body-parser')
 const app = express();
 const port = process.env.PORT || 3001;
 
@@ -18,7 +19,9 @@ const { User, FrequentProblem  } = require('./models')
 //     console.log(row.id + ": " + row.info);
 // });
 
-    app.listen(port, function (){
+ app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
+  app.listen(port, function (){
 
         app.get('/', (req, res) => {
             res.sendFile(__dirname + '/client/build/index.html');
@@ -38,6 +41,15 @@ const { User, FrequentProblem  } = require('./models')
 
         app.get('/login', (req, res) => {
             res.sendFile(__dirname + '/login.html');
+        })
+
+        app.post('/signup', (req, res) => {
+            User.create(req.body)
+                .then( (newUser) => {
+                    res.sendStatus(200)
+                }).catch( (e) => {
+                    res.status(400).send(e.errors[0].message)
+                })
         })
     });
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Tab, Row, Col, Nav, NavItem } from 'react-bootstrap'
 
-import LoadingSpinner from './loadingSpinner.js'
 import SignupForm from './signupForm.js'
 import SigninForm from './signinForm.js'
 import Strings from './strings.js'
@@ -32,19 +31,9 @@ export default class Login extends Component {
         return true
     }
 
-    handleSignin = (e) => {
-        e.preventDefault()
-        this.setState({ loading: true })
-    }
-
-    handleSignup = (e) => {
-        e.preventDefault()
-    }
-
     render() {
         return (
             <div className="login-box">
-              <LoadingSpinner show={ this.state.loading } />
               { Strings.loginWelcome }
               <Tab.Container id="login-tabs" defaultActiveKey="signin">
                 <Row className="clearfix">
@@ -63,11 +52,11 @@ export default class Login extends Component {
                   <Col sm={12}>
                     <Tab.Content animation>
                       <Tab.Pane eventKey="signin">
-                        <SigninForm onSubmit={ this.handleSignin }/>
+                        <SigninForm />
                       </Tab.Pane>
 
                       <Tab.Pane eventKey="signup">
-                        <SignupForm onSubmit={ this.handleSignup }/>
+                        <SignupForm />
                       </Tab.Pane>
 
                     </Tab.Content>

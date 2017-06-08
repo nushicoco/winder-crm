@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Col, FormControl, ControlLabel, Form, FormGroup } from 'react-bootstrap'
+import LoadingSpinner from './loadingSpinner.js'
 
 import Strings from './strings.js'
 import validations from './validations.js'
@@ -15,6 +16,31 @@ export default class SignupForm extends Component {
             password: '',
             password2: ''
         }
+    }
+
+    handleSubmit = (e) => {
+        const { firstName,
+                lastName,
+                email,
+                password } = this.state
+        this.setState({loading: true})
+        e.preventDefault()
+        fetch('/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                firstName,
+                lastName,
+                email,
+                password
+            })
+        }).then( (response) => {
+            // TODO something...
+        })
+
+
     }
 
     handleInputChange = (e) => {
@@ -61,6 +87,7 @@ export default class SignupForm extends Component {
     render () {
         return (
             <Form>
+              <LoadingSpinner show={ this.state.loading } />
 
               { this.renderField({name: 'firstName', stringName: 'loginFirstName',validator: validations.name}) }
               { this.renderField({name: 'lastName',  stringName: 'loginLastName', validator: validations.name}) }
@@ -71,7 +98,7 @@ export default class SignupForm extends Component {
               <FormGroup>
                 <Col smOffset={2} sm={10}>
                   <Button
-                    onClick={ this.props.onSubmit }
+                    onClick={ this.handleSubmit }
                     type="submit"
                     disabled={ !this.isValid() }
                     >
@@ -79,6 +106,9 @@ export default class SignupForm extends Component {
                   </Button>
                 </Col>
               </FormGroup>
+              <div >
+                { this.state.errorMessage }
+              </div>
             </Form>
         )
     }
