@@ -1,7 +1,4 @@
-const { User, FrequentProblem } = require('../models')
-
-User.sync({force: true})
-FrequentProblem.sync({force: true})
+const { User, FrequentProblem } = require('.')
 
 const frequentProblemValues = [
     ["אביד", "רגיל", "לא מצליח להקליט", "מדריך להקלטה"],
