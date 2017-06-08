@@ -3,6 +3,8 @@ import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 
 import Footer from './footer';
+import Strings from '../../strings.js'
+
 
 import './frequentProblems.css';
 
@@ -31,7 +33,7 @@ export default class FrequentProblemsList extends Component {
     render() {
         return (
             <div className="container">
-                <h1>מדריכים ותקלות נפוצות</h1>
+                <h1> { Strings.frequentProblems.header } </h1>
                 <div className="sub-container">
                     <Table bordered condensed hover>
                         <tbody>

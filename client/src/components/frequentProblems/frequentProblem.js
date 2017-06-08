@@ -7,6 +7,7 @@ import { Button,  ButtonToolbar, Glyphicon} from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 
 import Footer from './footer'
+import Strings from '../../strings.js'
 
 export default class FrequentProblem extends Component {
     constructor(props) {
@@ -59,17 +60,17 @@ export default class FrequentProblem extends Component {
                             <Button className={this.state.choseSomething ? 'hide' : 'problem-button'}
                                     bsStyle="success"
                                     onClick={ this.choseHelp }
-                                    >פתר את הבעיה!</Button>
+                                    > { Strings.frequentProblems.helped } </Button>
                             <Button className={this.state.choseSomething ? 'hide' : 'problem-button'}
                                     onClick={ this.choseDidntHelp }
-                                    style={{marginLeft:"20px"}} >לא עזר לי..</Button>
+                                    style={{marginLeft:"20px"}} > { Strings.frequentProblems.didntHelp } </Button>
 
-                            {this.state.choseDidntHelp ? <p className="click-feedback">נא לחייג לטכנאי - 052-6613344</p> : ''}
-                            {this.state.choseHelp ? <p className="click-feedback">מגניב! תודה על העדכון</p> : ''}
+                            {this.state.choseDidntHelp ? <p className="click-feedback"> { Strings.frequentProblems.pleaseCallTech }</p> : ''}
+                            {this.state.choseHelp ? <p className="click-feedback"> { Strings.frequentProblems.thanksForFeedback }</p> : ''}
                         </ButtonToolbar>
                     </div>
                 }
-                <Button className="back-btn" ><Link to="/">חזרה</Link></Button>
+                <Button className="back-btn" ><Link to="/">{ Strings.frequentProblems.back } </Link></Button>
             </div>
         );
     }
