@@ -9,6 +9,24 @@ beforeEach(function () {
 
 describe('User', () =>  {
     describe('#create', function () {
+        it('should allow creating a new valid user', function () {
+            return User.create({
+                firstName: 'great name',
+                lastName: 'last name',
+                password: 'awesome password',
+                email: 'bob@habanai.com'
+            }).should.be.fulfilled()
+        })
+
+        it('should not allow bad email', function () {
+            return User.create({
+                firstName: 'great name',
+                lastName: 'lastname',
+                password: 'greatpassword',
+                email: 'bad. very bad.'
+            }).should.be.rejectedWith(/validation.+email/i)
+        })
+
         it('should not allow duplicate emails', function () {
             return User.create({
                 firstName: 'hello',
@@ -42,5 +60,17 @@ describe('User', () =>  {
                 email: 'uniqueEmail@bla.com'
             }).should.be.rejectedWith(/validation/i)
         })
+
+        it('should check passwords correctly', function () {
+            return User.create({
+                firstName: 'Donal J',
+                lastName: 'Trump',
+                password: 'covfefe'
+            }).then( function (user) {
+                user.checkPassword('covfefe').should.be.true()
+                user.checkPassword('conference').should.be.false()
+            })
+        })
+
     })
 })

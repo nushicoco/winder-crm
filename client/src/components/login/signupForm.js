@@ -9,7 +9,8 @@ export default class SignupForm extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            fullname: '',
+            firstName: '',
+            lastName: '',
             email: '',
             password: '',
             password2: ''
@@ -24,10 +25,12 @@ export default class SignupForm extends Component {
     }
 
     isValid () {
+        // TODO: DRY, somehow
         return validations.email(this.state.email)
             && validations.passwordLength(this.state.password)
             && this.state.password === this.state.password2
-            && validations.fullname(this.state.fullname)
+            && validations.name(this.state.firstName)
+            && validations.name(this.state.lastName)
     }
 
     renderField ({name, type='text', stringName, validator}) {
@@ -59,7 +62,8 @@ export default class SignupForm extends Component {
         return (
             <Form>
 
-              { this.renderField({name: 'fullname',  stringName: 'loginFullname', validator: validations.fullname}) }
+              { this.renderField({name: 'firstName', stringName: 'loginFirstName',validator: validations.name}) }
+              { this.renderField({name: 'lastName',  stringName: 'loginLastName', validator: validations.name}) }
               { this.renderField({name: 'email',     stringName: 'loginEmail',    validator: validations.email,  type: 'email'}) }
               { this.renderField({name: 'password',  stringName: 'loginPassword', validator: validations.passwordLength, type: 'password'}) }
               { this.renderField({name: 'password2', stringName: 'loginPassword2',validator: this.password2validator, type: 'password'}) }

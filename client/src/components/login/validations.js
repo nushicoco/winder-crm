@@ -12,7 +12,7 @@ export default {
         return password && password.length >= MIN_PASSWORD_LENGTH
     },
 
-    fullname (fullname) {
-        return fullname && fullname.length > 2 //TODO: decide
+    name (name) {
+        return name && name.length > 1 //TODO: decide
     }
 }

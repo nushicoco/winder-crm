@@ -6,5 +6,6 @@ export default {
     loginPassword: 'ססמא',
     loginPassword2: 'וידוא ססמא',
     loading: 'טוען...',
-    loginFullname: 'שם מלא',
+    loginFirstName: 'שם פרטי',
+    loginLastName: 'שם משפחה'
 }
