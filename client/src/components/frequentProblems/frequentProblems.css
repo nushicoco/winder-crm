@@ -10,3 +10,35 @@
     color: #C20114;
     text-decoration: none;
 }
+
+.pdf-viewer {
+    width: 100%;
+    height: 850px;
+}
+
+.problem-buttons{
+    padding: 15px;
+    display: block;
+}
+
+.problem-button {
+    margin: 15px;
+}
+
+.click-feedback {
+    font-size: large;
+    color: #6D7275;
+    float: left;
+    margin: 0 0 20px 50px;
+}
+
+.back-btn {
+    float: left;
+    padding: 0 100px;
+    margin: 25px 0;
+}
+
+.back-btn > a{
+    font-size: large;
+    color: #6D7275;
+}

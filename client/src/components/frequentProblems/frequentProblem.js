@@ -52,14 +52,24 @@ export default class FrequentProblem extends Component {
                     <p>No Problem</p> :
                     <div className="sub-container">
                         <h1>{this.state.problem.subject}</h1>
-                        <p>{this.state.problem.solution}</p>
-                        <Button className={this.state.choseSomething ? 'hide' : ''}  bsStyle="success" onClick={ this.choseHelp }>פתר את הבעיה!</Button>
-                        <Button className={this.state.choseSomething ? 'hide' : ''} onClick={ this.choseDidntHelp }>לא עזר לי..</Button>
-                        {this.state.choseDidntHelp ? <p>נא לחייג לטכנאי - 052-6613344</p> : ''}
-                        {this.state.choseHelp ? <p>מגניב! תודה על העדכון</p> : ''}
+                        {/*<p>{this.state.problem.solution}</p>*/}
+                        <iframe className="pdf-viewer" src={this.state.problem.solutionURL} frameborder="0"></iframe>
+
+                        <ButtonToolbar className="problem-buttons">
+                            <Button className={this.state.choseSomething ? 'hide' : 'problem-button'}
+                                    bsStyle="success"
+                                    onClick={ this.choseHelp }
+                                    >פתר את הבעיה!</Button>
+                            <Button className={this.state.choseSomething ? 'hide' : 'problem-button'}
+                                    onClick={ this.choseDidntHelp }
+                                    style={{marginLeft:"20px"}} >לא עזר לי..</Button>
+
+                            {this.state.choseDidntHelp ? <p className="click-feedback">נא לחייג לטכנאי - 052-6613344</p> : ''}
+                            {this.state.choseHelp ? <p className="click-feedback">מגניב! תודה על העדכון</p> : ''}
+                        </ButtonToolbar>
                     </div>
                 }
-                <Button><Link to="/">חזרה</Link></Button>
+                <Button className="back-btn" ><Link to="/">חזרה</Link></Button>
             </div>
         );
     }

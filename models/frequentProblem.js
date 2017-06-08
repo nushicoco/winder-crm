@@ -15,6 +15,10 @@ module.exports = function (sequelize) {
 
         solution: {
             type: Sequelize.TEXT
+        },
+
+        solutionURL: {
+            type: Sequelize.TEXT
         }
     })
     FrequentProblem.sync()
