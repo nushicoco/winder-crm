@@ -1,0 +1,18 @@
+.frequents-list-container{
+    border: solid 4px lightgray;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.frequent-link {
+    color: #0C120C;
+    font-family: Aleph;
+    font-size: x-large;
+    display:block;
+    width:100%;
+}
+
+.frequent-link:hover {
+    color: #C20114;
+    text-decoration: none;
+}

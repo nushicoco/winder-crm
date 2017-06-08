@@ -3,8 +3,8 @@
  */
 
 import Login from './components/login/login';
-import FrequentProblemsList from './components/frequent_problems_list';
-import FrequentProblem from './components/frequent_problem';
+import FrequentProblemsList from './components/frequentProblems/frequentProblemsList';
+import FrequentProblem from './components/frequentProblems/frequentProblem';
 import Ticket from './components/ticket'
 
 export const routes = [

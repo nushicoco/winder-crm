@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
-import Search from './search';
+
 import Footer from './footer';
 
+import './frequentProblems.css';
 
 export default class FrequentProblemsList extends Component {
     constructor(props) {
@@ -29,7 +30,7 @@ export default class FrequentProblemsList extends Component {
 
     render() {
         return (
-            <div className="frequents-container">
+            <div className="container">
                 <h1>מדריכים ותקלות נפוצות</h1>
                 <div className="frequents-list-container">
                     <Table bordered condensed hover>
