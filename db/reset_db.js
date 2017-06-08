@@ -1,5 +1,8 @@
 const { User, FrequentProblem } = require('../models')
 
+User.sync({force: true})
+FrequentProblem.sync({force: true})
+
 const frequentProblemValues = [
     ["אביד", "רגיל", "לא מצליח להקליט", "מדריך להקלטה"],
     ["אביד", "interplay", "media offline", "ביצוע login לinterplay"],

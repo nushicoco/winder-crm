@@ -4,7 +4,7 @@
   "description": "CRM-lite",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --require test/support/env.js",
     "dev": "nodemon server.js",
     "start": "node server.js",
     "startdev": "concurrently \"npm run dev\" \"npm run client\"",
@@ -15,12 +15,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "express": "^4.15.3",
     "sequelize": "^4.0.0",
     "sqlite3": "^3.1.8"
   },
   "devDependencies": {
     "concurrently": "^3.4.0",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "should": "^11.2.1"
   }
 }
