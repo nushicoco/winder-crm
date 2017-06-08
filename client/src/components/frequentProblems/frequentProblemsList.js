@@ -32,7 +32,7 @@ export default class FrequentProblemsList extends Component {
         return (
             <div className="container">
                 <h1>מדריכים ותקלות נפוצות</h1>
-                <div className="frequents-list-container">
+                <div className="sub-container">
                     <Table bordered condensed hover>
                         <tbody>
                     {this.state.problems.map(function (problem) {

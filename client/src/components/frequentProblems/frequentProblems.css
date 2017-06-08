@@ -1,9 +1,3 @@
-.frequents-list-container{
-    border: solid 4px lightgray;
-    border-radius: 16px;
-    overflow: hidden;
-}
-
 .frequent-link {
     color: #0C120C;
     font-family: Aleph;

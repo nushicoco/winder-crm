@@ -50,7 +50,7 @@ export default class FrequentProblem extends Component {
             <div className="container">
                 { !this.state.problem ?
                     <p>No Problem</p> :
-                    <div>
+                    <div className="sub-container">
                         <h1>{this.state.problem.subject}</h1>
                         <p>{this.state.problem.solution}</p>
                         <Button className={this.state.choseSomething ? 'hide' : ''}  bsStyle="success" onClick={ this.choseHelp }>פתר את הבעיה!</Button>

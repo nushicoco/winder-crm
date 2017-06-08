@@ -21,6 +21,11 @@ h1 {
   margin: 10px 55px 55px 55px;
 }
 
+.sub-container{
+  border: solid 4px lightgray;
+  border-radius: 16px;
+  overflow: hidden;
+}
 
 .table {
   margin-bottom: 0px;
