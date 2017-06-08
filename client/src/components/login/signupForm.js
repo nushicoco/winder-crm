@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, Col, FormControl, ControlLabel, Form, FormGroup } from 'react-bootstrap'
 import LoadingSpinner from './loadingSpinner.js'
 
-import Strings from './strings.js'
+import Strings from '../../strings.js'
 import validations from './validations.js'
 
 export default class SignupForm extends Component {
@@ -65,7 +65,7 @@ export default class SignupForm extends Component {
               validationState={ this.state[name + "_touched"] && (validator(this.state[name]) ? "success" : "error") }
               controlId={ name }>
               <Col componentClass={ControlLabel} sm={2}>
-                { Strings[stringName] }
+                { Strings.login[stringName] }
               </Col>
               <Col sm={10}>
                 <FormControl
@@ -89,11 +89,11 @@ export default class SignupForm extends Component {
             <Form>
               <LoadingSpinner show={ this.state.loading } />
 
-              { this.renderField({name: 'firstName', stringName: 'loginFirstName',validator: validations.name}) }
-              { this.renderField({name: 'lastName',  stringName: 'loginLastName', validator: validations.name}) }
-              { this.renderField({name: 'email',     stringName: 'loginEmail',    validator: validations.email,  type: 'email'}) }
-              { this.renderField({name: 'password',  stringName: 'loginPassword', validator: validations.passwordLength, type: 'password'}) }
-              { this.renderField({name: 'password2', stringName: 'loginPassword2',validator: this.password2validator, type: 'password'}) }
+              { this.renderField({name: 'firstName', stringName: 'firstName',validator: validations.name}) }
+              { this.renderField({name: 'lastName',  stringName: 'lastName', validator: validations.name}) }
+              { this.renderField({name: 'email',     stringName: 'email',    validator: validations.email,  type: 'email'}) }
+              { this.renderField({name: 'password',  stringName: 'password', validator: validations.passwordLength, type: 'password'}) }
+              { this.renderField({name: 'password2', stringName: 'password2',validator: this.password2validator, type: 'password'}) }
 
               <FormGroup>
                 <Col smOffset={2} sm={10}>
@@ -102,7 +102,7 @@ export default class SignupForm extends Component {
                     type="submit"
                     disabled={ !this.isValid() }
                     >
-                    { Strings.signin }
+                    { Strings.login.signin }
                   </Button>
                 </Col>
               </FormGroup>

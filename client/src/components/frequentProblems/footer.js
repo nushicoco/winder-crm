@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Button,  ButtonToolbar, Glyphicon} from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 
+import Strings from '../../strings.js'
+
+
 export default class Footer extends Component {
     constructor(props){
         super(props);
@@ -15,7 +18,7 @@ export default class Footer extends Component {
                     {/*<Button className={ this.state.shouldHide ? 'hide' : ''} > <Glyphicon glyph="log-in" />  צ׳אט עם טכנאי</Button>*/}
                 {/*</ButtonToolbar>*/}
 
-                <p className="call-us"> במידת הצורך נא לחייג לטכנאי - 052-6613344</p>
+                <p className="call-us"> { Strings.frequentProblems.callTech }</p>
             </div>
         );
     }

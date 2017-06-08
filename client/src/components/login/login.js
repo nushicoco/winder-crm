@@ -3,7 +3,7 @@ import { Tab, Row, Col, Nav, NavItem } from 'react-bootstrap'
 
 import SignupForm from './signupForm.js'
 import SigninForm from './signinForm.js'
-import Strings from './strings.js'
+import Strings from '../../strings.js'
 import './login.css'
 
 
@@ -34,18 +34,18 @@ export default class Login extends Component {
     render() {
         return (
             <div className="login-box">
-              { Strings.loginWelcome }
+              { Strings.login.welcome }
               <Tab.Container id="login-tabs" defaultActiveKey="signin">
                 <Row className="clearfix">
                   <Col sm={12} >
                     <Nav bsStyle="tabs">
 
                       <NavItem eventKey="signin">
-                        { Strings.signin }
+                        { Strings.login.signin }
                       </NavItem>
 
                       <NavItem eventKey="signup">
-                        { Strings.signup }
+                        { Strings.login.signup }
                       </NavItem>
                     </Nav>
                   </Col>

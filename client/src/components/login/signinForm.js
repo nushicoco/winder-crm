@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Col, FormControl, ControlLabel, Form, FormGroup } from 'react-bootstrap'
 
-import Strings from './strings.js'
+import Strings from '../../strings.js'
 import validations from './validations.js'
 
 export default class SigninForm extends Component {
@@ -28,7 +28,7 @@ export default class SigninForm extends Component {
             <Form>
               <FormGroup bsSize="large" controlId="formEmail">
                 <Col componentClass={ControlLabel} sm={2}>
-                  { Strings.loginEmail }
+                  { Strings.login.email }
                 </Col>
                 <Col sm={10}>
                   <FormControl
@@ -36,13 +36,13 @@ export default class SigninForm extends Component {
                     onChange={ this.handleInputChange }
                     value={ this.state.email }
                     type="email"
-                    placeholder={ Strings.loginEmail } />
+                    placeholder={ Strings.login.email } />
                 </Col>
               </FormGroup>
 
               <FormGroup bsSize="large" controlId="formSigninPassword">
                 <Col componentClass={ControlLabel} sm={2}>
-                  { Strings.loginPassword }
+                  { Strings.login.password }
                 </Col>
                 <Col sm={10}>
                   <FormControl
@@ -50,7 +50,7 @@ export default class SigninForm extends Component {
                     value={ this.state.password }
                     onChange={ this.handleInputChange }
                     type="password"
-                    placeholder={ Strings.loginPassword } />
+                    placeholder={ Strings.login.password } />
                 </Col>
               </FormGroup>
 
@@ -61,7 +61,7 @@ export default class SigninForm extends Component {
                     type="submit"
                     disabled={ !this.isValid() }
                     >
-                    { Strings.signin }
+                    { Strings.login.signin }
                   </Button>
                 </Col>
               </FormGroup>
