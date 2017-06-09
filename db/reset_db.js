@@ -16,5 +16,7 @@ const frequentProblemValues = [
 
 FrequentProblem.destroy({truncate: true})
     .then( () => frequentProblemValues.forEach( ([env, subEnv, subject, solution, solutionURL]) => {
-        FrequentProblem.create({env, subEnv, subject, solutionURL })
+        FrequentProblem.create({env, subEnv, subject, solutionURL }).catch(function (err) {
+            console.log(err, env, subEnv, subject, solutionURL );
+        });
     }))
