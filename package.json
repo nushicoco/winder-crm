@@ -7,9 +7,11 @@
     "test": "mocha --require test/support/env.js",
     "dev": "nodemon server.js",
     "start": "node server.js",
+    "startprod": "PORT=3000 NODE_ENV=production node server.js",
     "startdev": "concurrently \"npm run dev\" \"npm run client\"",
     "client": "cd client && npm start",
     "buildclient": "cd client && npm run build",
+    "installclient" : "cd client && npm i",
     "resetdb": "node db/reset_db"
   },
   "author": "",
