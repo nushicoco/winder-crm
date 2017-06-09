@@ -13,8 +13,14 @@ import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 
 // todo - move token to a config file
+console.log(process.env.REACT_APP_MIXPANEL_TOKEN);
+// mixpanel.init(process.env.REACT_APP_MIXPANEL_TOKEN); //- doesn't work yet
 mixpanel.init("0346f6d4a5e8caf80ac7fbcd8e73fa7e");
-mixpanel.disable(); // todo REMOVE This for production !!
+
+if (process.env.NODE_ENV !== 'production') {
+    console.log("disabling mixpanel")
+    mixpanel.disable();
+}
 
 const history = createBrowserHistory();
 
