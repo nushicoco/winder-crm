@@ -8,7 +8,11 @@ export default {
         password: 'ססמא',
         password2: 'וידוא ססמא',
         firstName: 'שם פרטי',
-        lastName: 'שם משפחה'
+        lastName: 'שם משפחה',
+        errors: {
+            'unknown error': 'שגיאה',
+            'email must be unique': 'דוא״ל זה כבר רשום'
+        }
     } ,
     frequentProblems : {
         callTech: 'במידת הצורך נא לחייג לטכנאי - 052-6613344',

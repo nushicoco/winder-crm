@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { Tab, Row, Col, Nav, NavItem } from 'react-bootstrap'
 
-import SignupForm from './signupForm.js'
-import SigninForm from './signinForm.js'
-import Strings from '../../strings.js'
-import './login.css'
+        import  LoadingSpinner        from  './loadingSpinner.js'
+      import      SignupForm        from      './signupForm.js'
+    import          SigninForm    from          './signinForm.js'
+  import              Strings   from               '../../strings.js'
+import                                                './login.css'
 
 
 export default class Login extends Component {
@@ -22,6 +23,13 @@ export default class Login extends Component {
         this.setState(newState)
     }
 
+    handleSignup = () => {
+
+    }
+
+    handleSignin = (email, password) => {
+    }
+
     validateSignin = (state) => {
         return this.emailValid(state.signinEmail)
             && this.passwordValid(state.signinPassword)
@@ -34,7 +42,7 @@ export default class Login extends Component {
     render() {
         return (
             <div className="login-box">
-              { Strings.login.welcome }
+            { Strings.login.welcome }
               <Tab.Container id="login-tabs" defaultActiveKey="signin">
                 <Row className="clearfix">
                   <Col sm={12} >
@@ -52,11 +60,11 @@ export default class Login extends Component {
                   <Col sm={12}>
                     <Tab.Content animation>
                       <Tab.Pane eventKey="signin">
-                        <SigninForm />
+                        <SigninForm onSignin={ this.handleSignin }/>
                       </Tab.Pane>
 
                       <Tab.Pane eventKey="signup">
-                        <SignupForm />
+                          <SignupForm onSignup={ this.handleSignup }/>
                       </Tab.Pane>
 
                     </Tab.Content>

@@ -7,7 +7,6 @@ import { createBrowserHistory } from 'history';
 
 
 import App from './App';
-import { routes } from './routes';
 
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
@@ -21,13 +20,8 @@ const history = createBrowserHistory();
 ReactDOM.render(
     <MixpanelProvider mixpanel={mixpanel}>
     <Router history={history}>
-        <div>
-                <App/>
-            {routes.map((route,index) => (
-                <Route key={index} {...route} />
-            ))}
-        </div>
+        <App/>
     </Router>
     </MixpanelProvider>
-    , document.getElementById('root'));
+), document.getElementById('root'));
 registerServiceWorker();

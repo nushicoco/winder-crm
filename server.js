@@ -2,55 +2,66 @@
 console.log('Starting Server......');
 
 const express = require('express');
-const bodyParser = require('body-parser')
 const app = express();
+module.exports = app // for testing
+
+// Config
 const port = process.env.PORT || 3001;
-
-console.log("port ="  +port);
-console.log("NODE_ENV =" + process.env.NODE_ENV);
-
+console.log(`Port = ${port}`);
+console.log(`NODE_ENV =${process.env.NODE_ENV}`);
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
 }
 
+// DB & Models:
 const { User, FrequentProblem  } = require('./models')
 
-// db.each("SELECT rowid AS id, info FROM user_info", function(err, row) {
-//     console.log(row.id + ": " + row.info);
-// });
+// POST Body Parsing:
+const bodyParser = require('body-parser')
+app.use(bodyParser.json())
 
- app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
-  app.listen(port, function (){
+// Authentication:
+const passport = require('./passportAuthentication')
+app.use(passport.initialize())
 
-        app.get('/', (req, res) => {
-            res.sendFile(__dirname + '/client/build/index.html');
-        });
+// Routs:
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/client/build/index.html');
+});
 
-        app.get('/frequent_problem/:id', (req, res) => {
-            var problemId = req.params.id;
-            FrequentProblem.findById(problemId)
-                .then( (problem) => res.send(problem.toJSON()))
-                .catch( (error) => res.send(400))
-        });
+app.get('/frequent_problem/:id', (req, res) => {
+    var problemId = req.params.id;
+    FrequentProblem.findById(problemId)
+        .then( (problem) => res.send(problem.toJSON()))
+        .catch( (error) => res.send(400))
+});
 
-        app.get('/frequent_problems', (req, res) => {
-            FrequentProblem.findAll()
-                .then( all => res.send(all.map( item => item.toJSON())))
-        });
+app.post('/login', passport.authenticate('local'), function (req, res) {
+    // res.redirect('/')
+    const { firstName, lastName } = req.user
+    res.status(200).send({firstName, lastName})
+})
 
-        app.get('/login', (req, res) => {
-            res.sendFile(__dirname + '/login.html');
+
+const countUsers = function () {
+    return User.findAll()
+        .then(function (all) {
+    })
+}
+
+
+
+app.post('/signup', (req, res) => {
+    return countUsers().then(function () {
+        return User.create(req.body)
+            .then(countUsers())
+        .then( (newUser) => {
+            res.sendStatus(200)
+        }).catch( (e) => {
+            res.status(400).send(e.errors)
         })
+    })
+})
 
-        app.post('/signup', (req, res) => {
-            User.create(req.body)
-                .then( (newUser) => {
-                    res.sendStatus(200)
-                }).catch( (e) => {
-                    res.status(400).send(e.errors[0].message)
-                })
-        })
-    });
-
-    // done();
+// All set!
+app.listen(port)
