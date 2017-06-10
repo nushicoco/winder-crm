@@ -15,7 +15,7 @@ const goodGuyGreg = {
 
 describe('/signup POST', function () {
 
-    before(function () {
+    beforeEach(function () {
         User.drop()
         return User.sync()
     })
@@ -30,10 +30,17 @@ describe('/signup POST', function () {
     })
 
     it('should reject a dulplicate email signup', function () {
-        return chai.request(app)
-            .post('/signup')
-            .send(goodGuyGreg)
-            .then(function (res) {
+        return User.create(goodGuyGreg)
+            .then( () => {
+                return chai.request(app)
+                    .post('/signup')
+                    .send({
+                        firstName: 'copycat',
+                        lastName:  'goodguy',
+                        email:      goodGuyGreg.email,
+                        password:  'greatpassword'
+                    })
+            }).then(function (res) {
                 throw '(((duplicated email got accepted)))'
             })
             .catch( function (error) {
