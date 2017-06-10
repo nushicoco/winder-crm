@@ -4,13 +4,13 @@
   "description": "CRM-lite",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require test/support/env.js",
+    "test": "concurrently \"mocha --require test/support/env.js\" && \"react-scripts test --env=jsdom\"",
     "dev": "nodemon server.js",
     "start": "node server.js",
     "startprod": "PORT=3000 NODE_ENV=production node server.js",
-    "startdev": "concurrently \"npm run dev\" \"npm run client\"",
+    "startdev": "concurrently \"npm run dev\" \"react-scripts start\"",
     "client": "cd client && npm start",
-    "buildclient": "cd client && npm run build",
+    "buildclient": "react-scripts build",
     "installclient": "cd client && npm i",
     "resetdb": "node db/reset_db"
   },
@@ -24,13 +24,22 @@
     "express": "^4.15.3",
     "pg": "^6.2.4",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.0.0"
+    "sequelize": "^4.0.0",
+    "mixpanel-browser": "^2.11.1",
+    "prop-types": "^15.5.10",
+    "react": "^15.5.4",
+    "react-bootstrap": "^0.31.0",
+    "react-dom": "^15.5.4",
+    "react-mixpanel": "0.0.8",
+    "react-router": "^4.1.1",
+    "react-router-dom": "^4.1.1"
   },
   "devDependencies": {
     "chai": "^4.0.2",
     "chai-http": "^3.0.0",
     "concurrently": "^3.4.0",
     "nodemon": "^1.11.0",
-    "should": "^11.2.1"
+    "should": "^11.2.1",
+    "react-scripts": "1.0.7"
   }
 }
