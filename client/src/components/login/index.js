@@ -24,25 +24,36 @@ export default class Login extends Component {
             errorMessage: null,
             loading: true
         })
-        let responseStatus
 
         fetch(url, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(fields)
         }).then((response) => {
-            responseStatus = response.status
-            return response.json()
-        }).then( (responseBody) => {
-            let failure = responseStatus !== 200
+            if (response.status === 401) {
+                return {
+                    user: null,
+                    errorMessage: 'bad login'
+                }
+            }
 
+            // Need to parse json first if the response
+            //   is a success or other failure:
+            return response.json().then((responseBody) => {
+                const errorMessage = (responseBody[0] && responseBody[0].message) || ''
+                return {
+                    user: responseBody.user,
+                    errorMessage
+                }
+            })
+        }).then(({errorMessage, user}) => {
             this.setState({
                 loading: false,
-                errorMessage: (failure && responseBody[0].message) || ''
+                errorMessage: errorMessage
             })
 
-            if (!failure) {
-                this.onLogin(responseBody.user)
+            if (user) {
+                this.props.onLogin(user)
             }
         }).catch( (error) => {
             this.setState({
@@ -92,7 +103,7 @@ export default class Login extends Component {
 
     render() {
         return (
-            <Modal show={ this.props.show } onHide={ this.close } className="login-box" style={ {display: this.state.user ? 'none' : 'block' } }>
+            <Modal show={ this.props.show } onHide={ this.props.onHide } className="login-box" style={ {display: this.state.user ? 'none' : 'block' } }>
               <Modal.Header closeButton>
                 <Modal.Title> { Strings.login.title } </Modal.Title>
               </Modal.Header>

@@ -12,6 +12,7 @@ export default {
         lastName: 'שם משפחה',
         errors: {
             'unknown error': 'שגיאה',
+            'bad login': 'שגיאה. פרטים שגוים?',
             'email must be unique': 'דוא״ל זה כבר רשום'
         }
     } ,

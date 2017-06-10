@@ -43,8 +43,8 @@ app.get('/frequent_problem/:id', (req, res) => {
 
 app.post('/login', passport.authenticate('local'), function (req, res) {
     // res.redirect('/')
-    const { firstName, lastName } = req.user
-    res.status(200).send({firstName, lastName})
+    const { firstName, lastName, email} = req.user
+    res.status(200).send({user: {firstName, lastName, email}})
 })
 
 
@@ -59,7 +59,10 @@ app.post('/signup', (req, res) => {
         return User.create(req.body)
             .then(countUsers())
         .then( (newUser) => {
-            res.sendStatus(200)
+            const {email, firstName, lastName} = newUser
+            res.status(200).send({
+                user: {email, firstName, lastName}
+            })
         }).catch( (e) => {
             res.status(400).send(e.errors)
         })
