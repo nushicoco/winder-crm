@@ -15,35 +15,15 @@ export default class SigninForm extends Component {
     }
 
     handleInputChange = (e) => {
-        this.setState({[e.target.name]: e.target.value})
+        const newState = Object.assign({}, this.state, {[e.target.name]: e.target.value })
+        newState.valid = this.isValid(newState)
+        this.setState(newState)
+        this.props.onChange(newState)
     }
 
-    handleSubmit = (e) => {
-        const {email, password} = this.state
-        e.preventDefault()
-
-        this.setState({
-            errorMessage: null,
-            loading: true
-        })
-
-        fetch('/login', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({email, password})
-        }).then((response) => {
-            return response.json()
-        }).then( (responseBody) => {
-            this.setState({loading: false})
-            if (responseStatus === 200) {
-                this.props.onSignin({email, password})
-            }
-        })
-    }
-
-    isValid () {
-        return validations.email(this.state.email)
-            && validations.passwordLength(this.state.password)
+    isValid (state) {
+        return validations.email(state.email)
+            && validations.passwordLength(state.password)
     }
 
     render () {
@@ -77,23 +57,6 @@ export default class SigninForm extends Component {
                 </Col>
               </FormGroup>
 
-              <FormGroup>
-                <Col smOffset={2}>
-                  <Button
-                    onClick={ this.handleSubmit }
-                    type="submit"
-                    disabled={ !this.isValid() }
-                    >
-                    { Strings.login.signin }
-                  </Button>
-                </Col>
-                <Col style={ {color: 'red' } } sm={10}>
-                  <FormControl.Static validationState="error">
-                     Strings.login.errors[this.state.errorMessage] || this.state.errorMessage }
-                  </FormControl.Static>
-                </Col>
-
-              </FormGroup>
             </Form>
         )
     }

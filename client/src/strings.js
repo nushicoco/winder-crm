@@ -1,6 +1,7 @@
 export default {
     loading: 'טוען...',
     login : {
+        title: 'כניסה למערכת',
         signup: 'הרשמה',
         signin: 'כניסה',
         welcome: 'ברוכות הבאות למערכת!',

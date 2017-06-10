@@ -24,10 +24,11 @@ if (process.env.NODE_ENV !== 'production') {
 const history = createBrowserHistory();
 
 ReactDOM.render(
+    (
     <MixpanelProvider mixpanel={mixpanel}>
     <Router history={history}>
         <App/>
     </Router>
     </MixpanelProvider>
-), document.getElementById('root'));
+    ), document.getElementById('root'))
 registerServiceWorker();

@@ -17,75 +17,23 @@ export default class SignupForm extends Component {
         }
     }
 
-    handleSubmit = (e) => {
-        const { firstName,
-                lastName,
-                email,
-                password } = this.state
-
-        e.preventDefault()
-        this.setState({
-            isLoading: true,
-            errorMessage: null
-        })
-
-        let responseStatus
-
-        fetch('/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                firstName,
-                lastName,
-                email,
-                password
-            })
-        }).then( (response) => {
-            responseStatus = response.status
-            return response.json()
-        }).next( (responseBody) => {
-            let errorMessage = null
-            if (responseStatus === 200) {
-                this.props.onSignup()
-                // TODO: something else when succeeding?
-            }
-            else {
-                errorMessage = responseBody[0].message
-            }
-            this.setState({
-                errorMessage,
-                isLoading: false
-            })
-
-        }).then ( (error) => {
-            this.setState({
-                isLoading: false,
-                errorMessage: error[0].message
-            })
-        }).catch( (error) => {
-            this.setState({
-                isLoading: false,
-                errorMessage: 'unknown error'
-            })
-        })
-    }
-
     handleInputChange = (e) => {
-        this.setState({
+        const newState = Object.assign({}, this.state, {
             [e.target.name + '_touched']: true,
             [e.target.name]: e.target.value
         })
+        newState.valid = this.isValid(newState)
+        this.setState(newState)
+        this.props.onChange(newState)
     }
 
-    isValid () {
+    isValid (state) {
         // TODO: DRY, somehow
-        return validations.email(this.state.email)
-            && validations.passwordLength(this.state.password)
-            && this.state.password === this.state.password2
-            && validations.name(this.state.firstName)
-            && validations.name(this.state.lastName)
+        return validations.email(state.email)
+            && validations.passwordLength(state.password)
+            && state.password === state.password2
+            && validations.name(state.firstName)
+            && validations.name(state.lastName)
     }
 
     renderField ({name, type='text', stringName, validator}) {
@@ -93,10 +41,10 @@ export default class SignupForm extends Component {
             <FormGroup
               validationState={ this.state[name + "_touched"] && (validator(this.state[name]) ? "success" : "error") }
               controlId={ name }>
-              <Col componentClass={ControlLabel} sm={2}>
+              <Col componentClass={ControlLabel} sm={4} >
                 { Strings.login[stringName] }
               </Col>
-              <Col sm={10}>
+              <Col sm={8}>
                 <FormControl
                   name={name}
                   onChange={ this.handleInputChange }
@@ -122,23 +70,6 @@ export default class SignupForm extends Component {
               { this.renderField({name: 'email',     stringName: 'email',    validator: validations.email,  type: 'email'}) }
               { this.renderField({name: 'password',  stringName: 'password', validator: validations.passwordLength, type: 'password'}) }
               { this.renderField({name: 'password2', stringName: 'password2',validator: this.password2validator, type: 'password'}) }
-
-              <FormGroup >
-                <Col sm={2}>
-                  <Button
-                    onClick={ this.handleSubmit }
-                    type="submit"
-                    disabled={ !this.isValid() || this.state.isLoading }
-                    >
-                    { Strings.login.signin }
-                  </Button>
-                </Col>
-                <Col style={ {color: 'red' } } sm={10}>
-                  <FormControl.Static validationState="error">
-                    { Strings.login.errors[this.state.errorMessage] || this.state.errorMessage }
-                  </FormControl.Static>
-                </Col>
-              </FormGroup>
             </Form>
         )
     }

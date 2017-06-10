@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types'
-
 import { routes } from './routes';
+import Login from './components/login'
+
 import './App.css';
 
 class App extends Component {
@@ -13,6 +14,7 @@ class App extends Component {
         <div className="App-header">
           <img src={ process.env.PUBLIC_URL + '/img/logo_alpha.png'} className="App-logo" alt="logo" />
         </div>
+        <Login show />
             {routes.map((route,index) => (
                 <Route key={index} {...route} />
             ))}
