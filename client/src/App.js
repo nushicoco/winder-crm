@@ -24,7 +24,7 @@ class App extends Component {
         </div>
         { this.state.user && `Welcome, ${this.state.user.firstName}`}
         <Login
-          onClose={ () => {this.state.showLogin = false} }
+          onHide={ () => { this.setState({showLogin: false}) } }
           show={this.state.showLogin}
           onLogin={ (user) => {
               this.setState({
