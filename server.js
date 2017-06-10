@@ -29,6 +29,11 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/client/build/index.html');
 });
 
+app.get('/frequent_problems', (req, res) => {
+    FrequentProblem.findAll()
+        .then( all => res.send(all.map( item => item.toJSON())))
+});
+
 app.get('/frequent_problem/:id', (req, res) => {
     var problemId = req.params.id;
     FrequentProblem.findById(problemId)
@@ -48,8 +53,6 @@ const countUsers = function () {
         .then(function (all) {
     })
 }
-
-
 
 app.post('/signup', (req, res) => {
     return countUsers().then(function () {
