@@ -15,12 +15,15 @@ export default class SigninForm extends Component {
     }
 
     handleInputChange = (e) => {
-        this.setState({[e.target.name]: e.target.value})
+        const newState = Object.assign({}, this.state, {[e.target.name]: e.target.value })
+        newState.valid = this.isValid(newState)
+        this.setState(newState)
+        this.props.onChange(newState)
     }
 
-    isValid () {
-        return validations.email(this.state.email)
-            && validations.passwordLength(this.state.password)
+    isValid (state) {
+        return validations.email(state.email)
+            && validations.passwordLength(state.password)
     }
 
     render () {
@@ -54,17 +57,6 @@ export default class SigninForm extends Component {
                 </Col>
               </FormGroup>
 
-              <FormGroup>
-                <Col smOffset={2} sm={10}>
-                  <Button
-                    onClick={ this.props.onSubmit }
-                    type="submit"
-                    disabled={ !this.isValid() }
-                    >
-                    { Strings.login.signin }
-                  </Button>
-                </Col>
-              </FormGroup>
             </Form>
         )
     }

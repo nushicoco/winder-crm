@@ -1,6 +1,7 @@
 export default {
     loading: 'טוען...',
     login : {
+        title: 'כניסה למערכת',
         signup: 'הרשמה',
         signin: 'כניסה',
         welcome: 'ברוכות הבאות למערכת!',
@@ -8,7 +9,12 @@ export default {
         password: 'ססמא',
         password2: 'וידוא ססמא',
         firstName: 'שם פרטי',
-        lastName: 'שם משפחה'
+        lastName: 'שם משפחה',
+        errors: {
+            'unknown error': 'שגיאה',
+            'bad login': 'שגיאה. פרטים שגוים?',
+            'email must be unique': 'דוא״ל זה כבר רשום'
+        }
     } ,
     frequentProblems : {
         callTech: 'במידת הצורך נא לחייג לטכנאי - 052-6613344',
