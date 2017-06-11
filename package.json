@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "CRM-lite",
   "main": "index.js",
+  "proxy": "http://localhost:3001/",
   "scripts": {
     "test": "concurrently \"mocha --require test/support/env.js\" && \"react-scripts test --env=jsdom\"",
     "dev": "nodemon server.js",
