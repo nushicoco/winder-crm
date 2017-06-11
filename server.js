@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // DB & Models:
-const { User, FrequentProblem  } = require('./models')
+const { User, FrequentProblem, Ticket, TicketUpdate  } = require('./models')
 
 // POST Body Parsing:
 const bodyParser = require('body-parser')
@@ -47,26 +47,65 @@ app.post('/login', passport.authenticate('local'), function (req, res) {
     res.status(200).send({user: {firstName, lastName, email}})
 })
 
+// TODO: don't allow unauthenticated users to do anything
+// TODO: Also, don't allow a user to create tickets for other users
+app.post('/ticket', (req, res) => {
+    const {userId, subject, text} = req.body
+    Ticket.create({userId, subject})
+        .then( (newTicket) => {
+            res.status(200).send(newTicket.toJSON())
+        })
 
-const countUsers = function () {
-    return User.findAll()
-        .then(function (all) {
+        .catch( (error) => {
+            console.error(error)
+            throw error
+        })
+})
+
+app.get('/tickets/:id', function (req, res) {
+    const ticketId = req.params.id
+    Ticket.findOne({
+        where: {
+            id: ticketId
+        },
+        include: [ TicketUpdate ]
     })
-}
+        .then( (ticket) => {
+            res.status(200).send(ticket.toJSON())
+        })
+        .catch ( (error) => {
+            console.error(error)
+            res.sendStatus(400)
+        })
+})
+
+// TODO authentication...
+app.get('/tickets', (req, res) => {
+    console.log('server.js\\ 68: <here>');
+    const userId = req.body.userId
+    Ticket.findAll({where: {userId}})
+        .then(function (tickets) {
+            res.status(200).send(tickets.map( ticket => ticket.toJSON()))
+        })
+
+        .catch( (error) => {
+            console.error(error)
+            throw error
+        })
+})
 
 app.post('/signup', (req, res) => {
-    return countUsers().then(function () {
-        return User.create(req.body)
-            .then(countUsers())
+    return User.create(req.body)
         .then( (newUser) => {
             const {email, firstName, lastName} = newUser
             res.status(200).send({
                 user: {email, firstName, lastName}
             })
-        }).catch( (e) => {
+        })
+
+        .catch( (e) => {
             res.status(400).send(e.errors)
         })
-    })
 })
 
 // All set!

@@ -1,6 +1,7 @@
-const { User, FrequentProblem } = require('../models')
+const { User, FrequentProblem, Ticket } = require('../models')
 
 User.sync({force: true})
+Ticket.sync({force: true})
 FrequentProblem.sync({force: true}).then(function () {
 
     FrequentProblem.destroy({truncate: true})
@@ -25,4 +26,3 @@ const frequentProblemValues = [
     ["אביד", "interplay", "מדריך שימוש בinterplay", ""],
     ["מחשב", "רגיל", "קיצורי מקלדת שימושיים", ""]
 ]
-
