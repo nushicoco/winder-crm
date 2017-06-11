@@ -3,14 +3,14 @@ console.log('Starting Server......');
 
 const express = require('express');
 const app = express();
-module.exports = app // for testing
-
+module.exports = app; // for testing
+console.log(process.env.PUBLIC_URL);
 // Config
 const port = process.env.PORT || 3001;
 console.log(`Port = ${port}`);
 console.log(`NODE_ENV =${process.env.NODE_ENV}`);
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
+    app.use(express.static('./build'));
 }
 
 // DB & Models:
@@ -26,7 +26,7 @@ app.use(passport.initialize())
 
 // Routs:
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/client/build/index.html');
+    res.sendFile(__dirname + './build/index.html');
 });
 
 app.get('/frequent_problems', (req, res) => {
@@ -45,14 +45,14 @@ app.post('/login', passport.authenticate('local'), function (req, res) {
     // res.redirect('/')
     const { firstName, lastName, email} = req.user
     res.status(200).send({user: {firstName, lastName, email}})
-})
+});
 
 
 const countUsers = function () {
     return User.findAll()
         .then(function (all) {
     })
-}
+};
 
 app.post('/signup', (req, res) => {
     return countUsers().then(function () {
@@ -67,7 +67,7 @@ app.post('/signup', (req, res) => {
             res.status(400).send(e.errors)
         })
     })
-})
+});
 
 // All set!
-app.listen(port)
+app.listen(port);
