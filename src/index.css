@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+  padding: 0;
+  direction: rtl;
+  font-family: Aleph;
+}
+
+h1 {
+  font-size: 60px;
+  padding: 0 25px;
+  color: #C20114;
+  /*background-color: #ECEBF3;*/
+  /*padding: 10px;*/
+  /*border-radius: 15px;*/
+  /*width: 50%;*/
+  /*margin: 25px;*/
+  /*border: 2px solid black;*/
+}
+
+.container {
+  margin: 10px 55px 55px 55px;
+}
+
+.sub-container{
+  border: solid 4px lightgray;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.table {
+  margin-bottom: 0px;
+}

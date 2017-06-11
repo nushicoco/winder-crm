@@ -1,0 +1,9 @@
+.login-box .tab-content {
+  padding: 18px;
+}
+
+.login-error-message {
+  display: inline-block;
+  margin-right: 20px;
+  color: red;
+}
