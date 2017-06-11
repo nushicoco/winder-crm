@@ -6,6 +6,8 @@ import Login from './components/login'
 
 import './App.css';
 
+import Logo from './img/logo_alpha.png'
+
 class App extends Component {
 
     constructor (man) {
@@ -20,7 +22,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <img src={ process.env.PUBLIC_URL + '/img/logo_alpha.png'} className="App-logo" alt="logo" />
+          <img src={ Logo } className="App-logo" alt="logo" />
         </div>
         { this.state.user && `Welcome, ${this.state.user.firstName}`}
         <Login
