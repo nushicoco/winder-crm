@@ -42,7 +42,6 @@ app.get('/frequent_problem/:id', (req, res) => {
 });
 
 app.post('/login', passport.authenticate('local'), function (req, res) {
-    // res.redirect('/')
     const { firstName, lastName, email, isSuperuser} = req.user;
     res.status(200).send({user: {firstName, lastName, email, isSuperuser}})
 });
@@ -52,13 +51,18 @@ app.post('/login', passport.authenticate('local'), function (req, res) {
 app.post('/ticket', (req, res) => {
     const {userId, subject, text} = req.body
     let ticketId
-    Ticket.create({userId, subject})
+
+    Ticket.create({
+        status: 'open',
+        userId,
+        subject
+    })
         .then( (newTicket) => {
             ticketId = newTicket.id
             return TicketUpdate.create({
                 text,
                 ticketId,
-                newStatus: 'open'
+                userId
             })})
         .then( (ticketUpdate) => {
             return Ticket.findOne(
@@ -109,7 +113,7 @@ app.get('/tickets', (req, res) => {
 app.post('/signup', (req, res) => {
 
     let {email, firstName, lastName, password} = req.body
-    return User.create({email, firstName, lastName, password})
+    return User.create({email: email.toLowerCase(), firstName, lastName, password})
         .then( (newUser) => {
             res.status(200).send({
                 user: {email, firstName, lastName}

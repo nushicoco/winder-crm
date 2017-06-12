@@ -1,5 +1,9 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import './viewTicket.css'
+
+import strings from '../../strings.js'
+
 export default class ViewTicket extends React.Component {
     constructor (props) {
         super(props)
@@ -47,6 +51,7 @@ export default class ViewTicket extends React.Component {
               <div className="ticket-update-text">
                 { ticketUpdate.text }
               </div>
+              <Link to="/tickets-admin">{ strings.back }</Link>
             </div>
         )
     }

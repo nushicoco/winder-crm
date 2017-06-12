@@ -13,12 +13,12 @@ export default class Footer extends Component {
     render() {
         return (
             <div>
-                {/*<ButtonToolbar>*/}
-                    {/*<Button className={ this.state.shouldHide ? 'hide' : ''} bsStyle="info"><Link to="/ticket">פתח קריאה</Link></Button>*/}
+                <ButtonToolbar>
                     {/*<Button className={ this.state.shouldHide ? 'hide' : ''} > <Glyphicon glyph="log-in" />  צ׳אט עם טכנאי</Button>*/}
-                {/*</ButtonToolbar>*/}
+                    <p className="call-us"> { Strings.frequentProblems.callTech }</p>
+                    <Link to="/new-ticket">פתח קריאה</Link>
+                </ButtonToolbar>
 
-                <p className="call-us"> { Strings.frequentProblems.callTech }</p>
             </div>
         );
     }
