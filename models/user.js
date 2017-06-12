@@ -47,8 +47,8 @@ module.exports = function (sequelize) {
 
     User.associate = function (models) {
         User.hasMany(models.Ticket)
+        User.hasMany(models.TicketUpdate)
     }
 
-    console.log('<-DANDEBUG-> user.js\\ 52: typeof User:', typeof User);
     return User
 }

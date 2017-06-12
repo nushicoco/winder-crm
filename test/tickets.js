@@ -123,7 +123,6 @@ describe('/tickets', function () {
                 expect(response.status).to.equal(200)
                 expect(response.body).to.be.a('array')
                 expect(response.body).to.have.lengthOf(3)
-                console.log('<-DANDEBUG-> tickets.js\\ 126: response.body:', response.body);
             })
     })
 
@@ -203,6 +202,7 @@ describe('/ticket', function () {
                 expect(ticket).to.have.property('ticket_updates')
                 expect(ticket.ticket_updates).to.have.lengthOf(1)
                 expect(ticket.ticket_updates[0]).to.have.property('text', 'does no say lechayim')
+                expect(ticket).to.have.property('user')
             })
 
             .catch( (e) => {console.log(e); throw e})

@@ -1,7 +1,8 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import strings from '../../strings.js'
 import {  Button, Table} from 'react-bootstrap'
-
+import './ticketsAdmin.css'
 export default class TicketsAdmin extends React.Component {
     constructor (props) {
         super(props)
@@ -12,8 +13,7 @@ export default class TicketsAdmin extends React.Component {
 
     reload = () => {
         fetch('/tickets', {
-            method: 'GET',
-            headers: {'Content-Type': 'applicatino/json'}
+            method: 'GET'
         })
             .then( (response) => {
                 if (response.status !== 200) {
@@ -29,20 +29,21 @@ export default class TicketsAdmin extends React.Component {
             })
     }
 
+    componentDidMount () {
+        this.reload()
+    }
+
     render () {
         return (
             <div>
               <h1>{ strings.ticketsAdmin.headline }</h1>
-              <Button onClick={ () => this.reload() } >
-                { strings.ticketsAdmin.reload }
-              </Button>
-
               <Table className="center centered" striped bordered condensed hover>
                 <thead>
                   <tr>
                     <th>#</th>
                     <th>{ strings.ticket.user } </th>
                     <th>{ strings.ticket.subject }</th>
+                    <th>{ strings.ticket.status }</th>
                     <th>{ strings.ticket.dateIssued }</th>
                     <th>{ strings.ticket.dateUpdated }</th>
                   </tr>
@@ -52,6 +53,9 @@ export default class TicketsAdmin extends React.Component {
                 </tbody>
               </Table>
 
+              <Button onClick={ () => this.reload() } >
+                { strings.ticketsAdmin.reload }
+              </Button>
 
             </div>
         )
@@ -65,12 +69,17 @@ export default class TicketsAdmin extends React.Component {
             direction: 'ltr'
         }
         return (
-            <tr key={ ticket.id }>
-              <th>{ ticket.id }       </th>
-              <th>{ `${ticket.user.firstName} ${ticket.user.lastName}` }     </th>
-              <th>{ ticket.subject }  </th>
-              <th style={dateStyle}>{ this.formatDate(ticket.createdAt) }</th>
-              <th>{ this.formatDate(ticket.updatedAt) }</th>
+            <tr  key={ ticket.id } >
+                <th>{ ticket.id }       </th>
+                <th >{ `${ticket.user.firstName} ${ticket.user.lastName}` }     </th>
+                <th  >
+                  <Link to={ `/view-ticket/${ticket.id}` }>
+                    { ticket.subject }
+                  </Link>
+                </th>
+                <th className={ `ticket-${ticket.status}`} >{ strings.ticket.statuses[ticket.status] }</th>
+                <th style={dateStyle}>{ this.formatDate(ticket.createdAt) }</th>
+                <th>{ this.formatDate(ticket.updatedAt) }</th>
             </tr>
         )
     }

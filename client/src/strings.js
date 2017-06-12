@@ -33,9 +33,15 @@ export default {
         sent: 'פנייתך נשלחה בהצלחה',
         subject: 'נושא',
         text: 'תוכן',
-        submit: 'שלח'
+        submit: 'שלח',
+        status: 'סטטוס',
+        statuses: {
+            open: 'פתוח',
+            closed: 'סגור'
+        }
     },
     ticketsAdmin: {
         headline: 'ניהול קריאות',
+        reload: 'רענן'
     }
 }

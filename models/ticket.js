@@ -2,7 +2,13 @@ const Sequelize = require('sequelize')
 
 module.exports = function (sequelize) {
     const Ticket = sequelize.define('ticket', {
-        subject: Sequelize.STRING
+        subject: Sequelize.STRING,
+        status: {
+            type: Sequelize.STRING,
+            validate: {
+                isIn: [['open', 'closed']]
+            }
+        }
     })
 
     Ticket.associate = function (models) {

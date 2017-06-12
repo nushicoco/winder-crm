@@ -12,6 +12,13 @@ const users = [
         lastName: 'באגינס',
         email: 'frodob@cybershire.com',
         password: 'itisprecious'
+    },
+    {
+        id: 2,
+        firstName: 'ג׳ק',
+        lastName: 'סאלי',
+        email: 'sally@pandora.com',
+        password: 'iseeyou'
     }
 ]
 
@@ -19,11 +26,13 @@ const tickets = [
     {
         id: 1,
         subject: 'הטבעת לא נשברת',
+        status: 'open',
         userId: 1
     },
     {
         id: 2,
         subject: 'בעיה באיסוף Unobtainium',
+        status: 'closed',
         userId: 1
     }
 
@@ -33,10 +42,18 @@ const ticketUpdates = [
     {
         id: 1,
         ticketId: 1,
+        userId: 1,
         text: 'ניסיתי לשבור את טבעת עם סלע, גרזן או חרב אבל עד עכשיו ללא הצלחה'
     },
     {
         id: 2,
+        userId: 2,
+        ticketId: 1,
+        text: ' top secret Information Terrorism NSCT FAMS sneakers SIG Soviet UNCPCJ HALO explosive bank Meth Lab La Familia Peering Roswell '
+    },
+
+    {
+        id: 3,
         ticketId: 2,
         text: 'המצבור הכי גדול של Unobtainium נמצא מתחת ל-Home Tree והמקומיים לא נותנים לנו לחפור שם משום מה.'
     }

@@ -82,7 +82,7 @@ app.get('/tickets/:id', function (req, res) {
         where: {
             id: ticketId
         },
-        include: [ TicketUpdate ]
+        include: [{all: true, nested: true}]
     })
         .then( (ticket) => {
             res.status(200).send(ticket.toJSON())
