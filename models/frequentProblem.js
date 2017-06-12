@@ -20,7 +20,7 @@ module.exports = function (sequelize) {
         solutionURL: {
             type: Sequelize.TEXT
         }
-    })
-    FrequentProblem.sync()
+    });
+
     return FrequentProblem
 }

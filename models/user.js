@@ -24,6 +24,7 @@ module.exports = function (sequelize) {
         email: {
             type: Sequelize.STRING,
             unique: true,
+            allowNull: false,
             validate: {
                 isEmail: true
             }
@@ -34,17 +35,22 @@ module.exports = function (sequelize) {
             validate: {
                 notEmpty: true
             }
+        },
+
+        isSuperuser: {
+            type: Sequelize.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         }
-    })
+    });
 
     User.beforeCreate( (user, options) => {
         user.password = bcrypt.hashSync(user.password)
-    })
+    });
 
     User.prototype.checkPassword = function (password) {
         return bcrypt.compareSync(password, this.password)
-    }
+    };
 
-    User.sync()
     return User
 }

@@ -12,7 +12,8 @@
     "client": "cd client && npm start",
     "buildclient": "cd client && npm run build",
     "installclient": "cd client && npm i",
-    "resetdb": "node db/reset_db"
+    "resetdb": "node db/reset_db",
+    "superman" : "node scripts/update_superuser"
   },
   "author": "",
   "license": "ISC",
