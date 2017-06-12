@@ -45,6 +45,10 @@ module.exports = function (sequelize) {
         return bcrypt.compareSync(password, this.password)
     }
 
-    User.sync()
+    User.associate = function (models) {
+        User.hasMany(models.Ticket)
+    }
+
+    console.log('<-DANDEBUG-> user.js\\ 52: typeof User:', typeof User);
     return User
 }

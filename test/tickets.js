@@ -93,12 +93,43 @@ describe('Ticket model', function () {
                 expect(ticket).to.have.property('ticket_updates')
                 expect(ticket.ticket_updates).to.have.lengthOf(1)
                 expect(ticket.ticket_updates[0]).to.have.property('text')
-                expect(ticket.ticket_updates[0].text).to.equal('great tet')
+                expect(ticket.ticket_updates[0].text).to.equal('great text')
             })
     })
 })
 
 describe('/tickets', function () {
+    beforeEach(makeGreg)
+    beforeEach(clearTickets)
+    it('should list all available tickets', function () {
+
+        // Create tickets:
+        const userId = goodGuyGreg.id
+        const tickets = [
+             ['ticket1 subject', 'ticket1 text'],
+             ['ticket2 subject', 'ticket2 text'],
+             ['ticket3 subject', 'ticket3 text'],
+        ]
+        return Promise.all(tickets.map( ([subject, text]) => { return Ticket.create({userId, subject}) }))
+
+        // Receive them:
+            .then(function () {
+                return chai.request(app)
+                    .get('/tickets')
+                    .send()
+
+            })
+            .then(function (response) {
+                expect(response.status).to.equal(200)
+                expect(response.body).to.be.a('array')
+                expect(response.body).to.have.lengthOf(3)
+                console.log('<-DANDEBUG-> tickets.js\\ 126: response.body:', response.body);
+            })
+    })
+
+})
+
+describe('/ticket', function () {
     beforeEach(makeGreg)
     beforeEach(clearTickets)
 
@@ -113,13 +144,22 @@ describe('/tickets', function () {
                 userId: goodGuyGreg.id
             })
 
-        // Retreive it:
+        // Check response
             .then(function (response) {
                 response.status.should.equal(200)
+                let ticket = response.body
+                expect(ticket).to.include({
+                    userId: goodGuyGreg.id,
+                    subject: 'I have problem'
+                })
+                expect(ticket).to.have.property('ticket_updates')
+                expect(ticket.ticket_updates[0]).to.include({
+                    text: 'Speakers do not show yellow or purple'
+                })
                 return Ticket.all()
             })
 
-        // Check it
+        // Check Database:
             .then(function (allTickets) {
                 allTickets.should.have.lengthOf(1)
                 const ticket = allTickets[0]
@@ -127,6 +167,7 @@ describe('/tickets', function () {
                     userId: goodGuyGreg.id,
                     subject: 'I have problem'
                 })
+                // TODO check the ticket's TicketUpdate array somehow
             })
             .catch( (e) => {console.log(e); throw e})
     })

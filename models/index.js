@@ -1,3 +1,4 @@
+const path = require("path");
 const Sequelize = require('sequelize')
 const dbURL = process.env.DATABASE_URL || 'sqlite://db/winder.db';
 const sequelize = new Sequelize(dbURL, {
@@ -8,21 +9,21 @@ const sequelize = new Sequelize(dbURL, {
 });
 
 // Models:
-const  User             = require('./user.js')(sequelize),
-       FrequentProblem  = require('./frequentProblem.js')(sequelize),
-       TicketUpdate     = require('./ticketUpdate.js')(sequelize),
-       Ticket           = require('./ticket.js')(sequelize)
 
-// Relations:
-Ticket.belongsTo(User)
-User.hasMany(Ticket)
-TicketUpdate.belongsTo(Ticket)
-Ticket.hasMany(TicketUpdate)
-console.log('index.js\\ 19: <here>');
-
-module.exports = {
-    User,
-    FrequentProblem,
-    Ticket,
-    TicketUpdate
+const models = {
+    User             : sequelize.import(path.join(__dirname, './user.js')),
+    FrequentProblem  : sequelize.import(path.join(__dirname, './frequentProblem.js')),
+    TicketUpdate     : sequelize.import(path.join(__dirname, './ticketUpdate.js')),
+    Ticket           : sequelize.import(path.join(__dirname, './ticket.js'))
 }
+
+// Set Relations:
+Object.values(models).forEach( model => model.associate && model.associate(models) )
+
+// All set
+sequelize.sync()
+
+module.exports = Object.assign(
+    models,
+    {sequelize}
+)

@@ -3,6 +3,7 @@ const chai = require('chai')
 const chaiHttp = require('chai-http')
 const app = require('../server')
 const should = chai.should()
+const expect = chai.expect
 
 chai.use(chaiHttp)
 
@@ -26,6 +27,11 @@ describe('/signup POST', function () {
             .send(goodGuyGreg)
             .then(function (res) {
                 res.status.should.be.equal(200)
+                expect(res).to.be.json // <- this actually works O_o
+                res.body.should.have.property('user')
+                res.body.user.firstName.should.equal(goodGuyGreg.firstName)
+                res.body.user.lastName.should.equal(goodGuyGreg.lastName)
+                res.body.user.email.should.equal(goodGuyGreg.email)
             })
     })
 

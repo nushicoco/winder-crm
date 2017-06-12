@@ -3,10 +3,16 @@ module.exports = function (sequelize) {
     const TicketUpdate = sequelize.define('ticket_update', {
         text: Sequelize.TEXT,
         newStatus: {
-            type: Sequelize.ENUM,
-            values: ['open', 'close']
+            type: Sequelize.STRING,
+            validate: {
+                isIn: ['open', 'close']
+            }
         }
     })
-    TicketUpdate.sync()
+
+    TicketUpdate.associate = function (models) {
+        TicketUpdate.belongsTo(models.Ticket)
+    }
+
     return TicketUpdate
 }

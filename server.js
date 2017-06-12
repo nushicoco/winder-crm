@@ -51,9 +51,23 @@ app.post('/login', passport.authenticate('local'), function (req, res) {
 // TODO: Also, don't allow a user to create tickets for other users
 app.post('/ticket', (req, res) => {
     const {userId, subject, text} = req.body
+    let ticketId
     Ticket.create({userId, subject})
         .then( (newTicket) => {
-            res.status(200).send(newTicket.toJSON())
+            ticketId = newTicket.id
+            return TicketUpdate.create({
+                text,
+                ticketId,
+                newStatus: 'open'
+            })})
+        .then( (ticketUpdate) => {
+            return Ticket.findOne(
+                {where: {id: ticketId},
+                include: TicketUpdate}
+            )
+        })
+        .then( (ticket) => {
+            res.status(200).send(ticket.toJSON())
         })
 
         .catch( (error) => {
@@ -79,11 +93,9 @@ app.get('/tickets/:id', function (req, res) {
         })
 })
 
-// TODO authentication...
+// TODO superuser authentication...
 app.get('/tickets', (req, res) => {
-    console.log('server.js\\ 68: <here>');
-    const userId = req.body.userId
-    Ticket.findAll({where: {userId}})
+    Ticket.findAll({include: [TicketUpdate, User]})
         .then(function (tickets) {
             res.status(200).send(tickets.map( ticket => ticket.toJSON()))
         })
@@ -95,9 +107,10 @@ app.get('/tickets', (req, res) => {
 })
 
 app.post('/signup', (req, res) => {
-    return User.create(req.body)
+
+    let {email, firstName, lastName, password} = req.body
+    return User.create({email, firstName, lastName, password})
         .then( (newUser) => {
-            const {email, firstName, lastName} = newUser
             res.status(200).send({
                 user: {email, firstName, lastName}
             })
