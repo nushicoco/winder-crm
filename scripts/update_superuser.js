@@ -14,7 +14,11 @@ if (!userEmail){
     return;
 }
 
-User.findOne({email:userEmail}).then(function(user) {
+User.findOne({where:{email:userEmail}}).then(function(user) {
+    if (!user) {
+        console.log(`couldn't find user ${userEmail}!` );
+        return;
+    }
     console.log(`updating user ${userEmail} setting isSuperuser to ${!user.isSuperuser}` );
     user.isSuperuser = !user.isSuperuser;
     user.save();
