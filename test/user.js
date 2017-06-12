@@ -11,6 +11,7 @@ describe('User', () =>  {
     describe('#create', function () {
         it('should allow creating a new valid user', function () {
             return User.create({
+                isSuperuser: false,
                 firstName: 'great name',
                 lastName: 'last name',
                 password: 'awesome password',
@@ -64,6 +65,7 @@ describe('User', () =>  {
         it('should check passwords correctly', function () {
             return User.create({
                 firstName: 'Donal J',
+                email: 'hello@world.com',
                 lastName: 'Trump',
                 password: 'covfefe'
             }).then( function (user) {

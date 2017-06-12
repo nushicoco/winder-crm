@@ -20,6 +20,6 @@ module.exports = function (sequelize) {
         solutionURL: {
             type: Sequelize.TEXT
         }
-    })
+    });
     return FrequentProblem
 }

@@ -17,12 +17,12 @@ if (process.env.NODE_ENV === 'production') {
 const { User, FrequentProblem, Ticket, TicketUpdate  } = require('./models')
 
 // POST Body Parsing:
-const bodyParser = require('body-parser')
-app.use(bodyParser.json())
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
 
 // Authentication:
-const passport = require('./passportAuthentication')
-app.use(passport.initialize())
+const passport = require("./passportAuthentication");
+app.use(passport.initialize());
 
 // Routs:
 app.get('/', (req, res) => {
@@ -35,7 +35,7 @@ app.get('/frequent_problems', (req, res) => {
 });
 
 app.get('/frequent_problem/:id', (req, res) => {
-    var problemId = req.params.id;
+    let problemId = req.params.id;
     FrequentProblem.findById(problemId)
         .then( (problem) => res.send(problem.toJSON()))
         .catch( (error) => res.send(400))
@@ -43,9 +43,9 @@ app.get('/frequent_problem/:id', (req, res) => {
 
 app.post('/login', passport.authenticate('local'), function (req, res) {
     // res.redirect('/')
-    const { firstName, lastName, email} = req.user
-    res.status(200).send({user: {firstName, lastName, email}})
-})
+    const { firstName, lastName, email, isSuperuser} = req.user;
+    res.status(200).send({user: {firstName, lastName, email, isSuperuser}})
+});
 
 // TODO: don't allow unauthenticated users to do anything
 // TODO: Also, don't allow a user to create tickets for other users
@@ -114,12 +114,10 @@ app.post('/signup', (req, res) => {
             res.status(200).send({
                 user: {email, firstName, lastName}
             })
-        })
-
-        .catch( (e) => {
-            res.status(400).send(e.errors)
+        }).catch( (e) => {
+            res.status(400).send(e.errors);
         })
 })
 
 // All set!
-app.listen(port)
+app.listen(port);
