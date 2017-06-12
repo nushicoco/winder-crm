@@ -43,8 +43,8 @@ app.get('/frequent_problem/:id', (req, res) => {
 
 app.post('/login', passport.authenticate('local'), function (req, res) {
     // res.redirect('/')
-    const { firstName, lastName, email} = req.user
-    res.status(200).send({user: {firstName, lastName, email}})
+    const { firstName, lastName, email, isSuperuser} = req.user
+    res.status(200).send({user: {firstName, lastName, email, isSuperuser}})
 })
 
 
