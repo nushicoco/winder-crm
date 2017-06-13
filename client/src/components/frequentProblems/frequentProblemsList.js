@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
-
+import { getFrequentProblemsList } from '../../api.js'
 import Footer from './footer';
 import Strings from '../../strings.js'
 
@@ -18,12 +18,10 @@ export default class FrequentProblemsList extends Component {
     }
 
     getFrequentProblems() {
-        var self = this
-        fetch("frequent_problems").then((response) =>{
-            return response.json();
-        }).then((problems) =>{
-            self.setState({problems});
-        });
+        getFrequentProblemsList()
+            .then( (problems ) => {
+                this.setState({problems})
+            })
     };
 
     setProblemDetails(problem){

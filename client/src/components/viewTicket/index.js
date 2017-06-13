@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Table, Col, Row, FormGroup, Form, FormControl, ControlLabel, Button} from 'react-bootstrap'
 import './viewTicket.css'
+import { getTicket } from '../../api.js'
 
 import strings from '../../strings.js'
 
@@ -21,11 +22,7 @@ export default class ViewTicket extends React.Component {
     }
 
     fetchData = () => {
-        fetch(`/tickets/${this.props.match.params.id}`)
-            .then( (response) => {
-                return response.json()
-            })
-
+        getTicket(this.props.match.params.id)
             .then( (ticket) => {
                 this.setState({
                     ticket
