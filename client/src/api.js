@@ -16,9 +16,6 @@ const request = function(path, method, jsonBody) {
             return true
 
         })
-        .catch( (error) => {
-            console.error(error) // TODO: something better?
-        })
 }
 const get = function (path) {
     return request(path, 'GET')
@@ -46,4 +43,8 @@ module.exports.getTicket = function(ticketId) {
 
 module.exports.getTickets = function () {
     return get('/tickets')
+}
+
+module.exports.updateTicket = function (ticketId, text) {
+    return post('/update_ticket', {ticketId, text})
 }

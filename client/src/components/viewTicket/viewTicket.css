@@ -35,10 +35,19 @@
   color: red;
 }
 
+.updates {
+  margin: auto;
+  width: 80%;
+}
 .ticket-update-table {
+  width: 100%;
   margin: auto;
   margin-top: 20px;
-  width: 80%;
+}
+.update-text-input {
+}
+
+.update-text-button {
 }
 
 .ticket-update-table tr {
