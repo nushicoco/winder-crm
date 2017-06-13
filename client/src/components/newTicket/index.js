@@ -3,6 +3,7 @@ import {Col, Form, FormGroup, FormControl, ControlLabel, Button} from 'react-boo
 import strings from '../../strings.js'
 import { Link } from 'react-router-dom'
 import './newTicket.css'
+import { createTicket } from '../../api.js'
 
 export default class NewTicket extends React.Component {
     constructor (props) {
@@ -17,23 +18,13 @@ export default class NewTicket extends React.Component {
     handleSubmit = () => {
         const {subject, text} = this.state
         this.setState({isLoading: true})
-        fetch('/ticket', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({subject, text})
-        })
-
-            .then( (response) =>  {
-                this.setState({isLoading: false})
-                if (response.status === 200) {
-                    this.setState({submitted: true})
-                }
+        createTicket(subject, text)
+            .then( () =>  {
+                this.setState({
+                    isLoading: false,
+                    submitted: true
+                })
             })
-
-            .catch((error) => {
-                console.error(error)
-            })
-
     }
     renderSubmitted = () => {
         // TODO: something else here?

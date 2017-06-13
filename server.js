@@ -81,13 +81,27 @@ app.post('/ticket', (req, res) => {
         })
 })
 
+app.post('/update_ticket', (req, res) => {
+    const {ticketId, text} = req.body
+    let userId = 1 // TODO Remove and use authenticated user
+    TicketUpdate.create({
+        ticketId,
+        text,
+        userId
+    })
+        .then( () => {
+            res.status(200).send()
+        })
+})
+
 app.get('/tickets/:id', function (req, res) {
     const ticketId = req.params.id
     Ticket.findOne({
         where: {
             id: ticketId
         },
-        include: [{all: true, nested: true}]
+        include: [{all: true, nested: true}],
+        order: [[TicketUpdate, 'createdAt', 'DESC']]
     })
         .then( (ticket) => {
             res.status(200).send(ticket.toJSON())

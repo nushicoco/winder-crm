@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import strings from '../../strings.js'
 import {  Button, Table} from 'react-bootstrap'
 import './ticketsAdmin.css'
+import { getTickets } from '../../api.js'
+
 export default class TicketsAdmin extends React.Component {
     constructor (props) {
         super(props)
@@ -12,16 +14,7 @@ export default class TicketsAdmin extends React.Component {
     }
 
     reload = () => {
-        fetch('/tickets', {
-            method: 'GET'
-        })
-            .then( (response) => {
-                if (response.status !== 200) {
-                    throw 'Bad Response'
-                }
-                return response.json()
-            })
-
+        getTickets()
             .then( (tickets) => {
                 this.setState({
                     tickets

@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 
 import Footer from './footer'
 import Strings from '../../strings.js'
+import { getFrequentProblem } from '../../api.js'
 
 export default class FrequentProblem extends Component {
     constructor(props) {
@@ -17,17 +18,15 @@ export default class FrequentProblem extends Component {
             problem:props.location.problem,
             choseDidntHelp:false,
             choseHelp:false,
-            choseSomething:false,
+            choseSomething:false
         }
 
         if (!this.state.problem){
             let problemId = props.match.params.id;
-            var self = this;
 
-            fetch(`/frequent_problem/${problemId}`).then((response) =>{
-                return response.json();
-            }).then((problem) =>{
-                self.setState({problem});
+            getFrequentProblem(problemId)
+                .then( (problem) => {
+                    this.setState({problem});
             });
         }
 

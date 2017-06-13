@@ -2,13 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Table, Col, Row, FormGroup, Form, FormControl, ControlLabel, Button} from 'react-bootstrap'
 import './viewTicket.css'
-
+import { getTicket, updateTicket} from '../../api.js'
 import strings from '../../strings.js'
 
 export default class ViewTicket extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
+            newUpdateText: '',
             ticket: {
                 user: {},
                 ticket_updates: []
@@ -21,14 +22,12 @@ export default class ViewTicket extends React.Component {
     }
 
     fetchData = () => {
-        fetch(`/tickets/${this.props.match.params.id}`)
-            .then( (response) => {
-                return response.json()
-            })
-
+        this.setState({loading: true})
+        getTicket(this.props.match.params.id)
             .then( (ticket) => {
                 this.setState({
-                    ticket
+                    ticket,
+                    loading: false
                 })
             })
     }
@@ -61,7 +60,15 @@ export default class ViewTicket extends React.Component {
     }
 
     handleSubmitUpdate = () => {
-        // TBD
+        const text = this.state.newUpdateText
+        this.setState({
+            newUpdateText: '',
+            loading: true
+        })
+        updateTicket(this.state.ticket.id, this.state.newUpdateText)
+            .then( () => {
+                this.fetchData()
+            })
     }
 
     render () {
@@ -111,20 +118,32 @@ export default class ViewTicket extends React.Component {
               </table>
 
               <hr/>
-              <h2>עדכונים:</h2>
-              <FormGroup controlId="addNewTicketUpdate">
-                <ControlLabel>{ strings.ticket.addUpdate }:</ControlLabel>
-                <FormControl
-                  type="text"
-                  value={ this.state.newUpdateText }
-                  placeHolder=""
-                  onChange={ (e) => this.setState({newUpdateText: e.target.value}) } />
-                  <Button type="submit" onClick={ this.handleSubmitUpdate }>
-                    { strings.ticket.submit }
-                  </Button>
-              </FormGroup>
-              { this.state.ticket.ticket_updates.map(this.renderTicketUpdate) }
+              <div className="updates">
+                <h2>{ strings.ticket.updates } </h2>
+                <Form>
+                  <Row>
+                    <Col sm={10} >
+                  <FormControl
+                    className="update-text-input"
+                    type="text"
+                    value={ this.state.newUpdateText }
+                    placeholder={ strings.ticket.addUpdate }
+                    onChange={ (e) => this.setState({newUpdateText: e.target.value}) } />
+                    </Col>
+                    <Col sm={2}>
+                    <Button
+                      className="update-text-button"
+                      type="submit"
+                      disabled={ this.state.loading }
+                      onClick={ this.handleSubmitUpdate }>
+                      { strings.ticket.submit }
+                    </Button>
+                    </Col>
+                  </Row>
+                </Form>
+                { this.state.ticket.ticket_updates.map(this.renderTicketUpdate) }
 
+              </div>
               <hr/>
               <Link to="/tickets-admin">{ strings.back }</Link>
 
