@@ -1,6 +1,6 @@
 const path = require("path");
 const Sequelize = require('sequelize')
-const dbURL = process.env.DATABASE_URL || 'sqlite://db/winder.db';
+const dbURL = process.env.DATABASE_URL
 const sequelize = new Sequelize(dbURL, {
     // allow muting sql output when testing:
     logging: process.env.DATABASE_LOGGING === 'false' ?

@@ -1,3 +1,4 @@
+const { notifyNewTicket } = require('../notifications.js')
 const Sequelize = require('sequelize')
 
 module.exports = function (sequelize) {
@@ -7,6 +8,12 @@ module.exports = function (sequelize) {
             type: Sequelize.STRING,
             validate: {
                 isIn: [['open', 'closed']]
+            }
+        }
+    }, {
+        hooks: {
+            afterCreate: function (ticket) {
+                notifyNewTicket(ticket)
             }
         }
     })

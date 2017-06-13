@@ -1,3 +1,4 @@
+require('dotenv-safe').load();
 const {
     sequelize,
     FrequentProblem
