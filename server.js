@@ -1,12 +1,13 @@
 /* eslint-disable no-console */
 console.log('Starting Server......');
+require('dotenv-safe').load(); // Load env vars from ./.env
 
 const express = require('express');
 const app = express();
 module.exports = app // for testing
 
 // Config
-const port = process.env.PORT || 3001;
+const port = process.env.PORT;
 console.log(`Port = ${port}`);
 console.log(`NODE_ENV =${process.env.NODE_ENV}`);
 if (process.env.NODE_ENV === 'production') {

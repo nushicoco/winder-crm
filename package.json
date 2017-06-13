@@ -13,18 +13,21 @@
     "buildclient": "cd client && npm run build",
     "installclient": "cd client && npm i",
     "resetdb": "node db/reset_db",
-    "superman" : "node scripts/update_superuser"
+    "superman": "node scripts/update_superuser"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.2",
+    "dotenv": "^4.0.0",
+    "dotenv-safe": "^4.0.4",
+    "express": "^4.15.3",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "express": "^4.15.3",
     "pg": "^6.2.4",
     "pg-hstore": "^2.3.2",
+    "request": "^2.81.0",
     "sequelize": "^4.0.0"
   },
   "devDependencies": {

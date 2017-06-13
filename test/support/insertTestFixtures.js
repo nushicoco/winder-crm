@@ -1,3 +1,6 @@
+process.env.NOTIFICATION_URL = 'false'
+require('dotenv-safe').load(); // Load env vars from ./.env
+
 const {
     sequelize,
     User,
