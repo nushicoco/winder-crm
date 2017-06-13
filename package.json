@@ -10,8 +10,8 @@
     "startprod": "PORT=3000 NODE_ENV=production node server.js",
     "startdev": "concurrently \"npm run dev\" \"npm run client\"",
     "client": "cd client && npm start",
-    "buildclient": "cd client && npm run build",
-    "installclient": "cd client && npm i",
+    "bclient": "cd client && npm run build",
+    "iclient": "cd client && npm i",
     "resetdb": "node db/reset_db",
     "superman": "node scripts/update_superuser"
   },
@@ -23,12 +23,14 @@
     "dotenv": "^4.0.0",
     "dotenv-safe": "^4.0.4",
     "express": "^4.15.3",
+    "express-session": "^1.15.3",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "pg": "^6.2.4",
     "pg-hstore": "^2.3.2",
     "request": "^2.81.0",
-    "sequelize": "^4.0.0"
+    "sequelize": "^4.0.0",
+    "sqlite3": "^3.1.8"
   },
   "devDependencies": {
     "chai": "^4.0.2",

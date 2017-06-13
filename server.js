@@ -4,12 +4,13 @@ require('dotenv-safe').load(); // Load env vars from ./.env
 
 const express = require('express');
 const app = express();
-module.exports = app // for testing
+module.exports = app; // for testing
 
 // Config
 const port = process.env.PORT;
 console.log(`Port = ${port}`);
 console.log(`NODE_ENV =${process.env.NODE_ENV}`);
+
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
 }
@@ -21,16 +22,33 @@ const { User, FrequentProblem, Ticket, TicketUpdate  } = require('./models')
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
+const expressSession = require('express-session')
+app.use(expressSession({
+    cookieName: 'session',
+    secret: 'random_string_goes_here',
+    duration: 30 * 60 * 1000,
+    activeDuration: 5 * 60 * 1000,
+}));
+
 // Authentication:
 const passport = require("./passportAuthentication");
 app.use(passport.initialize());
+app.use(passport.session());
 
 // Routs:
 app.get('/', (req, res) => {
+    console.log(`req.session.id = ${req.session.id}`)
+    console.log(`req.session.passport`,req.session.passport);
+    console.log(`req.user`,req.user);
     res.sendFile(__dirname + '/client/build/index.html');
 });
 
 app.get('/frequent_problems', (req, res) => {
+    console.log(`req.session.id = ${req.session.id}`)
+    console.log(`req.session.cookie`,req.session.cookie);
+    console.log(` req.session.passport`, req.session.passport);
+    console.log(`req.user`,req.user);
+
     FrequentProblem.findAll()
         .then( all => res.send(all.map( item => item.toJSON())))
 });
@@ -44,6 +62,8 @@ app.get('/frequent_problem/:id', (req, res) => {
 
 app.post('/login', passport.authenticate('local'), function (req, res) {
     const { firstName, lastName, email, isSuperuser} = req.user;
+    console.log(` req.session.passport`, req.session.passport);
+
     res.status(200).send({user: {firstName, lastName, email, isSuperuser}})
 });
 
@@ -131,6 +151,7 @@ app.post('/signup', (req, res) => {
     let {email, firstName, lastName, password} = req.body
     return User.create({email: email.toLowerCase(), firstName, lastName, password})
         .then( (newUser) => {
+            req.session.user = newUser;
             res.status(200).send({
                 user: {email, firstName, lastName}
             })
