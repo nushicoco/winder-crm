@@ -11,7 +11,7 @@ class App extends Component {
     constructor (man) {
         super(man) //.dooms('day')
         this.state = {
-            showLogin: true,
+            showLogin: false,
             user: null
         }
     }
@@ -23,6 +23,9 @@ class App extends Component {
           <img src={ process.env.PUBLIC_URL + '/img/logo_alpha.png'} className="App-logo" alt="logo" />
         </div>
         { this.state.user && `Welcome, ${this.state.user.firstName}`}
+        { !this.state.user && (
+            <div><a href="#" onClick={() => this.setState({showLogin: true}) } >כניסה</a></div>
+        )}
         <Login
           onHide={ () => { this.setState({showLogin: false}) } }
           show={this.state.showLogin}

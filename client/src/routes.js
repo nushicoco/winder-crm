@@ -4,8 +4,9 @@
 
 import FrequentProblemsList from './components/frequentProblems/frequentProblemsList';
 import FrequentProblem from './components/frequentProblems/frequentProblem';
-import Ticket from './components/ticket'
-
+import NewTicket from './components/newTicket'
+import TicketsAdmin from './components/ticketsAdmin'
+import ViewTicket from './components/viewTicket'
 export const routes = [
 
     {
@@ -14,18 +15,28 @@ export const routes = [
         exact : true
     },
     {
-        path:'/ticket',
-        component: Ticket,
-        exact : true
-    },
-    {
         path:'/frequent',
         component: FrequentProblem,
         exact : true
     },
     {
-        'path':'/frequent/:id',
-        'component': FrequentProblem,
-        'exact' : true
+        path: '/frequent/:id',
+        component: FrequentProblem,
+        exact: true
+    },
+    {
+        path: '/tickets-admin',
+        component: TicketsAdmin,
+        exact: true
+    },
+    {
+        path: '/view-ticket/:id',
+        component: ViewTicket,
+        exact: true
+    },
+    {
+        path: '/new-ticket',
+        component: NewTicket,
+        exact: true
     }
 ]

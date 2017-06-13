@@ -24,5 +24,25 @@ export default {
         header: 'מדריכים ותקלות נפוצות',
         didntHelp : 'לא עזר לי..',
         helped : 'פתר את הבעיה!'
+    },
+    back: 'חזרה',
+    ticket: {
+        user: 'משתמש',
+        dateIssued: 'תאריך יצירה',
+        dateUpdated: 'תאריך עדכון',
+        sent: 'פנייתך נשלחה בהצלחה',
+        subject: 'נושא',
+        addUpdate: 'הוסף עידכון',
+        text: 'תוכן',
+        submit: 'שלח',
+        status: 'סטטוס',
+        statuses: {
+            open: 'פתוח',
+            closed: 'סגור'
+        }
+    },
+    ticketsAdmin: {
+        headline: 'ניהול קריאות',
+        reload: 'רענן'
     }
 }

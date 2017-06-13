@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // DB & Models:
-const { User, FrequentProblem  } = require("./models");
+const { User, FrequentProblem, Ticket, TicketUpdate  } = require('./models')
 
 // POST Body Parsing:
 const bodyParser = require("body-parser");
@@ -42,31 +42,86 @@ app.get('/frequent_problem/:id', (req, res) => {
 });
 
 app.post('/login', passport.authenticate('local'), function (req, res) {
-    // res.redirect('/')
     const { firstName, lastName, email, isSuperuser} = req.user;
     res.status(200).send({user: {firstName, lastName, email, isSuperuser}})
 });
 
+// TODO: don't allow unauthenticated users to do anything
+// TODO: Also, don't allow a user to create tickets for other users
+app.post('/ticket', (req, res) => {
+    const { subject, text} = req.body
+    let userId = 1 // <-- TODO: remove after we implement authentication ^^
+    let ticketId
 
-const countUsers = function () {
-    return User.findAll()
-        .then(function (all) {
+    Ticket.create({
+        status: 'open',
+        userId,
+        subject
     })
-};
+        .then( (newTicket) => {
+            ticketId = newTicket.id
+            return TicketUpdate.create({
+                text,
+                ticketId,
+                userId
+            })})
+        .then( (ticketUpdate) => {
+            return Ticket.findOne(
+                {where: {id: ticketId},
+                include: TicketUpdate}
+            )
+        })
+        .then( (ticket) => {
+            res.status(200).send(ticket.toJSON())
+        })
+
+        .catch( (error) => {
+            console.error(error)
+            throw error
+        })
+})
+
+app.get('/tickets/:id', function (req, res) {
+    const ticketId = req.params.id
+    Ticket.findOne({
+        where: {
+            id: ticketId
+        },
+        include: [{all: true, nested: true}]
+    })
+        .then( (ticket) => {
+            res.status(200).send(ticket.toJSON())
+        })
+        .catch ( (error) => {
+            console.error(error)
+            res.sendStatus(400)
+        })
+})
+
+// TODO superuser authentication...
+app.get('/tickets', (req, res) => {
+    Ticket.findAll({include: [TicketUpdate, User]})
+        .then(function (tickets) {
+            res.status(200).send(tickets.map( ticket => ticket.toJSON()))
+        })
+
+        .catch( (error) => {
+            console.error(error)
+            throw error
+        })
+})
 
 app.post('/signup', (req, res) => {
-    return countUsers().then(function () {
-        return User.create(req.body)
-            .then(countUsers())
+
+    let {email, firstName, lastName, password} = req.body
+    return User.create({email: email.toLowerCase(), firstName, lastName, password})
         .then( (newUser) => {
-            const {email, firstName, lastName} = newUser
             res.status(200).send({
                 user: {email, firstName, lastName}
             })
         }).catch( (e) => {
             res.status(400).send(e.errors);
         })
-    })
 })
 
 // All set!

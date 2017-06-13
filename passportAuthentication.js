@@ -6,7 +6,7 @@ passport.use(new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password'
 }, function (email, password, done) {
-    User.findOne({where: {email}})
+    User.findOne({where: {email: email.toLowerCase()}})
         .then(function (user) {
             if (!user || !user.checkPassword(password)) {
                 return done(null)

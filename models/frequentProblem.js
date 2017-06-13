@@ -21,6 +21,5 @@ module.exports = function (sequelize) {
             type: Sequelize.TEXT
         }
     });
-
     return FrequentProblem
 }
