@@ -3,6 +3,10 @@ const request = require('request')
 const hostname=process.env.HOSTNAME
 
 const notify = function (payload) {
+    if (notificationUrl === 'false' ) {
+        return
+    }
+
     request.post({
         url: notificationUrl,
         body: JSON.stringify(payload)
