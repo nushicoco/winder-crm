@@ -32,6 +32,7 @@ export default {
         dateUpdated: 'תאריך עדכון',
         sent: 'פנייתך נשלחה בהצלחה',
         subject: 'נושא',
+        addUpdate: 'הוסף עידכון',
         text: 'תוכן',
         submit: 'שלח',
         status: 'סטטוס',

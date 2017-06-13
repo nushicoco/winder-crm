@@ -65,13 +65,12 @@ export default class TicketsAdmin extends React.Component {
     }
 
     renderTicket = (ticket) => {
-        const dateStyle = {
-            direction: 'ltr'
-        }
+        const dateStyle = {direction: 'ltr'}
+        const user = ticket.user || {}
         return (
             <tr  key={ ticket.id } >
                 <th>{ ticket.id }       </th>
-                <th >{ `${ticket.user.firstName} ${ticket.user.lastName}` }     </th>
+                <th >{ `${user.firstName} ${user.lastName}` }     </th>
                 <th  >
                   <Link to={ `/view-ticket/${ticket.id}` }>
                     { ticket.subject }

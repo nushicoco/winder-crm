@@ -47,14 +47,22 @@ const ticketUpdates = [
     },
     {
         id: 2,
-        userId: 2,
+        userId: 1,
         ticketId: 1,
         text: ' top secret Information Terrorism NSCT FAMS sneakers SIG Soviet UNCPCJ HALO explosive bank Meth Lab La Familia Peering Roswell '
     },
 
     {
         id: 3,
+        userId: 1,
+        ticketId: 1,
+        text: ' Bin Laden FMD import SUN Ft. Bragg Shootout finks AMEMB CDA Planet-1 Recall Tsunami Warning Center TDR Interstate SONANGOL '
+    },
+
+    {
+        id: 13,
         ticketId: 2,
+        userId: 1,
         text: 'המצבור הכי גדול של Unobtainium נמצא מתחת ל-Home Tree והמקומיים לא נותנים לנו לחפור שם משום מה.'
     }
 ]

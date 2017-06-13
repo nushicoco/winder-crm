@@ -4,3 +4,56 @@
 .ticket-update-text {
   border: 1px solid black;
 }
+
+.ticket-view-table {
+  margin: auto;
+  text-align: right;
+  border: 1px solid black;
+  padding: 1px;
+}
+
+
+.ticket-view-table td {
+  border: 1px solid black;
+  padding: 4px 7px;
+}
+
+.main-column {
+  background: whitesmoke;
+  font-size: italic;
+}
+.value-column {
+  font-weight: bolder;
+}
+
+.status-closed {
+  color: green;
+}
+
+
+.status-open {
+  color: red;
+}
+
+.ticket-update-table {
+  margin: auto;
+  margin-top: 20px;
+  width: 80%;
+}
+
+.ticket-update-table tr {
+  border: none;
+}
+
+.ticket-update-table > tr {
+  border-bottom: 1px solid silver;
+}
+
+.ticket-update-date {
+  text-align: left;
+}
+
+.ticket-update-user{
+  color: blue;
+  text-align: right;
+}

@@ -49,7 +49,8 @@ app.post('/login', passport.authenticate('local'), function (req, res) {
 // TODO: don't allow unauthenticated users to do anything
 // TODO: Also, don't allow a user to create tickets for other users
 app.post('/ticket', (req, res) => {
-    const {userId, subject, text} = req.body
+    const { subject, text} = req.body
+    let userId = 1 // <-- TODO: remove after we implement authentication ^^
     let ticketId
 
     Ticket.create({
