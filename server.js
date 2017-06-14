@@ -4,12 +4,13 @@ require('dotenv-safe').load(); // Load env vars from ./.env
 
 const express = require('express');
 const app = express();
-module.exports = app // for testing
+module.exports = app; // for testing
 
 // Config
 const port = process.env.PORT;
 console.log(`Port = ${port}`);
 console.log(`NODE_ENV =${process.env.NODE_ENV}`);
+
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
 }
@@ -21,9 +22,18 @@ const { User, FrequentProblem, Ticket, TicketUpdate  } = require('./models')
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
+const expressSession = require('express-session')
+app.use(expressSession({
+    name: 'winder-session',
+    secret: 'random_string_goes_here',
+    duration: 30 * 60 * 1000,
+    activeDuration: 5 * 60 * 1000,
+}));
+
 // Authentication:
 const passport = require("./passportAuthentication");
 app.use(passport.initialize());
+app.use(passport.session());
 
 // Routs:
 app.get('/', (req, res) => {
@@ -41,6 +51,14 @@ app.get('/frequent_problem/:id', (req, res) => {
         .then( (problem) => res.send(problem.toJSON()))
         .catch( (error) => res.send(400))
 });
+
+app.get('/user', (req, res) => {
+    if (!req.user) {
+        return res.status(400).send()
+    }
+    const {email, firstName, lastName} = req.user
+    return res.status(200).send({email,firstName, lastName})
+})
 
 app.post('/login', passport.authenticate('local'), function (req, res) {
     const { firstName, lastName, email, isSuperuser} = req.user;
@@ -127,12 +145,16 @@ app.get('/tickets', (req, res) => {
 })
 
 app.post('/signup', (req, res) => {
-
     let {email, firstName, lastName, password} = req.body
     return User.create({email: email.toLowerCase(), firstName, lastName, password})
         .then( (newUser) => {
-            res.status(200).send({
-                user: {email, firstName, lastName}
+            req.login(newUser, function (error) {
+                if (error) {
+                    res.status(400).send()
+                }
+                res.status(200).send({
+                    user: {email, firstName, lastName}
+                })
             })
         }).catch( (e) => {
             res.status(400).send(e.errors);
