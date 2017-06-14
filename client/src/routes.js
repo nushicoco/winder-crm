@@ -25,7 +25,7 @@ export const routes = [
         exact: true
     },
     {
-        path: '/tickets-admin',
+        path: '/admin/tickets',
         component: TicketsAdmin,
         exact: true
     },

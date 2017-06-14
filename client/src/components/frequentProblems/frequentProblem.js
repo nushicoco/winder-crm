@@ -52,8 +52,8 @@ export default class FrequentProblem extends Component {
                     <p>No Problem</p> :
                     <div className="sub-container">
                         <h1>{this.state.problem.subject}</h1>
-                        {/*<p>{this.state.problem.solution}</p>*/}
-                        <iframe className="pdf-viewer" src={this.state.problem.solutionURL} frameborder="0"></iframe>
+                        {this.state.problem.solution && <p className="solution">{this.state.problem.solution}</p>}
+                        {this.state.problem.solutionURL && <iframe className="pdf-viewer" src={this.state.problem.solutionURL} frameBorder="0"></iframe>}
 
                         <ButtonToolbar className="problem-buttons">
                             <Button className={this.state.choseSomething ? 'hide' : 'problem-button'}
