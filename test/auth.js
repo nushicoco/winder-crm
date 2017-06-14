@@ -90,6 +90,77 @@ describe('/signup POST', function () {
 
 })
 
+describe('Sessions', function () {
+    beforeEach(function () {
+        User.drop()
+        return User.sync()
+    })
+
+    it('should login and save session after signup', function (done) {
+        const agent = chai.request.agent(app)
+        agent.get('/user').send()
+            .end(function (err, res) {
+                expect(res).to.have.cookie('winder-session')
+                res.status.should.be.equal(400)
+
+                //signup
+                agent.post('/signup')
+                    .send(goodGuyGreg)
+                    .end(function (err, res) {
+                        res.status.should.be.equal(200)
+                        expect(res).to.be.json // <- this actually works O_o
+                        res.body.should.have.property('user')
+                        res.body.user.firstName.should.equal(goodGuyGreg.firstName)
+                        res.body.user.lastName.should.equal(goodGuyGreg.lastName)
+                        res.body.user.email.should.equal(goodGuyGreg.email)
+
+                        agent.get('/user').send()
+                            .end(function (err, res) {
+                                res.status.should.be.equal(200)
+                                expect(res).to.be.json // <- this actually works O_o
+                                expect(res.body).to.deep.include({
+                                    firstName: goodGuyGreg.firstName,
+                                    lastName: goodGuyGreg.lastName,
+                                    email: goodGuyGreg.email
+                                })
+                                done()
+                            })
+                    })
+            })
+    })
+
+    it('should save session after login', function (done) {
+
+        // Create new user:
+        User.create(goodGuyGreg)
+            .then( () => {
+                // Login the new user:
+                const agent = chai.request.agent(app)
+                agent.post('/login').send({
+                    email: goodGuyGreg.email,
+                    password: goodGuyGreg.password
+                })
+                    .end(function (err, res) {
+                        res.status.should.be.equal(200)
+                        expect(res).to.have.cookie('winder-session')
+
+                        // Check that user is now logged-in:
+                        agent.get('/user').send()
+                            .end(function (err, res) {
+                                res.status.should.be.equal(200)
+                                expect(res).to.be.json
+                                expect(res.body).to.deep.include({
+                                    firstName: goodGuyGreg.firstName,
+                                    lastName: goodGuyGreg.lastName,
+                                    email: goodGuyGreg.email
+                                })
+                                done()
+                            })
+                    })
+            })
+    })
+})
+
 describe('/login POST', function () {
     beforeEach(function () {
         User.drop()
