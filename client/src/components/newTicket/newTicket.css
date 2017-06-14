@@ -1,3 +1,15 @@
 .new-ticket-form {
   text-align: right;
 }
+
+.subject-label{
+  width: 20%;
+  font-size: large;
+}
+
+.submit-ticket{
+  float: right;
+  padding: 0 100px;
+  margin: 25px 0;
+  font-size: large;
+}

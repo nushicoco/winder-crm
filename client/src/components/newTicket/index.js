@@ -1,9 +1,13 @@
 import React from 'react'
 import {Col, Form, FormGroup, FormControl, ControlLabel, Button} from 'react-bootstrap'
-import strings from '../../strings.js'
-import { Link } from 'react-router-dom'
+
+import Strings from '../../strings';
+
 import './newTicket.css'
+
 import { createTicket } from '../../api.js'
+import { BackToFrequentBtn } from '../common';
+
 
 export default class NewTicket extends React.Component {
     constructor (props) {
@@ -26,29 +30,44 @@ export default class NewTicket extends React.Component {
                 })
             })
     }
+
+    getValidationState(value) {
+        const length = value.length;
+        if (length > 5) return 'success';
+        else if (length > 2) return 'warning';
+        else if (length > 0) return 'error';
+    }
+
     renderSubmitted = () => {
         // TODO: something else here?
         return (
             <div>
-              { strings.ticket.sent }
+              { Strings.ticket.sent }
               <br/>
-              <Link to="/"> { strings.back }</Link>
+              <BackToFrequentBtn></BackToFrequentBtn>
             </div>
             )
     }
 
     render = () => {
-        return this.state.submitted ?
-            this.renderSubmitted()
-            : this.renderForm()
+        return (
+            <div className="container">
+                {this.state.submitted ?
+                    this.renderSubmitted()
+                    : this.renderForm()}
+            </div>
+        )
     }
 
     renderForm = () => {
         return (
+        <div>
+            <h1>{Strings.ticket.openTicketHeader}</h1>
             <Form>
-              <FormGroup controlId="subject">
-                <Col componentClass={ControlLabel} sm={4} >
-                  {strings.ticket.subject }
+              <FormGroup controlId="subject"
+                         validationState={this.getValidationState(this.state.subject)}>
+                <Col componentClass={ControlLabel} sm={4} className="subject-label" >
+                  {Strings.ticket.subject }
                 </Col>
                 <Col sm={8}>
                   <FormControl
@@ -60,8 +79,9 @@ export default class NewTicket extends React.Component {
 
 
               <FormGroup controlId="text">
-                <Col componentClass={ControlLabel} sm={4} >
-                  {strings.ticket.text }
+                <Col componentClass={ControlLabel} sm={4} className="subject-label"
+                     validationState={this.getValidationState(this.state.text)}>
+                  {Strings.ticket.text }
                 </Col>
                 <Col sm={8}>
                   <FormControl
@@ -74,13 +94,16 @@ export default class NewTicket extends React.Component {
               </FormGroup>
 
               <Col sm={12}>
-                <Button
-                  disabled={ this.state.isLoading }
-                  type="submit"
-                  onClick={ this.handleSubmit }>{ strings.ticket.submit }
+                <Button bsStyle="primary"
+                    className="submit-ticket"
+                    disabled={ this.state.isLoading || !this.state.subject}
+                    type="submit"
+                    onClick={ this.handleSubmit }>{ Strings.ticket.submit }
                 </Button>
+                  <BackToFrequentBtn></BackToFrequentBtn>
               </Col>
             </Form>
+        </div>
         )
     }
 }

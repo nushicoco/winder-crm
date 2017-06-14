@@ -41,7 +41,8 @@ export default {
             open: 'פתוח',
             closed: 'סגור'
         },
-        openTicket:'פתח קריאה'
+        openTicket:'פתח קריאה',
+        openTicketHeader:'פתח קריאה חדשה'
     },
     ticketsAdmin: {
         headline: 'ניהול קריאות',

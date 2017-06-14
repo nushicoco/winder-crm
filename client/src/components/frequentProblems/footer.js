@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button,  ButtonToolbar, Glyphicon} from 'react-bootstrap';
-import { Link } from 'react-router-dom'
-
+import { NewTicketButton } from '../common';
 import Strings from '../../strings.js'
 
 import './frequentProblems.css'
@@ -25,6 +24,3 @@ export default class Footer extends Component {
     }
 };
 
-export const NewTicketButton = () => (
-        <Button bsStyle="primary" className="open-ticket"> <Link to="/new-ticket" >{ Strings.ticket.openTicket }</Link></Button>
-);

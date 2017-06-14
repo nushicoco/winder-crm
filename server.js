@@ -157,6 +157,7 @@ app.post('/signup', (req, res) => {
                 })
             })
         }).catch( (e) => {
+            console.log(e)
             res.status(400).send(e.errors);
         })
 })
