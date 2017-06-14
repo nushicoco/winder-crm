@@ -49,3 +49,23 @@ module.exports.getTickets = function () {
 module.exports.updateTicket = function (ticketId, text) {
     return post('/update_ticket', {ticketId, text})
 }
+
+
+module.exports.signin = function (email, password) {
+    // TODO: handle bad creds properly
+    return post('/login', {email, password})
+        .then( (response) => {
+           return response && response.user
+        })
+}
+
+module.exports.signup = function (fields) {
+    return post('/signup', fields)
+        .then( (response) => {
+            return response && response.user
+        })
+}
+
+module.exports.getUser = function () {
+    return get('/user')
+}

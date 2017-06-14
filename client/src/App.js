@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { routes } from './routes';
 import Login from './components/login'
-
+import { getUser } from './api.js'
 import './App.css';
 
 class App extends Component {
@@ -14,6 +14,16 @@ class App extends Component {
             showLogin: false,
             user: null
         }
+    }
+
+    getUser () {
+        getUser().then((user) => {
+            this.setState({user})
+        })
+    }
+
+    componentDidMount () {
+        this.getUser()
     }
 
   render() {

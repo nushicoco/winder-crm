@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Modal, Tab, Row, Col, Nav, NavItem } from 'react-bootstrap'
+import { signin, signup } from '../../api.js'
 
 import       LoadingSpinner from       './loadingSpinner.js'
  import     Strings          from     '../../strings.js'
@@ -20,53 +21,25 @@ export default class Login extends Component {
         }
     }
 
-    doSubmit = (url, fields) => {
+    submit = (action) => {
         this.setState({
             errorMessage: null,
             isLoading: true
         })
-
-        fetch(url, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(fields)
-        }).then((response) => {
-            if (response.status === 401) {
-                return {
-                    user: null,
-                    errorMessage: 'bad login'
-                }
-            }
-
-            // Need to parse json first if the response
-            //   is a success or other failure:
-            return response.json().then((responseBody) => {
-                const errorMessage = (responseBody[0] && responseBody[0].message) || ''
-                return {
-                    user: responseBody.user,
-                    errorMessage
-                }
-            })
-        }).then(({errorMessage, user}) => {
-            this.setState({
-                isLoading: false,
-                errorMessage: errorMessage
-            })
-
-            if (user) {
+        action()
+            .then( (user) => {
+                this.setState({
+                    errorMessage: null,
+                    isLoading: true
+                })
                 this.props.onLogin(user)
-            }
-        }).catch( (error) => {
-            this.setState({
-                isLoading: false,
-                errorMessage: 'unknown error'
             })
-        })
+        // TODO handle error
     }
 
     handleSignin = () => {
         const {email, password} = this.state.signinState
-        this.doSubmit('/login', {email, password})
+        this.submit( () => signin(email, password) )
     }
 
     handleSignup = () => {
@@ -74,11 +47,8 @@ export default class Login extends Component {
                 lastName,
                 email,
                 password } = this.state.signupState
-        this.doSubmit('/signup',{
-            firstName,
-            lastName,
-            email,
-            password })
+
+        this.submit(() => signup({firstName, lastName, email, password }) )
     }
 
     clearError = () => {
