@@ -42,6 +42,7 @@ pallete {
   font-size: large;
   color: #6D7275;
   float: left;
+  margin: 16px 16px 0 0;
 }
 
 .App-intro {

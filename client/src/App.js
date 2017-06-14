@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { routes } from './routes';
-import Login from './components/login'
+import Login from './components/login';
+import Strings from './strings';
 
 import './App.css';
 
@@ -24,7 +25,7 @@ class App extends Component {
         </div>
         { this.state.user && `Welcome, ${this.state.user.firstName}`}
         { !this.state.user && (
-            <div><a href="#" onClick={() => this.setState({showLogin: true}) } >כניסה</a></div>
+            <div><a href="#" onClick={() => this.setState({showLogin: true})} >{Strings.login.signin}</a></div>
         )}
         <Login
           onHide={ () => { this.setState({showLogin: false}) } }

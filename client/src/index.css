@@ -17,6 +17,18 @@ h1 {
   /*border: 2px solid black;*/
 }
 
+a {
+  display: block;
+  width: 100%;
+  color: #0C120C;
+
+}
+
+a:hover {
+  text-decoration: none;
+  color: #C20114;
+}
+
 .container {
   margin: 10px 55px 55px 55px;
 }

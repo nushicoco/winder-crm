@@ -40,7 +40,8 @@ export default {
         statuses: {
             open: 'פתוח',
             closed: 'סגור'
-        }
+        },
+        openTicket:'פתח קריאה'
     },
     ticketsAdmin: {
         headline: 'ניהול קריאות',

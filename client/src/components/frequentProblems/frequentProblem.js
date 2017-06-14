@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Button,  ButtonToolbar, Glyphicon} from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 
-import Footer from './footer'
+import {NewTicketButton} from './footer'
 import Strings from '../../strings.js'
 import { getFrequentProblem } from '../../api.js'
 
@@ -60,11 +60,7 @@ export default class FrequentProblem extends Component {
                                     bsStyle="success"
                                     onClick={ this.choseHelp }
                                     > { Strings.frequentProblems.helped } </Button>
-                            <Button className={this.state.choseSomething ? 'hide' : 'problem-button'}
-                                    onClick={ this.choseDidntHelp }
-                                    style={{marginLeft:"20px"}} > { Strings.frequentProblems.didntHelp } </Button>
-
-                            {this.state.choseDidntHelp ? <p className="click-feedback"> { Strings.frequentProblems.pleaseCallTech }</p> : ''}
+                            { !this.state.choseSomething && <NewTicketButton/> }
                             {this.state.choseHelp ? <p className="click-feedback"> { Strings.frequentProblems.thanksForFeedback }</p> : ''}
                         </ButtonToolbar>
                     </div>

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 
 import Strings from '../../strings.js'
 
+import './frequentProblems.css'
 
 export default class Footer extends Component {
     constructor(props){
@@ -16,10 +17,14 @@ export default class Footer extends Component {
                 <ButtonToolbar>
                     {/*<Button className={ this.state.shouldHide ? 'hide' : ''} > <Glyphicon glyph="log-in" />  צ׳אט עם טכנאי</Button>*/}
                     <p className="call-us"> { Strings.frequentProblems.callTech }</p>
-                    <Link to="/new-ticket">פתח קריאה</Link>
+                    <NewTicketButton></NewTicketButton>
                 </ButtonToolbar>
 
             </div>
         );
     }
-}
+};
+
+export const NewTicketButton = () => (
+        <Button bsStyle="primary" className="open-ticket"> <Link to="/new-ticket" >{ Strings.ticket.openTicket }</Link></Button>
+);
