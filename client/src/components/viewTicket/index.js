@@ -39,7 +39,7 @@ export default class ViewTicket extends React.Component {
     renderTicketUpdate = (ticketUpdate) => {
         const user = ticketUpdate.user || {}
         return (
-            <table key={ticketUpdate.createdAt} className="ticket-update-table">
+            <table key={ticketUpdate.id} className="ticket-update-table">
                 <tbody>
               <tr>
                 <td className="ticket-update-user">
