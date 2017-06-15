@@ -39,13 +39,14 @@ export default class ViewTicket extends React.Component {
     renderTicketUpdate = (ticketUpdate) => {
         const user = ticketUpdate.user || {}
         return (
-            <table className="ticket-update-table">
+            <table key={ticketUpdate.id} className="ticket-update-table">
+                <tbody>
               <tr>
-                <td sm={6} className="ticket-update-user">
+                <td className="ticket-update-user">
                   {user.firstName} {user.lastName}:
                 </td>
 
-                <td sm={6} className="ticket-update-date" >
+                <td className="ticket-update-date" >
                   { this.formatDate(ticketUpdate.createdAt) }
                 </td>
               </tr>
@@ -55,6 +56,7 @@ export default class ViewTicket extends React.Component {
                   { ticketUpdate.text }
                 </td>
               </tr>
+                </tbody>
             </table>
             )
     }
@@ -77,7 +79,7 @@ export default class ViewTicket extends React.Component {
         return (
             <div>
               <h1>קריאה #{ this.state.ticket.id }</h1>
-              <table className="ticket-view-table" condensed>
+              <Table className="ticket-view-table" condensed>
                 <tbody>
                   <tr>
                     <td className="main-column">
@@ -115,7 +117,7 @@ export default class ViewTicket extends React.Component {
                     </td>
                   </tr>
                 </tbody>
-              </table>
+              </Table>
 
               <hr/>
               <div className="updates">
@@ -145,7 +147,7 @@ export default class ViewTicket extends React.Component {
 
               </div>
               <hr/>
-              <Link to="/tickets-admin">{ strings.back }</Link>
+              <Link to="/admin/tickets">{ strings.back }</Link>
 
             </div>
         )

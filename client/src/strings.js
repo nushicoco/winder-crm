@@ -1,5 +1,6 @@
 export default {
     loading: 'טוען...',
+    loginHeader: 'על מנת לפתוח תקלה לטכנאי יש להירשם/להתחבר',
     login : {
         title: 'כניסה למערכת',
         signup: 'הרשמה',
@@ -40,7 +41,9 @@ export default {
         statuses: {
             open: 'פתוח',
             closed: 'סגור'
-        }
+        },
+        openTicket:'פתח קריאה',
+        openTicketHeader:'פתח קריאה חדשה'
     },
     ticketsAdmin: {
         headline: 'ניהול קריאות',

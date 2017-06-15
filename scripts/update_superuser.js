@@ -1,6 +1,7 @@
 /**
  * Created by einavcarmon on 11/06/2017.
  */
+require('dotenv-safe').load()
 const { User } = require("../models");
 
 // process.argv.forEach(function (val, index, array) {
@@ -23,4 +24,3 @@ User.findOne({where:{email:userEmail}}).then(function(user) {
     user.isSuperuser = !user.isSuperuser;
     user.save();
 });
-

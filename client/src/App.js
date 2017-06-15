@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { routes } from './routes';
 import Login from './components/login'
 import { getUser } from './api.js'
+import Strings from './strings';
+
 import './App.css';
 
 class App extends Component {
@@ -34,7 +36,7 @@ class App extends Component {
         </div>
         { this.state.user && `Welcome, ${this.state.user.firstName}`}
         { !this.state.user && (
-            <div><a href="#" onClick={() => this.setState({showLogin: true}) } >כניסה</a></div>
+            <div><a href="#" onClick={() => this.setState({showLogin: true})} >{Strings.loginHeader}</a></div>
         )}
         <Login
           onHide={ () => { this.setState({showLogin: false}) } }
@@ -49,6 +51,15 @@ class App extends Component {
             {routes.map((route,index) => (
                 <Route key={index} {...route} />
             ))}
+        { this.state.user && this.state.user.isSuperuser && (
+            <div>
+              <hr />
+            <Link to='/'>MAIN</Link>
+            &nbsp;|&nbsp;
+            <Link to='/tickets-admin'>TICKET ADMIN </Link>
+          </div>
+        )}
+
       </div>
     );
   }

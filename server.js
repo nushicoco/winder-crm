@@ -27,7 +27,7 @@ app.use(expressSession({
     name: 'winder-session',
     secret: 'random_string_goes_here',
     duration: 30 * 60 * 1000,
-    activeDuration: 5 * 60 * 1000,
+    activeDuration: 5 * 60 * 1000
 }));
 
 // Authentication:
@@ -56,20 +56,26 @@ app.get('/user', (req, res) => {
     if (!req.user) {
         return res.status(400).send()
     }
-    const {email, firstName, lastName} = req.user
-    return res.status(200).send({email,firstName, lastName})
+    const {email, firstName, lastName, isSuperuser} = req.user
+    return res.status(200).send({email,firstName, lastName, isSuperuser})
 })
 
 app.post('/login', passport.authenticate('local'), function (req, res) {
+    if (!req.user) {
+        return res.status(400)
+    }
     const { firstName, lastName, email, isSuperuser} = req.user;
-    res.status(200).send({user: {firstName, lastName, email, isSuperuser}})
+    return res.status(200).send({user: {firstName, lastName, email, isSuperuser}})
 });
 
-// TODO: don't allow unauthenticated users to do anything
-// TODO: Also, don't allow a user to create tickets for other users
 app.post('/ticket', (req, res) => {
+    if (!req.user) {
+        res.status(400).send()
+        return
+    }
+
     const { subject, text} = req.body
-    let userId = 1 // <-- TODO: remove after we implement authentication ^^
+    let userId = req.user.id
     let ticketId
 
     Ticket.create({
@@ -101,19 +107,37 @@ app.post('/ticket', (req, res) => {
 })
 
 app.post('/update_ticket', (req, res) => {
+    if (!req.user) {
+        res.status(400).send()
+        return
+    }
+
     const {ticketId, text} = req.body
-    let userId = 1 // TODO Remove and use authenticated user
-    TicketUpdate.create({
-        ticketId,
-        text,
-        userId
+    const userId = req.user.id
+    Ticket.findById(ticketId).then( (ticket) => {
+        if (! (ticket.userId === req.user.id || req.user.isSuperuser) ) {
+            throw 'invalid user'
+        }
+        return TicketUpdate.create({
+            ticketId,
+            text,
+            userId
+        })
     })
         .then( () => {
             res.status(200).send()
         })
+        .catch( (error) => {
+            res.status(400).send()
+        })
 })
 
 app.get('/tickets/:id', function (req, res) {
+    if (!req.user) {
+        res.status(400).send()
+        return
+    }
+
     const ticketId = req.params.id
     Ticket.findOne({
         where: {
@@ -123,7 +147,13 @@ app.get('/tickets/:id', function (req, res) {
         order: [[TicketUpdate, 'createdAt', 'DESC']]
     })
         .then( (ticket) => {
-            res.status(200).send(ticket.toJSON())
+            if (ticket.userId === req.user.id || req.user.isSuperuse) {
+                res.status(200).send(ticket.toJSON())
+            }
+            else {
+                res.status(400).send()
+            }
+            return
         })
         .catch ( (error) => {
             console.error(error)
@@ -131,8 +161,12 @@ app.get('/tickets/:id', function (req, res) {
         })
 })
 
-// TODO superuser authentication...
 app.get('/tickets', (req, res) => {
+    if (!(req.user && req.user.isSuperuser)) {
+        res.status(400).send()
+        return
+    }
+
     Ticket.findAll({include: [TicketUpdate, User]})
         .then(function (tickets) {
             res.status(200).send(tickets.map( ticket => ticket.toJSON()))
@@ -142,6 +176,11 @@ app.get('/tickets', (req, res) => {
             console.error(error)
             throw error
         })
+})
+
+app.post('/logout', (req, res) => {
+    req.logout()
+    res.redirect('/')
 })
 
 app.post('/signup', (req, res) => {
@@ -157,6 +196,7 @@ app.post('/signup', (req, res) => {
                 })
             })
         }).catch( (e) => {
+            console.log(e)
             res.status(400).send(e.errors);
         })
 })

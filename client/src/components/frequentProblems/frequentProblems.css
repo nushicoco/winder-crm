@@ -2,13 +2,26 @@
     color: #0C120C;
     font-family: Aleph;
     font-size: x-large;
-    display:block;
-    width:100%;
 }
 
 .frequent-link:hover {
     color: #C20114;
-    text-decoration: none;
+}
+
+.open-ticket {
+
+    float: right !important;
+    margin: 10px;
+    padding: 8px 30px;
+}
+
+.open-ticket > a{
+    color: white;
+    font-weight: bold;
+}
+
+.open-ticket > a:hover{
+    color: white;
 }
 
 .pdf-viewer {
@@ -41,4 +54,9 @@
 .back-btn > a{
     font-size: large;
     color: #6D7275;
+}
+
+.solution {
+    margin: 0 35px;
+    font-size: large;
 }

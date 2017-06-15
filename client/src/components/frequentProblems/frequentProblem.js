@@ -4,9 +4,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button,  ButtonToolbar, Glyphicon} from 'react-bootstrap';
-import { Link } from 'react-router-dom'
+import { NewTicketButton, BackToFrequentBtn } from '../common';
 
-import Footer from './footer'
 import Strings from '../../strings.js'
 import { getFrequentProblem } from '../../api.js'
 
@@ -52,24 +51,20 @@ export default class FrequentProblem extends Component {
                     <p>No Problem</p> :
                     <div className="sub-container">
                         <h1>{this.state.problem.subject}</h1>
-                        {/*<p>{this.state.problem.solution}</p>*/}
-                        <iframe className="pdf-viewer" src={this.state.problem.solutionURL} frameBorder="0"></iframe>
+                        {this.state.problem.solution && <p className="solution">{this.state.problem.solution}</p>}
+                        {this.state.problem.solutionURL && <iframe className="pdf-viewer" src={this.state.problem.solutionURL} frameBorder="0"></iframe>}
 
                         <ButtonToolbar className="problem-buttons">
                             <Button className={this.state.choseSomething ? 'hide' : 'problem-button'}
                                     bsStyle="success"
                                     onClick={ this.choseHelp }
                                     > { Strings.frequentProblems.helped } </Button>
-                            <Button className={this.state.choseSomething ? 'hide' : 'problem-button'}
-                                    onClick={ this.choseDidntHelp }
-                                    style={{marginLeft:"20px"}} > { Strings.frequentProblems.didntHelp } </Button>
-
-                            {this.state.choseDidntHelp ? <p className="click-feedback"> { Strings.frequentProblems.pleaseCallTech }</p> : ''}
+                            { !this.state.choseSomething && <NewTicketButton/> }
                             {this.state.choseHelp ? <p className="click-feedback"> { Strings.frequentProblems.thanksForFeedback }</p> : ''}
                         </ButtonToolbar>
                     </div>
                 }
-                <Button className="back-btn" ><Link to="/">{ Strings.frequentProblems.back } </Link></Button>
+                <BackToFrequentBtn></BackToFrequentBtn>
             </div>
         );
     }
@@ -78,3 +73,4 @@ export default class FrequentProblem extends Component {
 FrequentProblem.contextTypes = {
     mixpanel: PropTypes.object.isRequired
 };
+
