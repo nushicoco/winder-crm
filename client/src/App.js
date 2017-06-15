@@ -56,7 +56,7 @@ class App extends Component {
               <hr />
             <Link to='/'>MAIN</Link>
             &nbsp;|&nbsp;
-            <Link to='/tickets-admin'>TICKET ADMIN </Link>
+            <Link to='/admin/tickets'>TICKET ADMIN </Link>
           </div>
         )}
 
