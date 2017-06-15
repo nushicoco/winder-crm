@@ -59,7 +59,7 @@ export default class FrequentProblem extends Component {
                                     bsStyle="success"
                                     onClick={ this.choseHelp }
                                     > { Strings.frequentProblems.helped } </Button>
-                            { !this.state.choseSomething && <NewTicketButton/> }
+                                { !this.state.choseSomething && <NewTicketButton user={ this.props.user }/> }
                             {this.state.choseHelp ? <p className="click-feedback"> { Strings.frequentProblems.thanksForFeedback }</p> : ''}
                         </ButtonToolbar>
                     </div>
@@ -73,4 +73,3 @@ export default class FrequentProblem extends Component {
 FrequentProblem.contextTypes = {
     mixpanel: PropTypes.object.isRequired
 };
-

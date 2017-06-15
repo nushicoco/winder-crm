@@ -28,6 +28,12 @@ class App extends Component {
         this.getUser()
     }
 
+    renderRoute = (route) => {
+        return (props) => {
+            return React.createElement(route.component, {user: this.state.user, ...props})
+        }
+    }
+
   render() {
     return (
       <div className="App">
@@ -49,7 +55,8 @@ class App extends Component {
           }}
           />
             {routes.map((route,index) => (
-                <Route key={index} {...route} />
+                <Route path={ route.path } key={index} exact={ route.exact } render={ this.renderRoute(route) } />
+
             ))}
         { this.state.user && this.state.user.isSuperuser && (
             <div>
