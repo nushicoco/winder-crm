@@ -10,6 +10,11 @@ const request = function(path, method, jsonBody) {
                 throw { errorMessage: `Bad response received (${response.status})`, status:response.status}
             }
 
+            if (response.redirected && response.url){
+                window.location.href=response.url;
+                return;
+            }
+
             const contentType = response.headers.get('content-type');
             if(/application\/json/i.test(contentType)) {
                 return response.json()
@@ -55,7 +60,6 @@ module.exports.signin = function (email, password) {
     // TODO: handle bad creds properly
     return post('/login', {email, password})
         .then( (response) => {
-            // I don't think this code is reachable
            return response && response.user;
         })
 }
