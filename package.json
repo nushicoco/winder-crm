@@ -7,7 +7,7 @@
     "test": "mocha --require test/support/env.js",
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "startprod": "PORT=3000 NODE_ENV=production node server.js",
+    "startprod": "PORT=3000 NODE_ENV=production nodemon server.js",
     "startdev": "concurrently \"npm run dev\" \"npm run client\"",
     "client": "cd client && npm start",
     "bclient": "cd client && npm run build",
