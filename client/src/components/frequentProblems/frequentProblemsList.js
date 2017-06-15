@@ -50,7 +50,7 @@ export default class FrequentProblemsList extends Component {
                         </tbody>
                     </Table>
                 </div>
-                <Footer/>
+                <Footer user={ this.props.user }/>
             </div>
         )
     }
