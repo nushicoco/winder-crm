@@ -115,7 +115,7 @@ app.post('/update_ticket', (req, res) => {
     const {ticketId, text} = req.body
     const userId = req.user.id
     Ticket.findById(ticketId).then( (ticket) => {
-        if (! (ticket.userId === req.user.id || req.user.isSuperuse) ) {
+        if (! (ticket.userId === req.user.id || req.user.isSuperuser) ) {
             throw 'invalid user'
         }
         return TicketUpdate.create({
