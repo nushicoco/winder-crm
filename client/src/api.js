@@ -70,3 +70,7 @@ module.exports.signup = function (fields) {
 module.exports.getUser = function () {
     return get('/user')
 }
+
+module.exports.logout = function () {
+    return post('/logout');
+}

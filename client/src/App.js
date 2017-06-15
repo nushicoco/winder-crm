@@ -3,8 +3,9 @@ import { Route, Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { routes } from './routes';
 import Login from './components/login'
-import { getUser } from './api.js'
+import { getUser, logout } from './api.js'
 import Strings from './strings';
+import { Button } from 'react-bootstrap';
 
 import './App.css';
 
@@ -21,7 +22,14 @@ class App extends Component {
     getUser () {
         getUser().then((user) => {
             this.setState({user})
+        }).catch((err) => {
+            // ignore!
         })
+    }
+
+    logout() {
+        logout();
+        // todo - redirect after logout
     }
 
     componentDidMount () {
@@ -34,9 +42,11 @@ class App extends Component {
         <div className="App-header">
           <img src={ process.env.PUBLIC_URL + '/img/logo_alpha.png'} className="App-logo" alt="logo" />
         </div>
-        { this.state.user && `Welcome, ${this.state.user.firstName}`}
+        { this.state.user && (
+            <div>{Strings.header.welcome}, {this.state.user.firstName} !<a className="inline" href="#" onClick={() => this.logout()}>{Strings.header.logout}</a></div>
+        )}
         { !this.state.user && (
-            <div><a href="#" onClick={() => this.setState({showLogin: true})} >{Strings.loginHeader}</a></div>
+            <div>{Strings.header.loginHeader} <a className="inline" href="#" onClick={() => this.setState({showLogin: true})} ><Button bsStyle="primary">{Strings.header.loginAction}</Button></a></div>
         )}
         <Login
           onHide={ () => { this.setState({showLogin: false}) } }
