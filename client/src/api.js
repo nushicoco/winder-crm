@@ -7,7 +7,7 @@ const request = function(path, method, jsonBody) {
     })
         .then(function (response) {
             if (response.status !== 200) {
-                throw `Bad response received (${response.status})`
+                throw { errorMessage: `Bad response received (${response.status})`, status:response.status}
             }
 
             const contentType = response.headers.get('content-type');
@@ -55,7 +55,8 @@ module.exports.signin = function (email, password) {
     // TODO: handle bad creds properly
     return post('/login', {email, password})
         .then( (response) => {
-           return response && response.user
+            console.log(response.status);
+           return response && (response.user || response.status)
         })
 }
 

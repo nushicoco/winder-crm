@@ -34,7 +34,15 @@ export default class Login extends Component {
                 })
                 this.props.onLogin(user)
             })
-        // TODO handle error
+            .catch ( (err) => {
+                var msg = err.status == 401 ? 'bad login' :
+                    err.status == 400 ? 'email must be unique' :
+                        'unknown error';
+                this.setState({
+                    errorMessage: msg,
+                    isLoading: false
+                })
+            })
     }
 
     handleSignin = () => {
