@@ -55,8 +55,8 @@ module.exports.signin = function (email, password) {
     // TODO: handle bad creds properly
     return post('/login', {email, password})
         .then( (response) => {
-            console.log(response.status);
-           return response && (response.user || response.status)
+            // I don't think this code is reachable
+           return response && response.user;
         })
 }
 
