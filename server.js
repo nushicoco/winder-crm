@@ -61,15 +61,19 @@ app.get('/user', (req, res) => {
 })
 
 app.post('/login', passport.authenticate('local'), function (req, res) {
+    if (!req.user) {
+        return res.status(400)
+    }
     const { firstName, lastName, email, isSuperuser} = req.user;
-    res.status(200).send({user: {firstName, lastName, email, isSuperuser}})
+    return res.status(200).send({user: {firstName, lastName, email, isSuperuser}})
 });
 
-// TODO: don't allow unauthenticated users to do anything
-// TODO: Also, don't allow a user to create tickets for other users
 app.post('/ticket', (req, res) => {
+    if (!req.user) {
+        return res.status(400).send()
+    }
     const { subject, text} = req.body
-    let userId = 1 // <-- TODO: remove after we implement authentication ^^
+    let userId = req.user.id
     let ticketId
 
     Ticket.create({
