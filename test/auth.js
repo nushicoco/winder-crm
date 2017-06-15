@@ -198,7 +198,7 @@ describe('/login POST', function () {
     })
 })
 
-describe.only('/logout', function () {
+describe('/logout', function () {
     it('should sign out', function (done) {
         const agent = chai.request.agent(app)
         agent.post('/signup').send(goodGuyGreg)

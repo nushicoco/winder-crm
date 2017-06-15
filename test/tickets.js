@@ -19,6 +19,7 @@ const makeGreg = function () {
                 firstName: 'greg',
                 lastName:  'goodguy',
                 password:  gggPassword,
+                isSuperuser: true,
                 email:     'goodguygreg@deer.com'
             })
         })
@@ -104,6 +105,8 @@ describe('GET /tickets', function () {
     beforeEach(clearTickets)
     it('should list all available tickets', function () {
 
+        const agent = chai.request.agent(app)
+
         // Create tickets:
         const userId = goodGuyGreg.id
         const tickets = [
@@ -115,10 +118,10 @@ describe('GET /tickets', function () {
 
         // Receive them:
             .then(function () {
-                return chai.request(app)
-                    .get('/tickets')
-                    .send()
-
+                return agent.post('/login').send({email: goodGuyGreg.email, password: gggPassword})
+            })
+            .then(function () {
+                return agent.get('/tickets').send()
             })
             .then(function (response) {
                 expect(response.status).to.equal(200)
@@ -200,9 +203,37 @@ describe('POST /ticket', function () {
             .catch( (e) => {console.log(e); throw e})
     })
 
-    it('/tickets/:id should return ticket information', function () {
+    it('/ticket:id should not work without login', function (done) {
+        const agent = chai.request.agent(app)
         let ticketId
-        return Ticket.create({
+        Ticket.create({
+            userId: goodGuyGreg.id,
+            subject: 'problem with toaster'
+        })
+            .then(function (ticket) {
+                ticketId = ticket.id
+                TicketUpdate.create({
+                    ticketId,
+                    text: 'does no say lechayim'
+                })
+
+                    .then(function () {
+                        agent.get(`/tickets/${ticketId}`)
+                            .send()
+                            .end(function (error, response) {
+                                expect(response.status).to.equal(400)
+                                done()
+
+                            })
+                    })
+            })
+    })
+
+        it('/tickets/:id should return ticket information', function (done) {
+            const agent = chai.request.agent(app)
+
+        let ticketId
+        Ticket.create({
             userId: goodGuyGreg.id,
             subject: 'problem with toaster'
         })
@@ -216,22 +247,28 @@ describe('POST /ticket', function () {
             })
 
             .then(function() {
-                return chai.request(app)
-                    .get(`/tickets/${ticketId}`)
-                    .send()
-            })
-
-            .then(function (response) {
-                expect(response.status).to.equal(200)
-                const ticket = response.body
-                expect(ticket).to.include({
-                    userId: goodGuyGreg.id,
-                    subject: 'problem with toaster'
+                agent.post('/login').send({
+                    email: goodGuyGreg.email,
+                    password: gggPassword
                 })
-                expect(ticket).to.have.property('ticket_updates')
-                expect(ticket.ticket_updates).to.have.lengthOf(1)
-                expect(ticket.ticket_updates[0]).to.have.property('text', 'does no say lechayim')
-                expect(ticket).to.have.property('user')
+                    .end(function (error, response) {
+                        response.status.should.equal(200)
+                        agent.get(`/tickets/${ticketId}`)
+                            .send()
+                            .end(function (error, response) {
+                                expect(response.status).to.equal(200)
+                                const ticket = response.body
+                                expect(ticket).to.include({
+                                    userId: goodGuyGreg.id,
+                                    subject: 'problem with toaster'
+                                })
+                                expect(ticket).to.have.property('ticket_updates')
+                                expect(ticket.ticket_updates).to.have.lengthOf(1)
+                                expect(ticket.ticket_updates[0]).to.have.property('text', 'does no say lechayim')
+                                expect(ticket).to.have.property('user')
+                                done()
+                            })
+                    })
             })
 
             .catch( (e) => {console.log(e); throw e})
