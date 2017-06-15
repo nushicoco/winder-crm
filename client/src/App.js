@@ -51,6 +51,15 @@ class App extends Component {
             {routes.map((route,index) => (
                 <Route key={index} {...route} />
             ))}
+        { this.state.user && this.state.user.isSuperuser && (
+            <div>
+              <hr />
+            <Link to='/'>MAIN</Link>
+            &nbsp;|&nbsp;
+            <Link to='/tickets-admin'>TICKET ADMIN </Link>
+          </div>
+        )}
+
       </div>
     );
   }

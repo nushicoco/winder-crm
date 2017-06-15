@@ -90,50 +90,52 @@ describe('/signup POST', function () {
 
 })
 
-describe('Sessions', function () {
+describe('session stuff' , function () {
     beforeEach(function () {
-        User.drop()
-        return User.sync()
+        return User.sync({ force: true })
     })
 
-    it('should login and save session after signup', function (done) {
-        const agent = chai.request.agent(app)
-        agent.get('/user').send()
-            .end(function (err, res) {
-                expect(res).to.have.cookie('winder-session')
-                res.status.should.be.equal(400)
+    it('/user should return 400 for nonlogins', function (done) {
+        chai.request(app).get('/user').send()
+            .end( function (error, response) {
+                expect(response.status).equal(400)
+                done()
+            })
+    })
 
-                //signup
-                agent.post('/signup')
-                    .send(goodGuyGreg)
+
+    it('/signup should login and save session after signup', function (done) {
+        const agent = chai.request.agent(app)
+        //signup
+        agent.post('/signup')
+            .send(goodGuyGreg)
+            .end(function (err, res) {
+                res.status.should.be.equal(200)
+                expect(res).to.be.json // <- this actually works O_o
+                res.body.should.have.property('user')
+                res.body.user.firstName.should.equal(goodGuyGreg.firstName)
+                res.body.user.lastName.should.equal(goodGuyGreg.lastName)
+                res.body.user.email.should.equal(goodGuyGreg.email)
+
+                agent.get('/user').send()
                     .end(function (err, res) {
                         res.status.should.be.equal(200)
                         expect(res).to.be.json // <- this actually works O_o
-                        res.body.should.have.property('user')
-                        res.body.user.firstName.should.equal(goodGuyGreg.firstName)
-                        res.body.user.lastName.should.equal(goodGuyGreg.lastName)
-                        res.body.user.email.should.equal(goodGuyGreg.email)
-
-                        agent.get('/user').send()
-                            .end(function (err, res) {
-                                res.status.should.be.equal(200)
-                                expect(res).to.be.json // <- this actually works O_o
-                                expect(res.body).to.deep.include({
-                                    firstName: goodGuyGreg.firstName,
-                                    lastName: goodGuyGreg.lastName,
-                                    email: goodGuyGreg.email
-                                })
-                                done()
-                            })
+                        expect(res.body).to.deep.include({
+                            firstName: goodGuyGreg.firstName,
+                            lastName: goodGuyGreg.lastName,
+                            email: goodGuyGreg.email
+                        })
+                        done()
                     })
             })
     })
 
-    it('should save session after login', function (done) {
-
-        // Create new user:
+    it('/login should save session after login', function (done) {
+        // Create a new user:
         User.create(goodGuyGreg)
-            .then( () => {
+            .then(function () {
+
                 // Login the new user:
                 const agent = chai.request.agent(app)
                 agent.post('/login').send({
@@ -144,7 +146,7 @@ describe('Sessions', function () {
                         res.status.should.be.equal(200)
                         expect(res).to.have.cookie('winder-session')
 
-                        // Check that user is now logged-in:
+                        // Check that the user is now logged-in:
                         agent.get('/user').send()
                             .end(function (err, res) {
                                 res.status.should.be.equal(200)
@@ -192,6 +194,30 @@ describe('/login POST', function () {
             .catch(function (error) {
                 error.should.have.property('response')
                 error.response.status.should.equal(401)
+            })
+    })
+})
+
+describe('/logout', function () {
+    it('should sign out', function (done) {
+        const agent = chai.request.agent(app)
+        agent.post('/signup').send(goodGuyGreg)
+            .end(function (error, res) {
+                res.status.should.be.equal(200)
+                agent.get('/user').send()
+                    .end(function (error, res) {
+                        res.status.should.be.equal(200)
+                        agent.post('/logout').send()
+                            .end(function () {
+                                res.status.should.be.equal(200)
+                                agent.get('/user').send()
+                                    .end(function (error, res) {
+                                        res.status.should.be.equal(400)
+                                        done()
+                                    })
+                            })
+                    })
+
             })
     })
 })
