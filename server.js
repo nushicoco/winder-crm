@@ -148,6 +148,11 @@ app.get('/tickets', (req, res) => {
         })
 })
 
+app.post('/logout', (req, res) => {
+    req.logout()
+    req.redirect('/')
+})
+
 app.post('/signup', (req, res) => {
     let {email, firstName, lastName, password} = req.body
     return User.create({email: email.toLowerCase(), firstName, lastName, password})

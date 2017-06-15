@@ -197,3 +197,27 @@ describe('/login POST', function () {
             })
     })
 })
+
+describe.only('/logout', function () {
+    it('should sign out', function (done) {
+        const agent = chai.request.agent(app)
+        agent.post('/signup').send(goodGuyGreg)
+            .end(function (error, res) {
+                res.status.should.be.equal(200)
+                agent.get('/user').send()
+                    .end(function (error, res) {
+                        res.status.should.be.equal(200)
+                        agent.post('/logout').send()
+                            .end(function () {
+                                res.status.should.be.equal(200)
+                                agent.get('/user').send()
+                                    .end(function (error, res) {
+                                        res.status.should.be.equal(400)
+                                        done()
+                                    })
+                            })
+                    })
+
+            })
+    })
+})
