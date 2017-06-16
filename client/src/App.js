@@ -57,8 +57,4 @@ class App extends Component {
   }
 }
 
-App.contextTypes = {
-    mixpanel: PropTypes.object.isRequired
-};
-
 export default App;

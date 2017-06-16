@@ -39,8 +39,8 @@ module.exports.getFrequentProblem = function (problemId) {
     return get(`/frequent_problem/${problemId}`)
 }
 
-module.exports.createTicket = function(subject, text) {
-    return post('/ticket', {subject, text})
+module.exports.createTicket = function(subject, room, text) {
+    return post('/ticket', {subject, room, text})
 }
 
 module.exports.getTicket = function(ticketId) {
@@ -73,6 +73,10 @@ module.exports.signup = function (fields) {
 
 module.exports.getUser = function () {
     return get('/user')
+}
+
+module.exports.updateTicketStatus = function (ticketId, status) {
+    return post(`/tickets/${ticketId}`, {status})
 }
 
 module.exports.logout = function () {
