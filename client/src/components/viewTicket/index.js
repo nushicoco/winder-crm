@@ -138,6 +138,15 @@ export default class ViewTicket extends React.Component {
 
                   <tr>
                     <td className="main-column">
+                      { strings.ticket.room }
+                    </td>
+                    <td className="value-column">
+                       { this.state.ticket.room  }
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="main-column">
                       { strings.ticket.user }
                     </td>
                     <td className="value-column">
