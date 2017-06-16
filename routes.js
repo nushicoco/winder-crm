@@ -164,6 +164,35 @@ module.exports = function (app, passport) {
             })
     })
 
+    app.post('/tickets/:id', function (req, res) {
+        if (!req.user) {
+            res.status(400).send()
+            return
+        }
+
+        const ticketId = req.params.id
+        const { status } = req.body
+
+        Ticket.findById(ticketId)
+            .then( (ticket) => {
+                if (!(ticket.userId === req.user.id || req.user.isSuperuse)) {
+                    throw 'user not authorized for ticket'
+                }
+
+                ticket.status = status
+                return ticket.save()
+            })
+
+            .then( () => {
+                res.status(200).send()
+            })
+
+            .catch ( (error) => {
+                console.error(error)
+                res.sendStatus(400)
+            })
+    })
+
     app.get('/tickets', (req, res) => {
         if (!(req.user && req.user.isSuperuser)) {
             res.status(400).send()
