@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, Modal, Tab, Row, Col, Nav, NavItem } from 'react-bootstrap'
 import { signin, signup } from '../../api.js'
 
-import       LoadingSpinner from       './loadingSpinner.js'
+import       LoadingSpinner from       '../loadingSpinner.js'
  import     Strings          from     '../../strings.js'
   import   SigninForm         from   './signinForm.js'
    import SignupForm           from './signupForm.js'

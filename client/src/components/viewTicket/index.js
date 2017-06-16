@@ -2,8 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Table, Col, Row, FormGroup, Form, FormControl, ControlLabel, Button} from 'react-bootstrap'
 import './viewTicket.css'
-import { getTicket, updateTicket} from '../../api.js'
+import { getTicket, updateTicket, updateTicketStatus} from '../../api.js'
 import strings from '../../strings.js'
+import LoadingSpinner from '../loadingSpinner.js'
 
 export default class ViewTicket extends React.Component {
     constructor (props) {
@@ -22,12 +23,12 @@ export default class ViewTicket extends React.Component {
     }
 
     fetchData = () => {
-        this.setState({loading: true})
+        this.setState({isLoading: true})
         getTicket(this.props.match.params.id)
             .then( (ticket) => {
                 this.setState({
                     ticket,
-                    loading: false
+                    isLoading: false
                 })
             })
     }
@@ -61,11 +62,12 @@ export default class ViewTicket extends React.Component {
             )
     }
 
-    handleSubmitUpdate = () => {
+    handleSubmitUpdate = (e) => {
+        e.preventDefault()
         const text = this.state.newUpdateText
         this.setState({
             newUpdateText: '',
-            loading: true
+            isLoading: true
         })
         updateTicket(this.state.ticket.id, this.state.newUpdateText)
             .then( () => {
@@ -73,11 +75,55 @@ export default class ViewTicket extends React.Component {
             })
     }
 
+    updateTicketStatus = () => {
+        this.setState({ isLoading: true})
+        updateTicketStatus(this.state.ticket.id, this.state.ticket.status)
+            .then( () => {
+                this.setState({editStatusMode: false})
+                this.fetchData()
+            })
+    }
+
+    handleTicketStatusChange = (e) => {
+        this.setState({ticket: Object.assign({}, this.state.ticket, {status: e.target.value})})
+    }
+
+    renderUpdateStatus = () => {
+        if (this.state.editStatusMode) {
+            return (
+                  <form>
+                    <select value={this.state.ticket.status} onChange={this.handleTicketStatusChange}>
+                      <option value="closed"> { strings.ticket.statuses.closed } </option>
+                      <option value="open"> { strings.ticket.statuses.open } </option>
+                  </select>
+                    <Button
+                      onClick={ () => this.updateTicketStatus() }
+                      bsSize="xsmall"
+                      disabled={ this.state.isUpdatingStatus } >
+                      { strings.ticket.submit }
+                    </Button>
+                  </form>
+            )
+        }
+
+        return (
+            <div>
+              <span className={ `status-${this.state.ticket.status}` } >
+                { strings.ticket.statuses[this.state.ticket.status]  }
+              </span>&nbsp;
+              <Button
+                bsSize="xsmall"
+                onClick = { () => this.setState({editStatusMode: true})}
+                >עדכן</Button>
+            </div>
+        )
+    }
     render () {
         const user = this.state.ticket.user || {}
         const ticketUpdates = this.state.ticket.ticket_updates || []
         return (
             <div>
+              <LoadingSpinner show={ this.state.isLoading } />
               <h1>קריאה #{ this.state.ticket.id }</h1>
               <Table className="ticket-view-table" condensed>
                 <tbody>
@@ -112,8 +158,8 @@ export default class ViewTicket extends React.Component {
                     <td className="main-column">
                       { strings.ticket.status}
                     </td>
-                    <td className={ `value-column status-${this.state.ticket.status}` }>
-                      { strings.ticket.statuses[this.state.ticket.status]  }
+                    <td className="value-column">
+                      { this.renderUpdateStatus() }
                     </td>
                   </tr>
                 </tbody>
