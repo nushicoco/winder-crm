@@ -46,7 +46,7 @@ export default class ViewTicket extends React.Component {
                   {user.firstName} {user.lastName}:
                 </td>
 
-                <td className="ticket-update-date" >
+                <td className="ticket-update-date ltr" >
                   { this.formatDate(ticketUpdate.createdAt) }
                 </td>
               </tr>
@@ -100,10 +100,10 @@ export default class ViewTicket extends React.Component {
                   </tr>
 
                   <tr>
-                    <td className="main-column">
+                    <td className="main-column ltr">
                       { strings.ticket.dateIssued }
                     </td>
-                    <td className="value-column">
+                    <td className="value-column ltr">
                       { this.formatDate(this.state.ticket.createdAt) }
                     </td>
                   </tr>

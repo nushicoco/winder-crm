@@ -54,3 +54,7 @@ pallete {
   /*to { transform: rotate(360deg); }*/
 }
 
+
+.ltr {
+  direction: ltr;
+}
