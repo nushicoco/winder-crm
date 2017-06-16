@@ -7,7 +7,12 @@ const request = function(path, method, jsonBody) {
     })
         .then(function (response) {
             if (response.status !== 200) {
-                throw `Bad response received (${response.status})`
+                throw { errorMessage: `Bad response received (${response.status})`, status:response.status}
+            }
+
+            if (response.redirected && response.url){
+                window.location.href=response.url;
+                return;
             }
 
             const contentType = response.headers.get('content-type');
@@ -52,10 +57,9 @@ module.exports.updateTicket = function (ticketId, text) {
 
 
 module.exports.signin = function (email, password) {
-    // TODO: handle bad creds properly
     return post('/login', {email, password})
         .then( (response) => {
-           return response && response.user
+           return response && response.user;
         })
 }
 
@@ -72,4 +76,8 @@ module.exports.getUser = function () {
 
 module.exports.updateTicketStatus = function (ticketId, status) {
     return post(`/tickets/${ticketId}`, {status})
+}
+
+module.exports.logout = function () {
+    return post('/logout');
 }

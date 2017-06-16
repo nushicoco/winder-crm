@@ -1,6 +1,12 @@
 export default {
     loading: 'טוען...',
-    loginHeader: 'על מנת לפתוח תקלה לטכנאי יש להירשם/להתחבר',
+    header:{
+        loginAction: ' להירשם/להתחבר',
+        loginHeader: 'על מנת לפתוח תקלה לטכנאי יש ',
+        logout: 'התנתק/י',
+        welcome: 'שלום '
+
+    },
     login : {
         title: 'כניסה למערכת',
         signup: 'הרשמה',

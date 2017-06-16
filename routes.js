@@ -210,4 +210,9 @@ module.exports = function (app, passport) {
                 throw error
             })
     })
+
+    // todo check on production ,currently not sure how to check..
+    app.get('*', (req,res) => {
+        res.sendFile(__dirname + '/client/build/index.html');
+    })
 }
