@@ -35,6 +35,7 @@ export default {
         subject: 'נושא',
         updates: 'עדכונים',
         addUpdate: 'הוסף עידכון',
+        room: 'חדר',
         text: 'תוכן',
         submit: 'שלח',
         status: 'סטטוס',
