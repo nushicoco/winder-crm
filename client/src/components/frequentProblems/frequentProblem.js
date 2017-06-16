@@ -35,13 +35,10 @@ export default class FrequentProblem extends Component {
 
     choseDidntHelp() {
         this.setState({ choseDidntHelp:true , choseSomething:true});
-
-        this.context.mixpanel.track('solution didn\'t help for problem' ,{problemId:this.state.problem.id});
     }
 
     choseHelp() {
         this.setState({ choseHelp:true , choseSomething:true});
-        this.context.mixpanel.track('solution did help for problem' ,{problemId:this.state.problem.id});
     }
 
     render() {
@@ -69,7 +66,3 @@ export default class FrequentProblem extends Component {
         );
     }
 }
-
-FrequentProblem.contextTypes = {
-    mixpanel: PropTypes.object.isRequired
-};
