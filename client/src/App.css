@@ -34,12 +34,8 @@ pallete {
 }
 
 @font-face {
-  font-family: 'Simple';
-  src: url(http://res.cloudinary.com/dzbelv6cv/image/upload/v1496820255/assets/simpleclm-bold-webfont.ttf);
-}
-@font-face {
   font-family: Aleph;
-  src: url(http://res.cloudinary.com/dzbelv6cv/raw/upload/v1496834846/assets/Alef-regular.ttf);
+  src: url(/Alef-regular.ttf);
 }
 
 .call-us {
