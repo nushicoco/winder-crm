@@ -77,13 +77,14 @@ module.exports = function (app, passport) {
             return
         }
 
-        const { subject, text} = req.body
+        const { subject, room, text} = req.body
         let userId = req.user.id
         let ticketId
 
         Ticket.create({
             status: 'open',
             userId,
+            room,
             subject
         })
             .then( (newTicket) => {

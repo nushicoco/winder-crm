@@ -4,6 +4,7 @@ const Sequelize = require('sequelize')
 module.exports = function (sequelize) {
     const Ticket = sequelize.define('ticket', {
         subject: Sequelize.STRING,
+        room: Sequelize.STRING,
         status: {
             type: Sequelize.STRING,
             validate: {
