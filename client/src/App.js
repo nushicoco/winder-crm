@@ -85,7 +85,7 @@ class App extends Component {
             <Link to='/admin/tickets'>TICKET ADMIN </Link>
           </div>
         )}
-
+        <div className="carmonication-footer"> Made by Carmonication 2017</div>
       </div>
     );
   }

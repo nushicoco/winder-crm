@@ -57,7 +57,6 @@ module.exports.updateTicket = function (ticketId, text) {
 
 
 module.exports.signin = function (email, password) {
-    // TODO: handle bad creds properly
     return post('/login', {email, password})
         .then( (response) => {
            return response && response.user;
