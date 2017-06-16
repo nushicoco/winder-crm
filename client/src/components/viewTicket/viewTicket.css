@@ -12,9 +12,6 @@
   padding: 1px;
 }
 
- .ticket-view-table>tbody>tr>td {
-  border-top: 1px solid black;
-}
 
 .ticket-view-table td {
   border: 1px solid black;

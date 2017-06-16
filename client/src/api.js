@@ -69,7 +69,3 @@ module.exports.signup = function (fields) {
 module.exports.getUser = function () {
     return get('/user')
 }
-
-module.exports.updateTicketStatus = function (ticketId, status) {
-    return post(`/tickets/${ticketId}`, {status})
-}

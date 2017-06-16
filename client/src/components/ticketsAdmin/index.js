@@ -58,6 +58,7 @@ export default class TicketsAdmin extends React.Component {
     }
 
     renderTicket = (ticket) => {
+        const dateStyle = {direction: 'ltr'}
         const user = ticket.user || {}
         return (
             <tr  key={ ticket.id } >
@@ -69,8 +70,8 @@ export default class TicketsAdmin extends React.Component {
                   </Link>
                 </th>
                 <th className={ `ticket-${ticket.status}`} >{ strings.ticket.statuses[ticket.status] }</th>
-                <th className="ltr" > { this.formatDate(ticket.createdAt) }</th>
-                <th className="ltr" > { this.formatDate(ticket.updatedAt) }</th>
+                <th style={dateStyle}>{ this.formatDate(ticket.createdAt) }</th>
+                <th>{ this.formatDate(ticket.updatedAt) }</th>
             </tr>
         )
     }
