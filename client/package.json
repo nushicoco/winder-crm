@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:3001/",
   "dependencies": {
+    "mixpanel-browser": "^2.11.1",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-bootstrap": "^0.31.0",
@@ -15,7 +16,7 @@
     "react-scripts": "1.0.7"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3000 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
