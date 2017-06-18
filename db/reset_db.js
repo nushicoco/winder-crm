@@ -5,9 +5,9 @@ const {
 } = require('../models')
 
 const frequentProblemValues = [
-    ["אביד", "רגיל", "הגדרות Export מומלצות", "", "http://public.ma-kaf.com/Definitions.pdf"],
-    ["אביד", "רגיל", "הקלטה באביד", "" ,"http://public.ma-kaf.com/Recording_In_Avid.pdf"],
-    ["מחשב", "רגיל", "הדפסה במתחם", "", "http://public.ma-kaf.com/Printing.pdf"],
+    ["אביד", "רגיל", "הגדרות Export מומלצות", "", "https://res.cloudinary.com/dzbelv6cv/image/upload/v1496926821/assets/Definitions.pdf"],
+    ["אביד", "רגיל", "הקלטה באביד", "" ,"https://res.cloudinary.com/dzbelv6cv/raw/upload/v1497436560/assets/Recording_In_Avid.pdf"],
+    ["מחשב", "רגיל", "הדפסה במתחם", "", "https://res.cloudinary.com/dzbelv6cv/raw/upload/v1497437103/assets/Printing.pdf"],
     ["אביד", "interplay", "הדלקת Interplay", "כדי להדליק את האינטרפליי יש לרשום את הפקודה WorkgroupOverride off יש ללחוץ אנטר ולהיכנס מחדש לאביד", ""],
     ["אביד", "interplay", "כיבוי Interplay", "כדי לכבות את האינטרפליי יש לרשום ב console (קיצור מקלדת ctrl+6) את הפקודה הבאה WorkgroupOverride on יש ללחוץ אנטר ולהיכנס מחדש לאביד", ""],
 ]
