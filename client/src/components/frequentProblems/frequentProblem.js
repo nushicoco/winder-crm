@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { Button,  ButtonToolbar, Glyphicon} from 'react-bootstrap';
 import { NewTicketButton, BackToFrequentBtn } from '../common';
 
+import { recordEvent } from '../../analytics'
 import Strings from '../../strings.js'
 import { getFrequentProblem } from '../../api.js'
 
@@ -33,11 +34,18 @@ export default class FrequentProblem extends Component {
         this.choseHelp = this.choseHelp.bind(this);
     }
 
+    recordProblemEvent = (event) => {
+        const { problemId, problemSubject, problemEnv, problemSubEnv} = this.state.problem
+        recordEvent(event, { problemId, problemSubject, problemEnv, problemSubEnv})
+    }
+
     choseDidntHelp() {
+        this.recordProblemEvent('did not help')
         this.setState({ choseDidntHelp:true , choseSomething:true});
     }
 
     choseHelp() {
+        this.recordProblemEvent('did help')
         this.setState({ choseHelp:true , choseSomething:true});
     }
 

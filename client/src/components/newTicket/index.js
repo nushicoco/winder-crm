@@ -92,11 +92,11 @@ export default class NewTicket extends React.Component {
                       {Strings.ticket.room }
                     </Col>
                     <Col sm={8} className="align-right">
-                      <select onChange={ e=> this.setState({room: e.target.value}) } >
+                      <FormControl componentClass="select" onChange={ e=> this.setState({room: e.target.value}) } >
                         { AVAILABLE_ROOMS.map(room => (
                             <option value={ room } >{ room }</option>
                         ))}
-                      </select>
+                      </FormControl>
                     </Col>
                   </FormGroup>
                 </Row>

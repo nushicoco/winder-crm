@@ -1,3 +1,5 @@
+const analytics = require('./analytics.js')
+
 const request = function(path, method, jsonBody) {
     return fetch(path, {
         method,
@@ -59,19 +61,27 @@ module.exports.updateTicket = function (ticketId, text) {
 module.exports.signin = function (email, password) {
     return post('/login', {email, password})
         .then( (response) => {
-           return response && response.user;
+            const user = response && response.user;
+            analytics.setRecordedUser(user)
+            return user
         })
 }
 
 module.exports.signup = function (fields) {
     return post('/signup', fields)
         .then( (response) => {
-            return response && response.user
+            const user = response && response.user;
+            analytics.setRecordedUser(user)
+            return user
         })
 }
 
 module.exports.getUser = function () {
     return get('/user')
+        .then( function (user) {
+            analytics.setRecordedUser(user)
+            return user
+        })
 }
 
 module.exports.updateTicketStatus = function (ticketId, status) {
