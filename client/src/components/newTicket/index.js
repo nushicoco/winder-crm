@@ -8,11 +8,12 @@ import './newTicket.css'
 import { createTicket } from '../../api.js'
 import { BackToFrequentBtn } from '../common';
 const AVAILABLE_ROOMS = [
-      '601' , '602' , '603' , '604' , '605' , '606' , '607'
-    , '501' , '502' , '503' , '504' , '505' , '506' , '507'
+      '501' , '502' , '503' , '504' , '505' , '506' , '507'
     , '508' , '509' , '510' , '511' , '512' , '513' , '514'
     , '515' , '516' , '517' , '518' , '519' , '520' , '521'
-    , '522' , '523' , '524' , 'Mix1' , 'Mix2' ]
+    , '522' , '523' , '524' ,
+    , '601' , '602' , '603' , '604' , '605' , '606' , '607'
+    , 'Mix1' , 'Mix2' ]
     // TOOD Move to client-specific configuration
 
 export default class NewTicket extends React.Component {
