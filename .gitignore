@@ -21,3 +21,4 @@ yarn-debug.log*
 yarn-error.log*
 db/winder.db
 db/winder_test.db
+/client/build
