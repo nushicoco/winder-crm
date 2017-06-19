@@ -1,75 +1,5 @@
 module.exports = function (app, passport) {
-    const { User, FrequentProblem, Ticket, TicketUpdate  } = require('./models')
-
-    app.get('/', (req, res) => {
-        res.sendFile(__dirname + '/client/build/index.html');
-    });
-
-
-    //// AUTHENTICATION \\\\
-
-    app.get('/user', (req, res) => {
-        if (!req.user) {
-            return res.status(400).send()
-        }
-        const {email, firstName, lastName, isSuperuser} = req.user
-        return res.status(200).send({email,firstName, lastName, isSuperuser})
-    })
-
-    app.post('/login', passport.authenticate('local'), function (req, res) {
-        if (!req.user) {
-            return res.status(400)
-        }
-        const { firstName, lastName, email, isSuperuser} = req.user;
-        return res.status(200).send({user: {firstName, lastName, email, isSuperuser}})
-    });
-
-    app.post('/logout', (req, res) => {
-        req.logout()
-        res.redirect('/')
-    })
-
-    app.post('/signup', (req, res) => {
-        let {email, firstName, lastName, password} = req.body
-        return User.create({email: email.toLowerCase(), firstName, lastName, password})
-            .then( (newUser) => {
-                req.login(newUser, function (error) {
-                    if (error) {
-                        res.status(400).send()
-                    }
-                    res.status(200).send({
-                        user: {email, firstName, lastName}
-                    })
-                })
-            }).catch( (e) => {
-                console.log(e)
-                res.status(400).send(e.errors);
-            })
-    })
-
-
-
-
-
-    //// FREQUENT PROBLEMS \\\\\
-
-    app.get('/frequent_problems', (req, res) => {
-        FrequentProblem.findAll()
-            .then( all => res.send(all.map( item => item.toJSON())))
-    });
-
-    app.get('/frequent_problem/:id', (req, res) => {
-        let problemId = req.params.id;
-        FrequentProblem.findById(problemId)
-            .then( (problem) => res.send(problem.toJSON()))
-            .catch( (error) => res.send(400))
-    });
-
-
-
-
-
-    //// TICKETS \\\\
+    const { User, Ticket, TicketUpdate  } = require('../models')
 
     app.post('/ticket', (req, res) => {
         if (!req.user) {
@@ -209,10 +139,5 @@ module.exports = function (app, passport) {
                 console.error(error)
                 throw error
             })
-    })
-
-    // todo check on production ,currently not sure how to check..
-    app.get('*', (req,res) => {
-        res.sendFile(__dirname + '/client/build/index.html');
     })
 }

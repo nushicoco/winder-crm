@@ -1,27 +1,21 @@
 /* eslint-disable no-console */
 console.log('Starting Server......');
+
+// Config
 require('dotenv-safe').load(); // Load env vars from ./.env
+console.log(`NODE_ENV =${process.env.NODE_ENV}`);
+const port = process.env.PORT;
+console.log(`Port = ${port}`);
 
 const express = require('express');
 const app = express();
 module.exports = app; // for testing
 
-// Config
-const port = process.env.PORT;
-console.log(`Port = ${port}`);
-console.log(`NODE_ENV =${process.env.NODE_ENV}`);
-
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
-}
-
-// DB & Models:
-// require('./models')
-
 // POST Body Parsing:
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
+// Session
 const expressSession = require('express-session')
 app.use(expressSession({
     name: 'winder-session',
@@ -35,8 +29,9 @@ const passport = require("./passportAuthentication");
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routs:
-require('./routes.js')(app, passport)
+// Routes:
+app.use(express.static('client/build'));
+require('./routes')(app, passport, __dirname)
 
 // All set!
 app.listen(port);
