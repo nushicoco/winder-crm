@@ -34,7 +34,7 @@ module.exports = function (app, passport) {
                     })
                 })
             }).catch( (e) => {
-                console.log(e)
+                console.error(e)
                 res.status(400).send(e.errors);
             })
     })

@@ -1,15 +1,18 @@
 module.exports = function (app, passport) {
     const { User, Ticket, TicketUpdate  } = require('../models')
 
-    app.post('/ticket', (req, res) => {
-        if (!req.user) {
-            res.status(400).send()
-            return
+    const onlySuperuser = function (req, res, next) {
+        if (!(req.user && req.user.isSuperuser)) {
+            res.status(401).send()
         }
+        else {
+            next()
+        }
+    }
 
-        const { subject, room, text} = req.body
-        let userId = req.user.id
-        let ticketId
+    app.post('/ticket', (req, res) => {
+        const { subject, room, text } = req.body
+        let userId = req.user && req.user.id
 
         Ticket.create({
             status: 'open',
@@ -18,20 +21,14 @@ module.exports = function (app, passport) {
             subject
         })
             .then( (newTicket) => {
-                ticketId = newTicket.id
+                const ticketId = newTicket.id
                 return TicketUpdate.create({
                     text,
                     ticketId,
                     userId
                 })})
-            .then( (ticketUpdate) => {
-                return Ticket.findOne(
-                    {where: {id: ticketId},
-                     include: TicketUpdate}
-                )
-            })
-            .then( (ticket) => {
-                res.status(200).send(ticket.toJSON())
+            .then( () => {
+                res.status(200).send()
             })
 
             .catch( (error) => {
@@ -40,18 +37,10 @@ module.exports = function (app, passport) {
             })
     })
 
-    app.post('/update_ticket', (req, res) => {
-        if (!req.user) {
-            res.status(400).send()
-            return
-        }
-
+    app.post('/update_ticket', onlySuperuser, (req, res) => {
         const {ticketId, text} = req.body
         const userId = req.user.id
         Ticket.findById(ticketId).then( (ticket) => {
-            if (! (ticket.userId === req.user.id || req.user.isSuperuser) ) {
-                throw 'invalid user'
-            }
             return TicketUpdate.create({
                 ticketId,
                 text,
@@ -66,12 +55,7 @@ module.exports = function (app, passport) {
             })
     })
 
-    app.get('/tickets/:id', function (req, res) {
-        if (!req.user) {
-            res.status(400).send()
-            return
-        }
-
+    app.get('/tickets/:id', onlySuperuser ,function (req, res) {
         const ticketId = req.params.id
         Ticket.findOne({
             where: {
@@ -81,13 +65,7 @@ module.exports = function (app, passport) {
             order: [[TicketUpdate, 'createdAt', 'DESC']]
         })
             .then( (ticket) => {
-                if (ticket.userId === req.user.id || req.user.isSuperuse) {
-                    res.status(200).send(ticket.toJSON())
-                }
-                else {
-                    res.status(400).send()
-                }
-                return
+                res.status(200).send(ticket.toJSON())
             })
             .catch ( (error) => {
                 console.error(error)
@@ -95,21 +73,12 @@ module.exports = function (app, passport) {
             })
     })
 
-    app.post('/tickets/:id', function (req, res) {
-        if (!req.user) {
-            res.status(400).send()
-            return
-        }
-
+    app.post('/tickets/:id', onlySuperuser, function (req, res) {
         const ticketId = req.params.id
         const { status } = req.body
 
         Ticket.findById(ticketId)
             .then( (ticket) => {
-                if (!(ticket.userId === req.user.id || req.user.isSuperuse)) {
-                    throw 'user not authorized for ticket'
-                }
-
                 ticket.status = status
                 return ticket.save()
             })
@@ -124,12 +93,7 @@ module.exports = function (app, passport) {
             })
     })
 
-    app.get('/tickets', (req, res) => {
-        if (!(req.user && req.user.isSuperuser)) {
-            res.status(400).send()
-            return
-        }
-
+    app.get('/tickets', onlySuperuser, (req, res) => {
         Ticket.findAll({include: [TicketUpdate, User]})
             .then(function (tickets) {
                 res.status(200).send(tickets.map( ticket => ticket.toJSON()))

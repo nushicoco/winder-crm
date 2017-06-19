@@ -38,13 +38,13 @@ export default class ViewTicket extends React.Component {
     }
 
     renderTicketUpdate = (ticketUpdate) => {
-        const user = ticketUpdate.user || {}
+        const user = ticketUpdate.user
         return (
             <table key={ticketUpdate.id} className="ticket-update-table">
                 <tbody>
               <tr>
                 <td className="ticket-update-user">
-                  {user.firstName} {user.lastName}:
+                  { ticketUpdate.user ? `${user.firstName} ${user.lastName}:` : '' }
                 </td>
 
                 <td className="ticket-update-date ltr" >
@@ -119,7 +119,7 @@ export default class ViewTicket extends React.Component {
         )
     }
     render () {
-        const user = this.state.ticket.user || {}
+        const user = this.state.ticket.user
         const ticketUpdates = this.state.ticket.ticket_updates || []
         return (
             <div>
@@ -150,7 +150,7 @@ export default class ViewTicket extends React.Component {
                       { strings.ticket.user }
                     </td>
                     <td className="value-column">
-                      { `${user.firstName} ${user.lastName} (${user.email})` }
+                      { user ? `${user.firstName} ${user.lastName} (${user.email})` : '' }
                     </td>
                   </tr>
 

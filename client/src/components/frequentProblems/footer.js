@@ -16,7 +16,7 @@ export default class Footer extends Component {
                 <ButtonToolbar>
                     {/*<Button className={ this.state.shouldHide ? 'hide' : ''} > <Glyphicon glyph="log-in" />  צ׳אט עם טכנאי</Button>*/}
                     <p className="call-us"> { Strings.frequentProblems.callTech }</p>
-                    <NewTicketButton user={ this.props.user } />
+                    <NewTicketButton />
                 </ButtonToolbar>
 
             </div>
