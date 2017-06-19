@@ -81,7 +81,7 @@ module.exports = function (app, passport) {
             order: [[TicketUpdate, 'createdAt', 'DESC']]
         })
             .then( (ticket) => {
-                if (ticket.userId === req.user.id || req.user.isSuperuse) {
+                if (ticket.userId === req.user.id || req.user.isSuperuser) {
                     res.status(200).send(ticket.toJSON())
                 }
                 else {
