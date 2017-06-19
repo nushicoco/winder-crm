@@ -13,7 +13,7 @@ export class NewTicketButton extends React.Component {
     render () {
         return (
               <Link to="/new-ticket" >
-                <Button disabled={ !this.props.user } bsStyle="primary" className="open-ticket">
+                <Button  bsStyle="primary" className="open-ticket">
                   { Strings.ticket.openTicket }
                 </Button>
               </Link>

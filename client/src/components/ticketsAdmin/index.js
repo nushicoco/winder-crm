@@ -62,7 +62,7 @@ export default class TicketsAdmin extends React.Component {
         return (
             <tr  key={ ticket.id } >
                 <th>{ ticket.id }       </th>
-                <th >{ `${user.firstName} ${user.lastName}` }     </th>
+                <th >{ user ? `${user.firstName} ${user.lastName}` : ''}     </th>
                 <th  >
                   <Link to={ `/view-ticket/${ticket.id}` }>
                     { ticket.subject }

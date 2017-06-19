@@ -21,6 +21,7 @@ export default class NewTicket extends React.Component {
         super(props)
         this.state = {
             submitted: false,
+            room: AVAILABLE_ROOMS[0],
             subject: '',
             text: ''
         }
