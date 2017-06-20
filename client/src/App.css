@@ -26,6 +26,11 @@
   border-bottom: 4px #0C120C solid;
 }
 
+.admin-footer a {
+  display: inline;
+  margin: 0px 20px;
+}
+
 pallete {
   background-color: #0C120C;
   background-color: #C20114;

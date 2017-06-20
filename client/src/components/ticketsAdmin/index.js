@@ -35,6 +35,7 @@ export default class TicketsAdmin extends React.Component {
                   <tr>
                     <th>#</th>
                     <th>{ strings.ticket.user } </th>
+                    <th>{ strings.ticket.name } </th>
                     <th>{ strings.ticket.subject }</th>
                     <th>{ strings.ticket.status }</th>
                     <th>{ strings.ticket.dateIssued }</th>
@@ -63,9 +64,10 @@ export default class TicketsAdmin extends React.Component {
             <tr  key={ ticket.id } >
                 <th>{ ticket.id }       </th>
                 <th >{ user ? `${user.firstName} ${user.lastName}` : ''}     </th>
+                <th >{ ticket.details.name }     </th>
                 <th  >
                   <Link to={ `/view-ticket/${ticket.id}` }>
-                    { ticket.subject }
+                    { ticket.details.subject }
                   </Link>
                 </th>
                 <th className={ `ticket-${ticket.status}`} >{ strings.ticket.statuses[ticket.status] }</th>

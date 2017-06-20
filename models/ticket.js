@@ -3,8 +3,15 @@ const Sequelize = require('sequelize')
 
 module.exports = function (sequelize) {
     const Ticket = sequelize.define('ticket', {
-        subject: Sequelize.STRING,
-        room: Sequelize.STRING,
+        details: {
+            type: Sequelize.TEXT,
+            set(val) {
+                this.setDataValue('details', JSON.stringify(val))
+            },
+            get() {
+                return JSON.parse(this.getDataValue('details') || '{}')
+            }
+        },
         status: {
             type: Sequelize.STRING,
             validate: {

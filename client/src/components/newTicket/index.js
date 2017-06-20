@@ -7,6 +7,7 @@ import './newTicket.css'
 
 import { createTicket } from '../../api.js'
 import { BackToFrequentBtn } from '../common';
+const AVAILABLE_SUBJECTS = Strings.ticket.subjects
 const AVAILABLE_ROOMS = [
       '501' , '502' , '503' , '504' , '505' , '506' , '507'
     , '508' , '509' , '510' , '511' , '512' , '513' , '514'
@@ -21,16 +22,18 @@ export default class NewTicket extends React.Component {
         super(props)
         this.state = {
             submitted: false,
+            name: '',
+            phone: '',
+            subject: AVAILABLE_SUBJECTS[0],
             room: AVAILABLE_ROOMS[0],
-            subject: '',
-            text: ''
+            content: ''
         }
     }
 
     handleSubmit = () => {
-        const {subject, room, text} = this.state
+        const { name, phone, room, content, subject } = this.state
         this.setState({isLoading: true})
-        createTicket(subject, room, text)
+        createTicket({name, phone, room, content, subject})
             .then( () =>  {
                 this.setState({
                     isLoading: false,
@@ -47,7 +50,6 @@ export default class NewTicket extends React.Component {
     }
 
     renderSubmitted = () => {
-         // TODO: something else here?
         return (
             <div>
               { Strings.ticket.sent }
@@ -67,68 +69,72 @@ export default class NewTicket extends React.Component {
         )
     }
 
+    renderField = (field, type, { children, validationState, style, componentClass} = {} ) => {
+        return (
+            <Row>
+              <FormGroup controlId={ field }
+                         validationState={ validationState } >
+                <Col componentClass={ControlLabel} sm={4} className="subject-label" >
+                  {Strings.ticket[field] }
+                </Col>
+                <Col sm={8}>
+                  <FormControl
+                    type={ type }
+                    value={ this.state[field] }
+                    componentClass={ componentClass }
+                    style={ style }
+                    onChange={ e => this.setState({[field]: e.target.value}) }>
+                    { children }
+                  </FormControl>
+                </Col>
+              </FormGroup>
+            </Row>
+        )
+    }
+
+    renderTextField = (field, validateLength) => {
+        return this.renderField(field, 'text', {
+            validationState: (validateLength && this.getValidationState(this.state[field])) || null
+        })
+    }
+
+    renderTextareaField = (field) => {
+        return this.renderField(field, 'textarea', {
+            style: {height: 100 },
+            componentClass: 'textarea'
+        })
+    }
+
+    renderSelectField = (field, options) => {
+        const children = options.map(option => (
+            <option key={ option } value={ option } >{ option }</option>
+        ))
+
+        return this.renderField(field, 'select', {
+            children,
+            componentClass: 'select'
+        })
+    }
+
     renderForm = () => {
         return (
             <div>
               <h1>{Strings.ticket.openTicketHeader}</h1>
               <Form>
-                <Row>
-                  <FormGroup controlId="subject"
-                             validationState={this.getValidationState(this.state.subject)}>
-                    <Col componentClass={ControlLabel} sm={4} className="subject-label" >
-                      {Strings.ticket.subject }
-                    </Col>
-                    <Col sm={8}>
-                      <FormControl
-                        type="text"
-                        value={ this.state.subject }
-                        onChange={ e => this.setState({subject: e.target.value}) }/>
-                    </Col>
-                  </FormGroup>
-                </Row>
+                { this.renderTextField('name', true ) }
+                { this.renderTextField('phone') }
+                { this.renderSelectField('subject', AVAILABLE_SUBJECTS) }
+                { this.renderSelectField('room', AVAILABLE_ROOMS) }
+                { this.renderTextareaField('content') }
 
                 <Row>
-                  <FormGroup controlId="room" >
-                    <Col componentClass={ControlLabel} sm={4} className="subject-label" >
-                      {Strings.ticket.room }
-                    </Col>
-                    <Col sm={8} className="align-right">
-                      <FormControl componentClass="select" onChange={ e=> this.setState({room: e.target.value}) } >
-                        { AVAILABLE_ROOMS.map(room => (
-                            <option value={ room } >{ room }</option>
-                        ))}
-                      </FormControl>
-                    </Col>
-                  </FormGroup>
-                </Row>
-
-                <Row>
-                  <FormGroup controlId="text">
-                    <Col componentClass={ControlLabel} sm={4} className="subject-label"
-                         validationState={this.getValidationState(this.state.text)}>
-                      {Strings.ticket.text }
-                    </Col>
-                    <Col sm={8}>
-                      <FormControl
-                        style={ {height: 100 } }
-                        type="textarea"
-                        componentClass="textarea"
-                        value={ this.state.text }
-                        onChange={ e => this.setState({text: e.target.value}) }/>
-                    </Col>
-                  </FormGroup>
-                </Row>
-
-                <Row>
-                  <Col sm={12}>
                     <Button bsStyle="primary"
                             className="submit-ticket"
-                            disabled={ this.state.isLoading || !this.state.subject}
+                            disabled={ this.state.isLoading || !this.state.name}
                             type="submit"
                             onClick={ this.handleSubmit }>{ Strings.ticket.submit }
                     </Button>
-                    <BackToFrequentBtn></BackToFrequentBtn>
-                  </Col>
+                    <BackToFrequentBtn />
                 </Row>
               </Form>
             </div>

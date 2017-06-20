@@ -11,22 +11,13 @@ module.exports = function (app, passport) {
     }
 
     app.post('/ticket', (req, res) => {
-        const { subject, room, text } = req.body
         let userId = req.user && req.user.id
 
         Ticket.create({
+            details: req.body,
             status: 'open',
-            userId,
-            room,
-            subject
+            userId
         })
-            .then( (newTicket) => {
-                const ticketId = newTicket.id
-                return TicketUpdate.create({
-                    text,
-                    ticketId,
-                    userId
-                })})
             .then( () => {
                 res.status(200).send()
             })

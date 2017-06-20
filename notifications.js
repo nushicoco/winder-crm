@@ -15,9 +15,9 @@ const notify = function (payload) {
 }
 
 module.exports.notifyNewTicket = function (ticket) {
-    if (!ticket.subject || !ticket.id) {
-        throw 'Cannot notify about a ticket with no subject or id'
+    if (!ticket.id) {
+        throw 'Cannot notify about a ticket with no id'
     }
     const ticketLink = `${hostname}/view-ticket/${ticket.id}`
-    notify({text: `A new ticket has been opened:\n"${ticket.subject} at room #${ticket.room}"\n<${ticketLink}|More Details>`})
+    notify({text: `A new ticket has been opened:\n"${ticket.details.name} at room #${ticket.details.room}"\n<${ticketLink}|More Details>`})
 }

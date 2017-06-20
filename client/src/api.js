@@ -41,8 +41,8 @@ module.exports.getFrequentProblem = function (problemId) {
     return get(`/frequent_problem/${problemId}`)
 }
 
-module.exports.createTicket = function(subject, room, text) {
-    return post('/ticket', {subject, room, text})
+module.exports.createTicket = function(details) {
+    return post('/ticket', details)
 }
 
 module.exports.getTicket = function(ticketId) {

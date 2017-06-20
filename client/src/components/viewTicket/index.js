@@ -13,6 +13,7 @@ export default class ViewTicket extends React.Component {
             newUpdateText: '',
             ticket: {
                 user: {},
+                details: {},
                 ticket_updates: []
             }
         }
@@ -118,8 +119,26 @@ export default class ViewTicket extends React.Component {
             </div>
         )
     }
+
+    renderField = (field) => {
+        return this.renderTicketInfo(field, this.state.ticket.details[field])
+    }
+
+    renderTicketInfo = (name, value) => {
+        return (
+            <tr>
+              <td className="main-column">
+                { strings.ticket[name] }
+              </td>
+              <td className="value-column">
+                { value }
+              </td>
+            </tr>
+        )
+    }
     render () {
         const user = this.state.ticket.user
+        const userDetails =  user ? `${user.firstName} ${user.lastName} (${user.email})` : ''
         const ticketUpdates = this.state.ticket.ticket_updates || []
         return (
             <div>
@@ -127,41 +146,10 @@ export default class ViewTicket extends React.Component {
               <h1>קריאה #{ this.state.ticket.id }</h1>
               <Table className="ticket-view-table" condensed>
                 <tbody>
-                  <tr>
-                    <td className="main-column">
-                      { strings.ticket.subject }
-                    </td>
-                    <td className="value-column">
-                       { this.state.ticket.subject  }
-                    </td>
-                  </tr>
+                  { Object.keys(this.state.ticket.details).map( (field) => this.renderField(field) ) }
 
-                  <tr>
-                    <td className="main-column">
-                      { strings.ticket.room }
-                    </td>
-                    <td className="value-column">
-                       { this.state.ticket.room  }
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td className="main-column">
-                      { strings.ticket.user }
-                    </td>
-                    <td className="value-column">
-                      { user ? `${user.firstName} ${user.lastName} (${user.email})` : '' }
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td className="main-column ltr">
-                      { strings.ticket.dateIssued }
-                    </td>
-                    <td className="value-column ltr">
-                      { this.formatDate(this.state.ticket.createdAt) }
-                    </td>
-                  </tr>
+                  { this.renderTicketInfo('user', userDetails) }
+                  { this.renderTicketInfo('dateIssued',  this.formatDate(this.state.ticket.createdAt)) }
 
                   <tr>
                     <td className="main-column">
@@ -171,6 +159,7 @@ export default class ViewTicket extends React.Component {
                       { this.renderUpdateStatus() }
                     </td>
                   </tr>
+
                 </tbody>
               </Table>
 
