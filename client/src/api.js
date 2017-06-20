@@ -78,7 +78,7 @@ module.exports.signup = function (fields) {
 
 module.exports.getUser = function () {
     return get('/user')
-        .then( function (user) {
+        .then( function ({ user }) {
             analytics.setRecordedUser(user)
             return user
         })

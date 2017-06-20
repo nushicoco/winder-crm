@@ -1,11 +1,10 @@
 module.exports = function (app, passport) {
     const { User }= require('../models')
+
     app.get('/user', (req, res) => {
-        if (!req.user) {
-            return res.status(400).send()
-        }
-        const {email, firstName, lastName, isSuperuser} = req.user
-        return res.status(200).send({email,firstName, lastName, isSuperuser})
+        const {email, firstName, lastName, isSuperuser} = (req.user || {})
+        let user = req.user && { email, firstName, lastName, isSuperuser }
+        return res.status(200).send({ user })
     })
 
     app.post('/login', passport.authenticate('local'), function (req, res) {

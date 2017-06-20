@@ -23,8 +23,6 @@ class App extends Component {
     getUser () {
         getUser().then((user) => {
             this.setState({user})
-        }).catch((err) => {
-            // ignore!
         })
     }
 
