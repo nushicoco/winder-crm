@@ -15,13 +15,21 @@ module.exports = app; // for testing
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
+// DB:
+const { sequelize } = require('./models')
+
 // Session
 const expressSession = require('express-session')
+const SequelizeStore = require('connect-session-sequelize')(expressSession.Store)
 app.use(expressSession({
     name: 'winder-session',
     secret: 'random_string_goes_here',
     duration: 30 * 60 * 1000,
-    activeDuration: 5 * 60 * 1000
+    activeDuration: 5 * 60 * 1000,
+    store: new SequelizeStore({
+        db: sequelize
+    }),
+    proxy: true // using SSL outside of node
 }));
 
 // Authentication:
