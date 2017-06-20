@@ -95,11 +95,12 @@ describe('session stuff' , function () {
         return User.sync({ force: true })
     })
 
-    it('/user should return 400 for nonlogins', function (done) {
-        chai.request(app).get('/user').send()
-            .end( function (error, response) {
-                expect(response.status).equal(400)
-                done()
+    it('/user should return empty user for nonlogins', function () {
+        return chai.request(app).get('/user').send()
+            .then(function (res) {
+                expect(res.status).to.equal(200)
+                expect(res).to.be.json
+                expect(res.body).to.not.include('user')
             })
     })
 
@@ -121,10 +122,13 @@ describe('session stuff' , function () {
                     .end(function (err, res) {
                         res.status.should.be.equal(200)
                         expect(res).to.be.json // <- this actually works O_o
-                        expect(res.body).to.deep.include({
-                            firstName: goodGuyGreg.firstName,
-                            lastName: goodGuyGreg.lastName,
-                            email: goodGuyGreg.email
+                        expect(res.body).to.deep.equal({
+                            user: {
+                                firstName: goodGuyGreg.firstName,
+                                lastName: goodGuyGreg.lastName,
+                                email: goodGuyGreg.email,
+                                isSuperuser: false
+                            }
                         })
                         done()
                     })
@@ -152,9 +156,12 @@ describe('session stuff' , function () {
                                 res.status.should.be.equal(200)
                                 expect(res).to.be.json
                                 expect(res.body).to.deep.include({
-                                    firstName: goodGuyGreg.firstName,
-                                    lastName: goodGuyGreg.lastName,
-                                    email: goodGuyGreg.email
+                                    user: {
+                                        firstName: goodGuyGreg.firstName,
+                                        lastName: goodGuyGreg.lastName,
+                                        email: goodGuyGreg.email,
+                                        isSuperuser: false
+                                    }
                                 })
                                 done()
                             })
@@ -212,7 +219,8 @@ describe('/logout', function () {
                                 res.status.should.be.equal(200)
                                 agent.get('/user').send()
                                     .end(function (error, res) {
-                                        res.status.should.be.equal(400)
+                                        res.status.should.be.equal(200)
+                                        expect(res.body.user).to.be.undefined
                                         done()
                                     })
                             })
