@@ -76,9 +76,20 @@ pallete {
 .login-container {
   text-align: right;
   margin: 5px 25px 0 0;
-  width:100%
 }
 
 .carmonication-footer{
   margin: 25px;
+}
+
+.ticket-status-closed {
+  color: green;
+}
+
+.ticket-status-inTherapy {
+  color: purple;
+}
+
+.ticket-status-open {
+  color: red;
 }

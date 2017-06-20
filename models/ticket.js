@@ -15,7 +15,7 @@ module.exports = function (sequelize) {
         status: {
             type: Sequelize.STRING,
             validate: {
-                isIn: [['open', 'closed']]
+                isIn: [['open', 'closed', 'inTherapy']]
             }
         }
     }, {

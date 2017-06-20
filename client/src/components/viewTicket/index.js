@@ -5,6 +5,7 @@ import './viewTicket.css'
 import { getTicket, updateTicket, updateTicketStatus} from '../../api.js'
 import strings from '../../strings.js'
 import LoadingSpinner from '../loadingSpinner.js'
+const TICKET_STATUSES = ['open', 'closed', 'inTherapy']
 
 export default class ViewTicket extends React.Component {
     constructor (props) {
@@ -94,8 +95,9 @@ export default class ViewTicket extends React.Component {
             return (
                   <form>
                     <select value={this.state.ticket.status} onChange={this.handleTicketStatusChange}>
-                      <option value="closed"> { strings.ticket.statuses.closed } </option>
-                      <option value="open"> { strings.ticket.statuses.open } </option>
+                      {TICKET_STATUSES.map( status => (
+                          <option key={ status } value={ status }> { strings.ticket.statuses[status] } </option>
+                      ))}
                   </select>
                     <Button
                       onClick={ () => this.updateTicketStatus() }
@@ -109,7 +111,7 @@ export default class ViewTicket extends React.Component {
 
         return (
             <div>
-              <span className={ `status-${this.state.ticket.status}` } >
+              <span className={ `ticket-status-${this.state.ticket.status}` } >
                 { strings.ticket.statuses[this.state.ticket.status]  }
               </span>&nbsp;
               <Button

@@ -46,6 +46,7 @@ export default {
         submit: 'שלח',
         status: 'סטטוס',
         statuses: {
+            inTherapy: 'בטיפול',
             open: 'פתוח',
             closed: 'סגור'
         },
