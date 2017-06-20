@@ -102,8 +102,7 @@ export default class FrequentProblemAdmin extends React.Component {
         return (
             <div>
               <LoadingSpinner show={ this.state.isLoading } />
-              <h1>{ Strings.frequentProblems.header }</h1>
-              <h2>{ Strings.frequentProblems.admin.edit }</h2>
+              <h1>{ Strings.frequentProblems.admin.header }</h1>
 
               <Table striped bordered hover compact className="align-right" >
                 <thead>

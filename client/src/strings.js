@@ -31,9 +31,10 @@ export default {
         didntHelp : 'לא עזר לי..',
         helped : 'פתר את הבעיה!',
         admin: {
+            header: 'ניהול מדריכים ותקלות נפוצות',
             new: 'הוספה',
             options: 'אפשרויות',
-            delete: 'מחיקה!',
+            delete: 'מחק!',
             edit: 'עריכה',
             submit: 'שמירה',
             fields: {
