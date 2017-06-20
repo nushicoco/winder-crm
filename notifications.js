@@ -12,7 +12,11 @@ const notify = function (payload) {
         body: JSON.stringify(payload)
     })
 
-}
+};
+
+module.exports.notifyNewChat = function (chat) {
+
+};
 
 module.exports.notifyNewTicket = function (ticket) {
     if (!ticket.id) {
@@ -20,4 +24,4 @@ module.exports.notifyNewTicket = function (ticket) {
     }
     const ticketLink = `${hostname}/view-ticket/${ticket.id}`
     notify({text: `A new ticket has been opened:\n"${ticket.details.name} at room #${ticket.details.room}"\n<${ticketLink}|More Details>`})
-}
+};

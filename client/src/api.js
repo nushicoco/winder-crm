@@ -91,3 +91,7 @@ module.exports.updateTicketStatus = function (ticketId, status) {
 module.exports.logout = function () {
     return post('/logout');
 }
+
+module.exports.createChat = function () {
+    return post('/chat');
+}

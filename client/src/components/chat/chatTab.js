@@ -3,15 +3,9 @@
  */
 
 import React, { Component } from 'react';
-import io from 'socket.io-client'
 import TextSubmitter from './textSubmitter'
 import Message from './message'
 
-
-// todo - move socket higher up to the chat component
-// todo move url to .env
-// let socket = io(`${process.env.CHAT_HOST}:${process.env.CHAT_PORT}`);
-let socket = io(`http://localhost:8080`);
 
 export default class chatTab extends Component {
 
@@ -24,12 +18,15 @@ export default class chatTab extends Component {
             client: props.client,
             user: props.user
         }
+
+        this.socket = props.socket;
     }
 
-    componentDidMount() {
+    componentWillMount() {
+        console.log("here in chat tab will mount");
         let self = this;
-        socket.emit(`client:connected`, { chatId : this.state.chatId , client: this.state.client })
-        socket.on(`server:gotMessage`, data => {
+        this.socket.emit(`client:connected`, { chatId : this.state.chatId , client: this.state.client })
+        this.socket.on(`server:gotMessage`, data => {
             // this is only for super user that should have one socket for all chats
             if (data.chatId != this.state.chatId){
                 return;
@@ -40,12 +37,13 @@ export default class chatTab extends Component {
     }
 
     sendMessage = message => {
-        socket.emit(`client:sendMessage`, { text: message, from:this.state.client, chatId:this.state.chatId})
+        this.socket.emit(`client:sendMessage`, { text: message, from:this.state.client, chatId:this.state.chatId})
     }
 
     render() {
         return (
         <div className="container">
+            <h2>Chat #{ this.state.chatId }</h2>
             <div className="chatArea" >
                 {this.state.messages.map((msg) => {
                     return <Message key={msg.id} author={msg.from} text={msg.text} isMe={ msg.from == this.state.client }></Message>

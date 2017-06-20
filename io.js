@@ -1,9 +1,10 @@
 /**
  * Created by einavcarmon on 19/06/2017.
  */
-// chat = require('/models/chat');
 
 module.exports = function (app, io) {
+    const { Chat, ChatMessage, User  } = require('./models')
+
     var connections = {};
     var msgCounter = 0 ;
 
@@ -20,11 +21,23 @@ module.exports = function (app, io) {
             data.chatId = socket.chatId;
             connections[socket.chatId].forEach(function (currSocket) {
                 currSocket.emit('server:gotMessage', data);
+            });
+
+            Chat.findById(socket.chatId).then( (chat) => {
+                return ChatMessage.create({
+                    chatId: data.chatId,
+                    text: data.text,
+                    client: data.from
+                })
             })
         });
 
         socket.on('client:connected', function(data){
             connections[data.chatId] =  connections[data.chatId] ? connections[data.chatId].concat([socket]) : [socket];
+            // let chat;
+            // Chat.findOne({id:data.chatId}).then(function (chatById){
+            //     chat = chatById
+            // })
             socket.chatId = data.chatId;
             socket.clients = socket.clients ? socket.clients.concat([data.from]) : [data.from]
 
@@ -36,9 +49,21 @@ module.exports = function (app, io) {
 
         })
 
-        socket.on('disconnect', function (){
-            // todo - deal with disconnect
-            // connections[socket.chatId].
+        socket.on('disconnect', function () {
+            console.log("socket disconnected");
+            if (!connections[socket.chatId]){
+                // todo check y dis happns
+                console.log("connections[socket.chatId] is undefined for socket=" + socket.id + " and chat id =" + socket.chatId);
+                return;
+            }
+            var index = connections[socket.chatId].indexOf(socket);
+            if (index > -1) {
+                connections[socket.chatId].splice(index, 1);
+            }
+
+            if (connections[socket.chatId].length == 0){
+                delete connections[socket.chatId];
+            }
         });
     });
 }
