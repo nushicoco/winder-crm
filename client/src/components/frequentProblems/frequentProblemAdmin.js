@@ -5,7 +5,7 @@ import LoadingSpinner from '../loadingSpinner.js'
 import { getFrequentProblemsList } from '../../api'
 import Strings from '../../strings'
 import EditFrequentProblem from './editFrequentProblem'
-import { updateFrequentProblem, deleteFrequentProblem } from '../../api'
+import { createFrequentProblem, updateFrequentProblem, deleteFrequentProblem } from '../../api'
 const FIELDS = ['env', 'subEnv', 'subject', 'solution', 'solutionURL']
 export default class FrequentProblemAdmin extends React.Component {
     constructor (props) {
@@ -35,10 +35,6 @@ export default class FrequentProblemAdmin extends React.Component {
         this.fetchData()
     }
 
-    editProblem = (problem) => {
-        console.log('<-DANDEBUG-> frequentProblemAdmin.js\\ 37: problem:', problem);
-    }
-
     renderFrequentProblem = (problem) => {
         const rows = FIELDS.map( field => (
             <td key={ field }>
@@ -63,14 +59,18 @@ export default class FrequentProblemAdmin extends React.Component {
     }
 
     handleSubmit = (fields) => {
+        const problemId = this.state.editedProblem.id
         this.setState({
             isLoading: true,
             editing: false
         })
-        updateFrequentProblem(this.state.editedProblem.id, fields)
-            .then( () => {
-                this.fetchData()
-            })
+        const action = problemId
+              ? updateFrequentProblem(problemId, fields)
+              : createFrequentProblem(fields)
+
+        action.then( () => {
+            this.fetchData()
+        })
     }
 
     handleDelete = () => {
@@ -83,6 +83,13 @@ export default class FrequentProblemAdmin extends React.Component {
                 this.fetchData()
             })
 
+    }
+
+    handleNew = () => {
+        this.setState({
+            editing: true,
+            editedProblem: { }
+        })
     }
 
     render () {
@@ -109,12 +116,15 @@ export default class FrequentProblemAdmin extends React.Component {
                   { this.state.frequentProblems.map(this.renderFrequentProblem) }
                 </tbody>
               </Table>
+              <br/>
+              <Button onClick={ this.handleNew } > { Strings.frequentProblems.admin.new } </Button>
               <EditFrequentProblem
                 fields={ FIELDS }
                 problem={ this.state.editedProblem }
                 onHide={ () => this.setState({ editing: false } ) }
                 onSubmit={ this.handleSubmit }
                 onDelete={ this.handleDelete }
+                showDelete={ this.state.editedProblem.id }
                 show={ this.state.editing }/>
             </div>
         )

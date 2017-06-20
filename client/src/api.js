@@ -37,6 +37,10 @@ const post = function (path, body) {
     return request(path, 'POST', JSON.stringify(body))
 }
 
+module.exports.createFrequentProblem = function (fields) {
+    return post(`/frequent_problem/new`, fields)
+}
+
 module.exports.updateFrequentProblem = function (id, fields) {
     return post(`/frequent_problem/${id}`, fields)
 }

@@ -12,8 +12,10 @@ export default class EditFrequentProblem extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
+        let problem = {}
+        this.props.fields.map( field => problem[field] = newProps.problem[field])
         this.setState({
-            ...newProps.problem
+            ...problem
         })
     }
 
@@ -57,7 +59,6 @@ export default class EditFrequentProblem extends React.Component {
 
                 <Modal.Body>
                   { this.renderForm() }
-
                 </Modal.Body>
 
                 <Modal.Footer>
@@ -67,11 +68,13 @@ export default class EditFrequentProblem extends React.Component {
                           >
                     { Strings.frequentProblems.admin.submit }
                   </Button>
+                  { this.props.showDelete && (
                   <DropdownButton title={ Strings.frequentProblems.admin.options } id="frequent-problems-edit-options">
                     <MenuItem eventKey="1" onClick={ this.props.onDelete } >
                       { Strings.frequentProblems.admin.delete }
                     </MenuItem>
                   </DropdownButton>
+                  )}
                 </Modal.Footer>
             </Modal>
         )
