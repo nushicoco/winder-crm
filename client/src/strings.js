@@ -31,6 +31,8 @@ export default {
         didntHelp : 'לא עזר לי..',
         helped : 'פתר את הבעיה!',
         admin: {
+            options: 'אפשרויות',
+            delete: 'מחיקה!',
             edit: 'עריכה',
             submit: 'שמירה',
             fields: {

@@ -5,7 +5,7 @@ import LoadingSpinner from '../loadingSpinner.js'
 import { getFrequentProblemsList } from '../../api'
 import Strings from '../../strings'
 import EditFrequentProblem from './editFrequentProblem'
-import { updateFrequentProblem } from '../../api'
+import { updateFrequentProblem, deleteFrequentProblem } from '../../api'
 const FIELDS = ['env', 'subEnv', 'subject', 'solution', 'solutionURL']
 export default class FrequentProblemAdmin extends React.Component {
     constructor (props) {
@@ -73,6 +73,18 @@ export default class FrequentProblemAdmin extends React.Component {
             })
     }
 
+    handleDelete = () => {
+        this.setState({
+            isLoading: true,
+            editing: false
+        })
+        deleteFrequentProblem(this.state.editedProblem.id)
+            .then( () => {
+                this.fetchData()
+            })
+
+    }
+
     render () {
         const headers = FIELDS.map( field => (
             <th key={ field } >
@@ -102,6 +114,7 @@ export default class FrequentProblemAdmin extends React.Component {
                 problem={ this.state.editedProblem }
                 onHide={ () => this.setState({ editing: false } ) }
                 onSubmit={ this.handleSubmit }
+                onDelete={ this.handleDelete }
                 show={ this.state.editing }/>
             </div>
         )

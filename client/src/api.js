@@ -25,6 +25,10 @@ const request = function(path, method, jsonBody) {
 
         })
 }
+const del = function (path) {
+    return request(path, 'DELETE')
+}
+
 const get = function (path) {
     return request(path, 'GET')
 }
@@ -36,6 +40,11 @@ const post = function (path, body) {
 module.exports.updateFrequentProblem = function (id, fields) {
     return post(`/frequent_problem/${id}`, fields)
 }
+
+module.exports.deleteFrequentProblem = function (id) {
+    return del(`/frequent_problem/${id}`)
+}
+
 module.exports.getFrequentProblemsList = function () {
     return get('/frequent_problems')
 }

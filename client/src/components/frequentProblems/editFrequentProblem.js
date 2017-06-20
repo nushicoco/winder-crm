@@ -1,5 +1,7 @@
 import React from 'react'
-import {Form, FormGroup, FormControl, ControlLabel, Button, Modal} from 'react-bootstrap'
+import { Form, FormGroup, FormControl, ControlLabel, Button, Modal, DropdownButton, MenuItem } from 'react-bootstrap'
+
+
 import Strings from '../../strings'
 import './editFrequentProblem.css'
 
@@ -25,7 +27,8 @@ export default class EditFrequentProblem extends React.Component {
                 { Strings.frequentProblems.admin.fields[field] }
               </ControlLabel>
               <FormControl
-                type="text"
+                type="textarea"
+                componentClass="textarea"
                 onChange={ (e) => this.setState({[field]: e.target.value}) }
                 value={this.state[field]}
                 />
@@ -64,6 +67,11 @@ export default class EditFrequentProblem extends React.Component {
                           >
                     { Strings.frequentProblems.admin.submit }
                   </Button>
+                  <DropdownButton title={ Strings.frequentProblems.admin.options } id="frequent-problems-edit-options">
+                    <MenuItem eventKey="1" onClick={ this.props.onDelete } >
+                      { Strings.frequentProblems.admin.delete }
+                    </MenuItem>
+                  </DropdownButton>
                 </Modal.Footer>
             </Modal>
         )

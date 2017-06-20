@@ -25,4 +25,14 @@ module.exports = function (app, passport) {
                 res.status(200).send()
             })
     })
+    app.delete('/frequent_problem/:id', onlySuperuser, (req, res) => {
+        const problemId = req.params.id
+        FrequentProblem.findById(problemId)
+            .then( (problem) => {
+                problem.destroy()
+            })
+            .then( () => {
+                res.status(200).send()
+            })
+    })
 }
