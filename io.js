@@ -10,6 +10,9 @@ module.exports = function (app, io) {
 
     io.on('connection', function (socket) {
 
+        // close all old chats
+        // Chat.update({status:'closed'},{where:{status:'open'}});
+
         //todo maybe change the connection[chatId] to socket rooms ?
         // for private msging -
         // socket.broadcast.to(id).emit('my message', msg);
@@ -19,6 +22,13 @@ module.exports = function (app, io) {
         socket.on('client:sendMessage', function (data) {
             data.id = msgCounter++;
             data.chatId = socket.chatId;
+
+            if (!connections[socket.chatId]){
+                // todo check y dis happns
+                console.log("in client:sendMessage -> connections[socket.chatId] is undefined for socket=" + socket.id + " and chat id =" + socket.chatId);
+                return;
+            }
+
             connections[socket.chatId].forEach(function (currSocket) {
                 currSocket.emit('server:gotMessage', data);
             });
@@ -65,5 +75,9 @@ module.exports = function (app, io) {
                 delete connections[socket.chatId];
             }
         });
+    });
+
+    io.on('connection', function () {
+
     });
 }

@@ -5,11 +5,14 @@
 import React, { Component } from 'react';
 import TextSubmitter from './textSubmitter'
 import Message from './message'
+import { getChat } from '../../api'
 
 
 export default class chatTab extends Component {
 
     constructor (props) {
+        console.log("in chatTab ctor");
+
         super(props);
 
         this.state = {
@@ -23,7 +26,7 @@ export default class chatTab extends Component {
     }
 
     componentWillMount() {
-        console.log("here in chat tab will mount");
+        console.log("in chat tab will mount");
         let self = this;
         this.socket.emit(`client:connected`, { chatId : this.state.chatId , client: this.state.client })
         this.socket.on(`server:gotMessage`, data => {
@@ -34,19 +37,24 @@ export default class chatTab extends Component {
             self.setState( { messages : self.state.messages.concat([data]) } );
         })
 
+        getChat(this.state.chatId).then(function (chat) {
+            self.setState({messages:chat.chat_messages});
+        })
     }
 
     sendMessage = message => {
-        this.socket.emit(`client:sendMessage`, { text: message, from:this.state.client, chatId:this.state.chatId})
+        this.socket.emit(`client:sendMessage`, { text: message, client :this.state.client, chatId:this.state.chatId})
     }
 
     render() {
+        console.log("in chatTab Render");
+
         return (
         <div className="container">
             <h2>Chat #{ this.state.chatId }</h2>
             <div className="chatArea" >
                 {this.state.messages.map((msg) => {
-                    return <Message key={msg.id} author={msg.from} text={msg.text} isMe={ msg.from == this.state.client }></Message>
+                    return <Message key={msg.id} author={msg.client} text={msg.text} isMe={ msg.client == this.state.client }></Message>
                 })}
             </div>
             <TextSubmitter sendMessage={ this.sendMessage }>

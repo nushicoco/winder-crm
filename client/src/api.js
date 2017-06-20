@@ -95,3 +95,7 @@ module.exports.logout = function () {
 module.exports.createChat = function () {
     return post('/chat');
 }
+
+module.exports.getChat = function (chatId) {
+    return get(`/chats/${chatId}`)
+}

@@ -27,4 +27,26 @@ module.exports = function (app, passport) {
             // res.status(200).send({chatId:counter++});
         }
     });
+
+    app.get('/chats/:chatId' ,function (req, res) {
+        const chatId = req.params.chatId;
+        console.log("getting chat with id=" + chatId);
+        Chat.findOne({
+            where: {
+                id: chatId
+            },
+            include: [{all: true, nested: true}],
+            order: [[ChatMessage, 'createdAt', 'DESC']]
+        })
+        .then( (chat) => {
+            if (!chat){
+                res.sendStatus(400).send({errorMessage: "couldn't find chat"})
+            }
+            res.status(200).send(chat.toJSON())
+        })
+        .catch ( (error) => {
+            console.error(error)
+            res.sendStatus(400)
+        })
+    })
 }
