@@ -29,15 +29,6 @@
   font-weight: bolder;
 }
 
-.status-closed {
-  color: green;
-}
-
-
-.status-open {
-  color: red;
-}
-
 .updates {
   margin: auto;
   width: 80%;

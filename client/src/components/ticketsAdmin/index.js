@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import strings from '../../strings.js'
 import {  Button, Table} from 'react-bootstrap'
-import './ticketsAdmin.css'
 import { getTickets } from '../../api.js'
 
 export default class TicketsAdmin extends React.Component {
@@ -70,7 +69,7 @@ export default class TicketsAdmin extends React.Component {
                     { ticket.details.subject }
                   </Link>
                 </th>
-                <th className={ `ticket-${ticket.status}`} >{ strings.ticket.statuses[ticket.status] }</th>
+                <th className={ `ticket-status-${ticket.status}`} >{ strings.ticket.statuses[ticket.status] }</th>
                 <th className="ltr" > { this.formatDate(ticket.createdAt) }</th>
                 <th className="ltr" > { this.formatDate(ticket.updatedAt) }</th>
             </tr>
