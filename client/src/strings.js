@@ -29,7 +29,23 @@ export default {
         back: 'חזרה',
         header: 'מדריכים ותקלות נפוצות',
         didntHelp : 'לא עזר לי..',
-        helped : 'פתר את הבעיה!'
+        helped : 'פתר את הבעיה!',
+        admin: {
+            header: 'ניהול מדריכים ותקלות נפוצות',
+            new: 'הוספה',
+            options: 'אפשרויות',
+            delete: 'מחק!',
+            edit: 'עריכה',
+            submit: 'שמירה',
+            fields: {
+                env: 'סביבה',
+                subEnv: 'תת-סביבה',
+                subject: 'נושא',
+                solution: 'פיתרון',
+                solutionURL: 'קישור'
+
+            }
+        }
     },
     back: 'חזרה',
     ticket: {
