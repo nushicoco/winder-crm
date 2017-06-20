@@ -1,14 +1,6 @@
+const { onlySuperuser } = require('./helpers')
 module.exports = function (app, passport) {
     const { User, Ticket, TicketUpdate  } = require('../models')
-
-    const onlySuperuser = function (req, res, next) {
-        if (!(req.user && req.user.isSuperuser)) {
-            res.status(401).send()
-        }
-        else {
-            next()
-        }
-    }
 
     app.post('/ticket', (req, res) => {
         let userId = req.user && req.user.id

@@ -5,7 +5,7 @@ import LoadingSpinner from '../loadingSpinner.js'
 import { getFrequentProblemsList } from '../../api'
 import Strings from '../../strings'
 import EditFrequentProblem from './editFrequentProblem'
-
+import { updateFrequentProblem } from '../../api'
 const FIELDS = ['env', 'subEnv', 'subject', 'solution', 'solutionURL']
 export default class FrequentProblemAdmin extends React.Component {
     constructor (props) {
@@ -67,7 +67,10 @@ export default class FrequentProblemAdmin extends React.Component {
             isLoading: true,
             editing: false
         })
-
+        updateFrequentProblem(this.state.editedProblem.id, fields)
+            .then( () => {
+                this.fetchData()
+            })
     }
 
     render () {
