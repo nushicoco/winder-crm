@@ -26,6 +26,11 @@
   border-bottom: 4px #0C120C solid;
 }
 
+.admin-footer a {
+  display: inline;
+  margin: 0px 20px;
+}
+
 pallete {
   background-color: #0C120C;
   background-color: #C20114;
@@ -71,9 +76,20 @@ pallete {
 .login-container {
   text-align: right;
   margin: 5px 25px 0 0;
-  width:100%
 }
 
 .carmonication-footer{
   margin: 25px;
+}
+
+.ticket-status-closed {
+  color: green;
+}
+
+.ticket-status-inTherapy {
+  color: purple;
+}
+
+.ticket-status-open {
+  color: red;
 }

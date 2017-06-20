@@ -23,8 +23,6 @@ class App extends Component {
     getUser () {
         getUser().then((user) => {
             this.setState({user})
-        }).catch((err) => {
-            // ignore!
         })
     }
 
@@ -78,7 +76,7 @@ class App extends Component {
 
             ))}
         { this.state.user && this.state.user.isSuperuser && (
-            <div>
+            <div className="admin-footer">
               <hr />
             <Link to='/'>MAIN</Link>
             &nbsp;|&nbsp;

@@ -37,17 +37,26 @@ export default {
         dateIssued: 'תאריך יצירה',
         dateUpdated: 'תאריך עדכון',
         sent: 'פנייתך נשלחה בהצלחה',
-        subject: 'נושא',
+        name: 'שם',
+        phone: 'טלפון',
         updates: 'עדכונים',
         addUpdate: 'הוסף עידכון',
         room: 'חדר',
-        text: 'תוכן',
+        content: 'תוכן',
         submit: 'שלח',
         status: 'סטטוס',
         statuses: {
+            inTherapy: 'בטיפול',
             open: 'פתוח',
             closed: 'סגור'
         },
+        subject: 'נושא',
+        subjects: [
+            'Avid',
+            'מחשב',
+            'סאונד',
+            'אחר'
+        ],
         openTicket:'פתח קריאה',
         openTicketHeader:'פתח קריאה חדשה'
     },
