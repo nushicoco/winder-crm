@@ -7,6 +7,7 @@ import FrequentProblem from './components/frequentProblems/frequentProblem';
 import NewTicket from './components/newTicket'
 import TicketsAdmin from './components/ticketsAdmin'
 import ViewTicket from './components/viewTicket'
+import Chat from './components/chat/chat';
 export const routes = [
 
     {
@@ -38,5 +39,11 @@ export const routes = [
         path: '/new-ticket',
         component: NewTicket,
         exact: true
+    },
+    {
+        path: '/chat/:id/:client',
+        component: Chat,
+        exact: true
     }
+
 ]

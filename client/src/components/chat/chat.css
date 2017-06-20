@@ -1,0 +1,14 @@
+.chatArea{
+    height: 300px;
+    width: 300px;
+    background-color: white;
+    direction: ltr;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: righ;
+}

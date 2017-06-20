@@ -95,7 +95,7 @@ export default class NewTicket extends React.Component {
                     <Col sm={8} className="align-right">
                       <FormControl componentClass="select" onChange={ e=> this.setState({room: e.target.value}) } >
                         { AVAILABLE_ROOMS.map(room => (
-                            <option value={ room } >{ room }</option>
+                            <option key={room}  value={ room } >{ room }</option>
                         ))}
                       </FormControl>
                     </Col>

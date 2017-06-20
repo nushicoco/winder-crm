@@ -204,45 +204,134 @@ describe('POST /ticket', function () {
     it('/tickets/:id should return ticket information', function (done) {
         const agent = chai.request.agent(app)
 
-        let ticketId
-        Ticket.create({
-            userId: goodGuyGreg.id,
-            subject: 'problem with toaster'
+    let ticketId
+    Ticket.create({
+        userId: goodGuyGreg.id,
+        subject: 'problem with toaster'
+    })
+
+        .then(function (ticket) {
+            ticketId = ticket.id
+            TicketUpdate.create({
+                ticketId,
+                text: 'does no say lechayim'
+            })
         })
 
-            .then(function (ticket) {
-                ticketId = ticket.id
-                TicketUpdate.create({
-                    ticketId,
-                    text: 'does no say lechayim'
-                })
+        .then(function() {
+            agent.post('/login').send({
+                email: goodGuyGreg.email,
+                password: gggPassword
             })
-
-            .then(function() {
-                agent.post('/login').send({
-                    email: goodGuyGreg.email,
-                    password: gggPassword
-                })
-                    .end(function (error, response) {
-                        response.status.should.equal(200)
-                        agent.get(`/tickets/${ticketId}`)
-                            .send()
-                            .end(function (error, response) {
-                                expect(response.status).to.equal(200)
-                                const ticket = response.body
-                                expect(ticket).to.include({
-                                    userId: goodGuyGreg.id,
-                                    subject: 'problem with toaster'
-                                })
-                                expect(ticket).to.have.property('ticket_updates')
-                                expect(ticket.ticket_updates).to.have.lengthOf(1)
-                                expect(ticket.ticket_updates[0]).to.have.property('text', 'does no say lechayim')
-                                expect(ticket).to.have.property('user')
-                                done()
+                .end(function (error, response) {
+                    response.status.should.equal(200)
+                    agent.get(`/tickets/${ticketId}`)
+                        .send()
+                        .end(function (error, response) {
+                            expect(response.status).to.equal(200)
+                            const ticket = response.body
+                            expect(ticket).to.include({
+                                userId: goodGuyGreg.id,
+                                subject: 'problem with toaster'
                             })
+                            expect(ticket).to.have.property('ticket_updates')
+                            expect(ticket.ticket_updates).to.have.lengthOf(1)
+                            expect(ticket.ticket_updates[0]).to.have.property('text', 'does no say lechayim')
+                            expect(ticket).to.have.property('user')
+                            done()
+                        })
+                })
+        })
+
+        .catch( (e) => {console.error(e); throw e})
+    })
+
+    it('/tickets/:id should return ticket information for superuser', function (done) {
+        const agent = chai.request.agent(app)
+
+        let scrappy;
+        let ticketId;
+
+
+        User.create({
+            firstName: 'scrappy',
+            lastName:  'coco',
+            password:  gggPassword,
+            isSuperuser: false,
+            email:     'scrappycoco@dogs-world.com'
+        })
+        .then(function (coco) {
+            scrappy = coco;
+        }).then(function () {
+            Ticket.create({
+                userId: scrappy.id,
+                subject: 'problem with microwave'
+            }).then(function (ticket){
+                ticketId = ticket.id;
+            })
+        }).then(function() {
+            agent.post('/login').send({
+                email: goodGuyGreg.email,
+                password: gggPassword
+            })
+            .end(function (error, response) {
+                response.status.should.equal(200)
+                agent.get(`/tickets/${ticketId}`)
+                    .send()
+                    .end(function (error, response) {
+                        expect(200).to.equal(response.status);
+                        const ticket = response.body
+                        expect(ticket).to.include({
+                            userId: scrappy.id,
+                            subject: 'problem with microwave'
+                        })
+                        expect(ticket).to.have.property('user')
+                        done()
                     })
             })
+        })
 
-            .catch( (e) => {console.error(e); throw e})
+        .catch( (e) => {console.log(e); throw e})
+    })
+
+    it('/tickets/:id shouldn\'t return ticket information for another user', function (done) {
+        const agent = chai.request.agent(app)
+
+        let scrappy;
+        let ticketId;
+
+        User.create({
+            firstName: 'scrappy',
+            lastName:  'coco',
+            password:  gggPassword,
+            isSuperuser: false,
+            email:     'scrappycoco@dogs-world.com'
+        })
+            .then(function (coco) {
+                scrappy = coco;
+            }).then(function () {
+            Ticket.create({
+                userId: goodGuyGreg.id,
+                subject: 'can\'t fall asleep'
+            }).then(function (tickId){
+                ticketId = tickId;
+            })
+        }).then(function() {
+            agent.post('/login').send({
+                email: scrappy.email,
+                password: gggPassword
+            })
+                .end(function (error, response) {
+                    response.status.should.equal(200)
+                    agent.get(`/tickets/${ticketId}`)
+                        .send()
+                        .end(function (error, response) {
+                            expect(401).to.equal(response.status);
+                            done()
+                        })
+                })
+        })
+
+            .catch( (e) => {console.log(e); throw e})
     })
 })

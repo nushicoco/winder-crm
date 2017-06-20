@@ -54,5 +54,8 @@ export default {
     ticketsAdmin: {
         headline: 'ניהול קריאות',
         reload: 'רענן'
+    },
+    chat:{
+        submit:'שלח'
     }
 }

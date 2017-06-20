@@ -46,3 +46,13 @@ a:hover {
 .inline {
   display: inline;
 }
+
+.all-over {
+  width: 100%;
+  height: 100%;
+  margin: 0em;
+  left: 0em;
+  top: 0em;
+  background: white;
+  position: fixed;
+}
