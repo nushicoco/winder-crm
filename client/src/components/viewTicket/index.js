@@ -39,8 +39,23 @@ export default class ViewTicket extends React.Component {
         return new Date(date).toLocaleString()
     }
 
+    renderStatusUpdate = (status) => {
+        return (
+            <span>
+            { strings.ticket.statusUpdate }
+                <span className={ `ticket-status-${status}` }>
+                { strings.ticket.statuses[status] }
+                </span>
+            </span>
+        )
+
+    }
+
     renderTicketUpdate = (ticketUpdate) => {
         const user = ticketUpdate.user
+        let ticketContent = ticketUpdate.status
+            ? this.renderStatusUpdate(ticketUpdate.status)
+            : ticketUpdate.text
         return (
             <table key={ticketUpdate.id} className="ticket-update-table">
                 <tbody>
@@ -56,7 +71,7 @@ export default class ViewTicket extends React.Component {
 
               <tr className="ticket-update-text" >
                 <td colSpan={2}>
-                  { ticketUpdate.text }
+                  { ticketContent }
                 </td>
               </tr>
                 </tbody>
