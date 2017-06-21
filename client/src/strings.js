@@ -61,6 +61,7 @@ export default {
         content: 'תוכן',
         submit: 'שלח',
         status: 'סטטוס',
+        statusUpdate: 'סטטוס שונה ל: ',
         statuses: {
             inTherapy: 'בטיפול',
             open: 'פתוח',

@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 module.exports = function (sequelize) {
     const TicketUpdate = sequelize.define('ticket_update', {
+        status: Sequelize.STRING,
         text: Sequelize.TEXT
     })
 

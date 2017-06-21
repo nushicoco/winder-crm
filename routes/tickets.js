@@ -62,8 +62,17 @@ module.exports = function (app, passport) {
 
         Ticket.findById(ticketId)
             .then( (ticket) => {
-                ticket.status = status
-                return ticket.save()
+                if (ticket.status !== status) {
+                    ticket.status = status
+                    return ticket.save()
+                        .then( () => {
+                            return TicketUpdate.create({
+                                ticketId,
+                                userId: req.user.id,
+                                status
+                            })
+                        })
+                }
             })
 
             .then( () => {
