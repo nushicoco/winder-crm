@@ -1,17 +1,17 @@
-
-const { FrequentProblem } = require('../models')
 const chai = require('chai')
 const chaiHttp = require('chai-http')
-const app = require('../server')
 const should = chai.should()
+const expect = chai.expect
+
+const { FrequentProblem } = require('../../models')
+const app = require('../../server')
 
 chai.use(chaiHttp)
 
-describe('GET /frequent_problems', function () {
+describe('/frequent_problems', function () {
 
     beforeEach(function () {
-        FrequentProblem.drop()
-        return FrequentProblem.sync()
+        return FrequentProblem.sync({force: true})
     })
 
     it('should return a list', function () {
@@ -19,7 +19,8 @@ describe('GET /frequent_problems', function () {
             .get('/frequent_problems')
             .then(function (res) {
                 res.status.should.be.equal(200)
-                res.body.should.match(/^\[/)
+                expect(res).to.be.json
+                res.body.should.be.an('array')
             })
             .catch((e) =>{console.error(''); throw(e)} )
     })

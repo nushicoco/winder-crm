@@ -1,12 +1,13 @@
-const { User } = require('../models')
 const chai = require('chai')
-const chaiHttp = require('chai-http')
-
-const app = require('../server')
 const should = chai.should()
 const expect = chai.expect
-
+const chaiHttp = require('chai-http')
 chai.use(chaiHttp)
+
+const helpers = require('../support/helpers')
+const { User } = require('../../models')
+const app = require('../../server')
+
 
 const goodGuyGreg = {
     firstName: 'goodguygreg',
@@ -37,6 +38,7 @@ describe('/signup', function () {
     })
 
     it('should reject a dulplicate email signup', function () {
+        helpers.suppressConsoleError()
         return User.create(goodGuyGreg)
             .then( () => {
                 return chai.request(app)
@@ -47,17 +49,19 @@ describe('/signup', function () {
                         email:      goodGuyGreg.email,
                         password:  'greatpassword'
                     })
-            }).then(function (res) {
-                throw '(((duplicated email got accepted)))'
             })
             .catch( function (error) {
                 error.should.have.property('response')
                 error.response.status.should.be.equal(400)
                 error.response.text.should.match(/email/i)
+
+                helpers.restoreConsoleError()
             })
     })
 
     it('should reject a bad email signup', function () {
+        helpers.suppressConsoleError()
+
         return chai.request(app)
             .post('/signup')
             .send(Object.assign({}, goodGuyGreg, {email: 'bademail.com'}))
@@ -67,11 +71,15 @@ describe('/signup', function () {
                 error.should.have.property('response')
                 error.response.status.should.be.equal(400)
                 error.response.text.should.match(/email/i)
+
+                helpers.restoreConsoleError()
             })
     })
 
 
     it('should reject a no name signup', function () {
+        helpers.suppressConsoleError()
+
         return chai.request(app)
             .post('/signup')
             .send({
@@ -86,6 +94,8 @@ describe('/signup', function () {
                 error.should.have.property('response')
                 error.response.status.should.be.equal(400)
                 error.response.text.should.match(/name/i)
+
+                helpers.restoreConsoleError()
             })
     })
 
@@ -210,25 +220,27 @@ describe('/login', function () {
 describe('/logout', function () {
 
     it('should sign out', function (done) {
-        const agent = chai.request.agent(app)
-        agent.post('/signup').send(goodGuyGreg)
-            .end(function (error, res1) {
-                res1.status.should.be.equal(200)
-                agent.get('/user').send()
-                    .end(function (error, res2) {
-                        res2.status.should.be.equal(200)
-                        agent.post('/logout').send()
-                            .end(function (error, res3) {
-                                res3.status.should.be.equal(200)
-                                agent.get('/user').send()
-                                    .end(function (error, res4) {
-                                        res4.status.should.be.equal(200)
-                                        expect(res4.body.user).to.be.undefined
-                                        done()
-                                    })
-                            })
-                    })
+        User.sync({force: true}).then(function () {
+            const agent = chai.request.agent(app)
+            agent.post('/signup').send(goodGuyGreg)
+                .end(function (error, res1) {
+                    res1.status.should.be.equal(200)
+                    agent.get('/user').send()
+                        .end(function (error, res2) {
+                            res2.status.should.be.equal(200)
+                            agent.post('/logout').send()
+                                .end(function (error, res3) {
+                                    res3.status.should.be.equal(200)
+                                    agent.get('/user').send()
+                                        .end(function (error, res4) {
+                                            res4.status.should.be.equal(200)
+                                            expect(res4.body.user).to.be.undefined
+                                            done()
+                                        })
+                                })
+                        })
 
-            })
+                })
+        })
     })
 })
