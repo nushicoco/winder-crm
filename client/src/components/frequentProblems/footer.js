@@ -14,11 +14,10 @@ export default class Footer extends Component {
         return (
             <div>
                 <ButtonToolbar>
-                    <NewChatButton/>
-                    <NewTicketButton />
-                    <p className="call-us"> { Strings.frequentProblems.callTech }</p>
+                        <NewChatButton/>
+                        <NewTicketButton />
                 </ButtonToolbar>
-
+                <p className="call-us"> { Strings.frequentProblems.callTech }</p>
             </div>
         );
     }

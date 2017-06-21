@@ -7,9 +7,13 @@ import { createChat } from '../../api';
 import { Tabs, Tab } from 'react-bootstrap';
 import io from 'socket.io-client'
 
-import './chat.css'
+import { ButtonToolbar } from 'react-bootstrap'
+
+import { BackToFrequentBtn, NewTicketButton } from '../common';
+
 import ChatTab from "./chatTab";
 import ChatNicknameModal from './chatModal'
+import './chat.css'
 
 export default class chatTab extends Component {
 
@@ -89,6 +93,14 @@ export default class chatTab extends Component {
                             })}
                         </Tabs>
                     </div>
+                }
+                {(!this.state.user || !this.state.user.isSuperuser) &&
+                <ButtonToolbar>
+                    <BackToFrequentBtn/>
+
+                    <NewTicketButton />
+                </ButtonToolbar>
+
                 }
             </div>
         )
