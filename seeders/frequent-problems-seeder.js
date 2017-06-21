@@ -1,4 +1,10 @@
-'use strict';
+const date = new Date()
+const addDates = function (record) {
+    return Object.assign({}, record, {
+        createdAt: date,
+        updatedAt: date
+    })
+}
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
@@ -44,7 +50,7 @@ module.exports = {
           }
       ]
 
-      return queryInterface.bulkInsert('frequentProblems', records)
+      return queryInterface.bulkInsert('frequentProblems', records.map(addDates))
   },
 
   down: function (queryInterface, Sequelize) {
