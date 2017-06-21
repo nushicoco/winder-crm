@@ -9,10 +9,10 @@
 }
 
 .open-ticket {
-
     float: right !important;
     margin: 10px;
-    padding: 8px 30px;
+    padding: 10px 45px;
+    font-size: large;
 }
 
 .open-ticket > a{

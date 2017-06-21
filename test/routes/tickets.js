@@ -1,13 +1,10 @@
-require('./support/env.js')
-const { User, Ticket, TicketUpdate } = require('../models')
-
 const chai = require('chai')
 const expect = chai.expect
 chai.should()
 chai.use(require('chai-http'))
-chai.use(require('chai-arrays'))
 
-const app = require('../server')
+const app = require('../../server')
+const { User, Ticket, TicketUpdate } = require('../../models')
 
 let goodGuyGreg
 const gggPassword = 'conference'
@@ -34,55 +31,6 @@ const clearTickets = function () {
         TicketUpdate.sync({force: true})
     ])
 }
-
-describe('Ticket model', function () {
-    beforeEach(makeGreg)
-    beforeEach(clearTickets)
-
-    it('should be created and query without errors', function () {
-        return Ticket.create({
-            userId: goodGuyGreg.id,
-            subject: 'issues with floppy disk drive'
-        })
-            .then(function (ticket) {
-                return ticket.getUser()
-            })
-
-            .then(function (user) {
-                user.firstName.should.be.equal(goodGuyGreg.firstName)
-
-            })
-    })
-
-    it('should be possible to retreive ticketUpdates belonging to a Ticket', function () {
-        let ticketId
-        return Ticket.create({
-            userId: goodGuyGreg.id,
-            details: {
-                content: 'great sbject'
-            }
-        })
-            .then( function (ticket) {
-                ticketId = ticket.id
-                return TicketUpdate.create({
-                    ticketId,
-                    text: 'great text'
-                })
-            })
-            .then(function () {
-                return Ticket.findOne( {
-                    where: {
-                        id: ticketId
-                    },
-                    include: TicketUpdate
-                })
-            })
-            .then(function (ticket) {
-                expect(ticket).to.have.property('ticket_updates')
-                expect(ticket.ticket_updates).to.have.lengthOf(1)
-            })
-    })
-})
 
 describe('GET /tickets', function () {
     beforeEach(makeGreg)

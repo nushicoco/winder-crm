@@ -4,7 +4,7 @@
   "description": "CRM-lite",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require test/support/env.js",
+    "test": "mocha",
     "dev": "nodemon server.js",
     "start": "node server.js",
     "startprod": "PORT=3000 NODE_ENV=production nodemon server.js",
@@ -37,10 +37,10 @@
   "devDependencies": {
     "chai": "^4.0.2",
     "chai-arrays": "^1.0.0",
+    "chai-as-promised": "^7.0.0",
     "chai-http": "^3.0.0",
     "concurrently": "^3.4.0",
     "mocha": "^3.4.2",
-    "nodemon": "^1.11.0",
-    "should": "^11.2.1"
+    "nodemon": "^1.11.0"
   }
 }
