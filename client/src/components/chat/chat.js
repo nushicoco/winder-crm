@@ -9,14 +9,13 @@ import io from 'socket.io-client'
 
 import './chat.css'
 import ChatTab from "./chatTab";
-import ChatNicknameModal from './chatModel'
+import ChatNicknameModal from './chatModal'
 
 export default class chatTab extends Component {
 
     constructor (props) {
         super(props);
 
-        // todo not sure why props.user is null
         this.state = {
             chats : [],
             client: '',
@@ -27,6 +26,12 @@ export default class chatTab extends Component {
         // todo move url to .env
         // let socket = io(`${process.env.CHAT_HOST}:${process.env.CHAT_PORT}`);
         this.socket = io.connect(`http://localhost:8080`);
+    }
+
+    componentWillReceiveProps (nextProps){
+        // b/c we read the user from the cookie it takes time for it to
+        // be set
+        this.setState({user:nextProps.user});
     }
 
     createChat(){
@@ -43,6 +48,13 @@ export default class chatTab extends Component {
         })
     }
 
+    componentWillMount(){
+        if (this.state.user){
+            this.setState({client:this.state.user.firstName});
+            this.createChat();
+        }
+    }
+
     handleChatChange (index) {
         this.setState({activeChatIndex : index });
     }
@@ -57,6 +69,7 @@ export default class chatTab extends Component {
                 <ChatNicknameModal show={!this.state.user || !this.state.user.firstName }
                                    updateNick = {this.updateNick.bind(this)}
                                    onExited = {this.createChat.bind(this)}
+                                   user = {this.state.user}
                 />
                 { this.state.chats.length == 0 && this.state.user && this.state.user.isSuperuser &&
                     <p>No chats pending</p>

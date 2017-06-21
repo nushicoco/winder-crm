@@ -47,7 +47,7 @@ export const routes = [
         exact: true
     },
     {
-        path: '/chat/:id/:client',
+        path: '/chat',
         component: Chat,
         exact: true
     }

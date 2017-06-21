@@ -13,7 +13,8 @@ export default class ChatNicknameModal extends Component {
 
         this.state = {
             show: props.show,
-            nickname : ''
+            nickname : '',
+            user:props.user
         }
 
         this.updateNick = props.updateNick;

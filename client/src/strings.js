@@ -83,6 +83,7 @@ export default {
     chat:{
         submit:'שלח',
         nicknameHeader: 'איך לקרוא לך?',
-        startChat: 'התחל בשיחה'
+        startChat: 'התחל בשיחה',
+        newChat: 'צ׳אט עם טכנאי'
     }
 }

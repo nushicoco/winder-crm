@@ -1,0 +1,22 @@
+.open-ticket {
+    float: right !important;
+    margin: 10px;
+    padding: 10px 45px;
+    font-size: large;
+}
+
+.open-ticket > a{
+    color: white;
+    font-weight: bold;
+}
+
+.open-ticket > a:hover{
+    color: white;
+}
+
+.open-chat {
+    float: left !important;
+    margin: 10px;
+    padding: 10px 45px;
+    font-size: large;
+}
