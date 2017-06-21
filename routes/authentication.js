@@ -16,8 +16,9 @@ module.exports = function (app, passport) {
     });
 
     app.post('/logout', (req, res) => {
-        req.logout()
-        res.redirect('/')
+        req.session.destroy( (error) => {
+            res.redirect('/')
+        })
     })
 
     app.post('/signup', (req, res) => {
