@@ -11,6 +11,7 @@ import './chat.css'
 import ChatTab from "./chatTab";
 
 export default class chatTab extends Component {
+
     constructor (props) {
         super(props);
 
@@ -18,40 +19,23 @@ export default class chatTab extends Component {
             chats : [],
             client: props.match.params.client,
             activeChatIndex: 0,
-        }
+        };
 
         // todo move url to .env
         // let socket = io(`${process.env.CHAT_HOST}:${process.env.CHAT_PORT}`);
-        this.socket = io(`http://localhost:8080`);
-
+        this.socket = io.connect(`http://localhost:8080`);
     }
 
     componentWillMount(){
         var self = this;
-        createChat()
-            .then( (resp) =>  {
-                self.setState({
-                    chats: self.state.chats.concat(resp)
-                })
-
-                // if (this.state.chats.length > 0){
-                //     console.log(`setting active to ${self.state.chats[0].id}`);
-                //     self.setState({activeChat : self.state.chats[0].id})
-                // }
-
+        createChat(this.state.client)
+        .then( (resp) =>  {
+            self.setState({
+                chats: self.state.chats.concat(resp)
+            })
         })
-            .catch(function (err){
-
+        .catch(function (err){
         })
-
-    }
-
-    getTabClass (index) {
-        if (index == this.state.activeChatIndex){
-            return "active-tab";
-        }
-
-        return "hide";
     }
 
     handleChatChange (index) {
@@ -61,27 +45,17 @@ export default class chatTab extends Component {
     render() {
         return (
             <div className="all-over">
+                {!this.state.chats.length && <p>No chats pending</p>}
                 <div className="tabs">
-
-                    <nav role='navigation' className="transformer-tabs">
-                        <ul>
-                            {this.state.chats.map((chat, index) => {
-                                return (
-                                    <li key={chat.id} onClick={ () => {this.handleChatChange(index)}}>
-                                        <a href="javascript:void(0)" > { chat.id } </a></li>
-                                )
-                            })}
-                        </ul>
-                    </nav>
-                    {/* todo this part sucks, we have x tabs that get renders everytime we change the chat*/}
-                    {this.state.chats.map((chat, index) => {
-                        return (
-                            <div key={chat.id} id={`chat-div-${chat.id}`} className={this.getTabClass(index)} >
-                                <ChatTab  key={`chat-tab-${chat.id}`} chatId={chat.id} client={ this.state.client } socket = { this.socket }></ChatTab>
-                            </div>
-                        )
-                    })}
-                    {/*<ChatTab  chatId={this.state.chats[this.state.activeChatId].id} client={ this.state.client } socket = { this.socket } />*/}
+                    <Tabs activeKey={this.state.activeChatIndex} onSelect={this.handleChatChange.bind(this)} id="chatTabs">
+                        {this.state.chats.map((chat, index) => {
+                            return (
+                                <Tab key={chat.id} eventKey={index} title={chat.client}>
+                                    <ChatTab  key={`chat-tab-${chat.id}`} chatId={chat.id} client={ this.state.client } socket = { this.socket }></ChatTab>
+                                </Tab>
+                            )
+                        })}
+                    </Tabs>
                 </div>
             </div>
         )

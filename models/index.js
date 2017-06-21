@@ -24,6 +24,7 @@ Object.values(models).forEach( model => model.associate && model.associate(model
 
 // All set
 sequelize.sync()
+// sequelize.sync({force:true})
 
 module.exports = Object.assign(
     models,

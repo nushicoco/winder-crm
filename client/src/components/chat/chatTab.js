@@ -23,6 +23,12 @@ export default class chatTab extends Component {
         }
 
         this.socket = props.socket;
+
+        let self = this;
+
+        getChat(this.state.chatId).then(function (chat) {
+            self.setState({messages:chat.chat_messages});
+        })
     }
 
     componentWillMount() {
@@ -35,10 +41,6 @@ export default class chatTab extends Component {
                 return;
             }
             self.setState( { messages : self.state.messages.concat([data]) } );
-        })
-
-        getChat(this.state.chatId).then(function (chat) {
-            self.setState({messages:chat.chat_messages});
         })
     }
 
@@ -57,7 +59,7 @@ export default class chatTab extends Component {
                     return <Message key={msg.id} author={msg.client} text={msg.text} isMe={ msg.client == this.state.client }></Message>
                 })}
             </div>
-            <TextSubmitter sendMessage={ this.sendMessage }>
+            <TextSubmitter sendMessage={ this.sendMessage.bind(this) }>
             </TextSubmitter>
         </div>
         )

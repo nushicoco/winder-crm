@@ -8,10 +8,14 @@ module.exports = function (app, io) {
     var connections = {};
     var msgCounter = 0 ;
 
-    io.on('connection', function (socket) {
+    // delete open chats
+    console.log("closing all chats");
+    Chat.update({status:"closed"}, {where:{status:"active"}}).then(function (resp){
+        console.log("closed all chats, resp = " + resp);
+        return;
+    });
 
-        // close all old chats
-        // Chat.update({status:'closed'},{where:{status:'open'}});
+    io.on('connection', function (socket) {
 
         //todo maybe change the connection[chatId] to socket rooms ?
         // for private msging -
@@ -37,7 +41,7 @@ module.exports = function (app, io) {
                 return ChatMessage.create({
                     chatId: data.chatId,
                     text: data.text,
-                    client: data.from
+                    client: data.client
                 })
             })
         });
@@ -49,7 +53,9 @@ module.exports = function (app, io) {
             //     chat = chatById
             // })
             socket.chatId = data.chatId;
-            socket.clients = socket.clients ? socket.clients.concat([data.from]) : [data.from]
+            socket.clients = socket.clients ? socket.clients.concat([data.client]) : [data.client]
+
+            console.log("client " + data.client + " connected");
 
             // todo notify slack with chatId ?
 
@@ -75,9 +81,5 @@ module.exports = function (app, io) {
                 delete connections[socket.chatId];
             }
         });
-    });
-
-    io.on('connection', function () {
-
     });
 }

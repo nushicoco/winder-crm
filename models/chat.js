@@ -11,8 +11,11 @@ module.exports = function (sequelize) {
             validate: {
                 isIn: [['active', 'closed']]
             }
-        }
-    }, {
+        },
+
+        client: Sequelize.TEXT,
+
+}, {
         hooks: {
             afterCreate: function (chat) {
                 notifyNewChat(chat)
@@ -23,9 +26,6 @@ module.exports = function (sequelize) {
     Chat.associate = function (models) {
         Chat.hasMany(models.ChatMessage)
     };
-
-    // todo remove before production
-    // sequelize.sync({force:true});
 
     return Chat;
 };

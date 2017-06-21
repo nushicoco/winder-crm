@@ -92,10 +92,10 @@ module.exports.logout = function () {
     return post('/logout');
 }
 
-module.exports.createChat = function () {
-    return post('/chat');
+module.exports.createChat = function (client) {
+    return post('/chat', {client});
 }
 
-module.exports.getChat = function (chatId) {
+module.exports.getChat = function (chatId, ) {
     return get(`/chats/${chatId}`)
 }

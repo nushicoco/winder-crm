@@ -15,9 +15,11 @@ module.exports = function (app, passport) {
                 .then( all => res.send(all.map( item => item.toJSON())))
         }else{
 
-            Chat.create({status:'active'})
+            var client = req.param("client");
+            Chat.create({status:'active', client: client})
                 .then( (chat) => {
-                    res.status(200).send(chat)
+                    res.status(200).send(chat);
+                    return null;
                 })
 
                 .catch( (error) => {
@@ -43,6 +45,7 @@ module.exports = function (app, passport) {
                 res.sendStatus(400).send({errorMessage: "couldn't find chat"})
             }
             res.status(200).send(chat.toJSON())
+            return null;
         })
         .catch ( (error) => {
             console.error(error)
