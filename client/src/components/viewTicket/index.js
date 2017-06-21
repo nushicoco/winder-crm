@@ -53,7 +53,7 @@ export default class ViewTicket extends React.Component {
 
     renderTicketUpdate = (ticketUpdate) => {
         const user = ticketUpdate.user
-        let ticketContent = ticketUpdate.status
+        let ticketUpdateContent = ticketUpdate.status
             ? this.renderStatusUpdate(ticketUpdate.status)
             : ticketUpdate.text
         return (
@@ -71,7 +71,7 @@ export default class ViewTicket extends React.Component {
 
               <tr className="ticket-update-text" >
                 <td colSpan={2}>
-                  { ticketContent }
+                  { ticketUpdateContent }
                 </td>
               </tr>
                 </tbody>
