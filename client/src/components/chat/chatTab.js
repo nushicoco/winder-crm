@@ -11,8 +11,6 @@ import { getChat } from '../../api'
 export default class chatTab extends Component {
 
     constructor (props) {
-        console.log("in chatTab ctor");
-
         super(props);
 
         this.state = {
@@ -32,7 +30,6 @@ export default class chatTab extends Component {
     }
 
     componentWillMount() {
-        console.log("in chat tab will mount");
         let self = this;
         this.socket.emit(`client:connected`, { chatId : this.state.chatId , client: this.state.client })
         this.socket.on(`server:gotMessage`, data => {
@@ -49,11 +46,9 @@ export default class chatTab extends Component {
     }
 
     render() {
-        console.log("in chatTab Render");
-
         return (
         <div className="container">
-            <h2>Chat #{ this.state.chatId }</h2>
+            <h2>Chat #{ this.state.chatId } {this.state.client}</h2>
             <div className="chatArea" >
                 {this.state.messages.map((msg, index) => {
                     return <Message key={index} author={msg.client} text={msg.text} isMe={ msg.client == this.state.client }></Message>

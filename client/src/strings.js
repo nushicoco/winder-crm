@@ -81,6 +81,8 @@ export default {
         reload: 'רענן'
     },
     chat:{
-        submit:'שלח'
+        submit:'שלח',
+        nicknameHeader: 'איך לקרוא לך?',
+        startChat: 'התחל בשיחה'
     }
 }

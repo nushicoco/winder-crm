@@ -5,8 +5,8 @@
 module.exports = function (app, io) {
     const { Chat, ChatMessage, User  } = require('./models')
 
-    // delete open chats
-    console.log("closing all chats");
+    // delete open chats if server closed unexpectedly
+    console.log("closing all open chats");
     Chat.update({status:"closed"}, {where:{status:"active"}}).then(function (count){
         console.log("chats closed = " + count);
         return;
