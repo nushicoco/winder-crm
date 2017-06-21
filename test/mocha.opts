@@ -1,0 +1,3 @@
+test/models
+test/routes
+--require test/support/env.js
