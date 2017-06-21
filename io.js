@@ -21,21 +21,26 @@ module.exports = function (app, io) {
         // for private msging -
         // socket.broadcast.to(id).emit('my message', msg);
 
-        console.log(`socket id is ${socket.id}`);
+        socket.on('client:connected', function(data){
+            // connections[data.chatId] =  connections[data.chatId] ? connections[data.chatId].concat([socket]) : [socket];
+            // let chat;
+            // Chat.findOne({id:data.chatId}).then(function (chatById){
+            //     chat = chatById
+            // })
+            // socket.chatId = data.chatId;
+            // socket.clients = socket.clients ? socket.clients.concat([data.client]) : [data.client]
+
+            // console.log("client " + data.client + " connected");
+
+            socket.join(data.chatId);
+
+            // todo notify slack with chatId ?
+
+        })
 
         socket.on('client:sendMessage', function (data) {
-            data.id = msgCounter++;
-            data.chatId = socket.chatId;
 
-            if (!connections[socket.chatId]){
-                // todo check y dis happns
-                console.log("in client:sendMessage -> connections[socket.chatId] is undefined for socket=" + socket.id + " and chat id =" + socket.chatId);
-                return;
-            }
-
-            connections[socket.chatId].forEach(function (currSocket) {
-                currSocket.emit('server:gotMessage', data);
-            });
+            io.to(data.chatId).emit('server:gotMessage', data);
 
             Chat.findById(socket.chatId).then( (chat) => {
                 return ChatMessage.create({
@@ -46,40 +51,14 @@ module.exports = function (app, io) {
             })
         });
 
-        socket.on('client:connected', function(data){
-            connections[data.chatId] =  connections[data.chatId] ? connections[data.chatId].concat([socket]) : [socket];
-            // let chat;
-            // Chat.findOne({id:data.chatId}).then(function (chatById){
-            //     chat = chatById
-            // })
-            socket.chatId = data.chatId;
-            socket.clients = socket.clients ? socket.clients.concat([data.client]) : [data.client]
-
-            console.log("client " + data.client + " connected");
-
-            // todo notify slack with chatId ?
-
-        })
-
         socket.on('super:getClients', function (){
 
         })
 
         socket.on('disconnect', function () {
-            console.log("socket disconnected");
-            if (!connections[socket.chatId]){
-                // todo check y dis happns
-                console.log("connections[socket.chatId] is undefined for socket=" + socket.id + " and chat id =" + socket.chatId);
-                return;
-            }
-            var index = connections[socket.chatId].indexOf(socket);
-            if (index > -1) {
-                connections[socket.chatId].splice(index, 1);
-            }
+            console.log("socket " +  socket.id + " disconnected");
 
-            if (connections[socket.chatId].length == 0){
-                delete connections[socket.chatId];
-            }
+
         });
     });
 }
