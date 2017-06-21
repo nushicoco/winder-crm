@@ -5,38 +5,18 @@
 module.exports = function (app, io) {
     const { Chat, ChatMessage, User  } = require('./models')
 
-    var connections = {};
-    var msgCounter = 0 ;
-
     // delete open chats
     console.log("closing all chats");
-    Chat.update({status:"closed"}, {where:{status:"active"}}).then(function (resp){
-        console.log("closed all chats, resp = " + resp);
+    Chat.update({status:"closed"}, {where:{status:"active"}}).then(function (count){
+        console.log("chats closed = " + count);
         return;
     });
 
     io.on('connection', function (socket) {
-
-        //todo maybe change the connection[chatId] to socket rooms ?
-        // for private msging -
-        // socket.broadcast.to(id).emit('my message', msg);
-
         socket.on('client:connected', function(data){
-            // connections[data.chatId] =  connections[data.chatId] ? connections[data.chatId].concat([socket]) : [socket];
-            // let chat;
-            // Chat.findOne({id:data.chatId}).then(function (chatById){
-            //     chat = chatById
-            // })
-            // socket.chatId = data.chatId;
-            // socket.clients = socket.clients ? socket.clients.concat([data.client]) : [data.client]
-
-            // console.log("client " + data.client + " connected");
-
             socket.join(data.chatId);
-
-            // todo notify slack with chatId ?
-
-        })
+            socket.chatId = data.chatId;
+        });
 
         socket.on('client:sendMessage', function (data) {
 
@@ -55,10 +35,25 @@ module.exports = function (app, io) {
 
         })
 
-        socket.on('disconnect', function () {
-            console.log("socket " +  socket.id + " disconnected");
+        // socket.on('disconnect', function () {
+        //     console.log("socket " +  socket.id + " disconnected");
+        // });
 
+        socket.on('disconnecting', function () {
+            console.log("socket " +  socket.id + " is disconnecting");
+            for (room in socket.rooms){
+                if (room == socket.id){
+                    continue;
+                }
 
+                // if no more clients in the room we close the chat
+                var clients = io.sockets.adapter.rooms[room];
+                if (clients && clients.length == 1){
+                    Chat.update({status:"closed"}, {where:{id:room}}).then(function (count){
+                        return;
+                    });
+                }
+            }
         });
     });
 }
