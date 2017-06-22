@@ -4,7 +4,7 @@ import { Route, Link } from 'react-router-dom';
 import Login from './components/login'
 import LoginContainer from './components/loginContainer'
 import { routes } from './routes';
-import { getUser, getTickets } from './api.js'
+import { getUser } from './api.js'
 
 
 import './App.css';
@@ -24,18 +24,25 @@ class App extends Component {
             user
         })
 
-        getTickets().then((tickets) => {
-            this.setState({ticketsCount: tickets.length });
-        })
     }
 
     componentDidMount () {
         getUser().then(this.receivedUser)
     }
 
+    doLogin = () => {
+        this.setState({
+            showLogin: true
+        })
+    }
+
     renderRoute = (route) => {
         return (props) => {
-            return React.createElement(route.component, {user: this.state.user, ...props})
+            return React.createElement(route.component, {
+                user: this.state.user,
+                doLogin: this.doLogin,
+                ...props
+            })
         }
     }
 
@@ -49,7 +56,7 @@ class App extends Component {
           </div>
 
           <LoginContainer
-            onLogin = { () => this.setState({showLogin: true})}
+            doLogin={ this.doLogin }
             user={ this.state.user }/>
 
           <Login

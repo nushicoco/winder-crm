@@ -81,7 +81,7 @@ export default class LoginContainer extends React.Component {
             <div className="login-container">
               <a className="inline"
                  href="javascript:void(0)"
-                 onClick={this.props.onLogin} >
+                 onClick={this.props.doLogin} >
                 { Strings.header.loginAction }
               </a>
             </div>
