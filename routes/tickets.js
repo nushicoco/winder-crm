@@ -86,8 +86,12 @@ module.exports = function (app, passport) {
     })
 
     app.get('/tickets', (req, res) => {
+
+        if (!req.user) {
+            return res.status(401).send({errorMessage:"no user is not logged in"})
+        }
+
         var where = req.user.isSuperuser ? {} : {userId:req.user.id}
-        console.log(where);
         Ticket.findAll({include: [TicketUpdate, User], where:where})
             .then(function (tickets) {
                 res.status(200).send(tickets.map( ticket => ticket.toJSON()))

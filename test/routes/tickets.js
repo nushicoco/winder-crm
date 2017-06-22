@@ -47,7 +47,7 @@ const clearTickets = function () {
 describe('GET /tickets', function () {
     beforeEach(makeGregAndScrappy)
     beforeEach(clearTickets)
-    it.only('should list all available tickets', function () {
+    it('should list all available tickets', function () {
 
         const agent = chai.request.agent(app)
 
@@ -100,6 +100,18 @@ describe('GET /tickets', function () {
             })
     })
 
+    it('should throw error if no user is logged in', function () {
+        const agent = chai.request.agent(app)
+
+        return agent.get('/tickets').send()
+            .then(function (response) {
+                expect(response.status).to.equal(401);
+            })
+            .catch(function (error) {
+                error.should.have.property('response')
+                error.response.status.should.equal(401)
+            })
+    })
 })
 
 describe('POST /ticket', function () {
