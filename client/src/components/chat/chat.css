@@ -20,7 +20,7 @@
 }
 
 .other-message .author{
-    color: blue;
+    color: #5656da;
 }
 
 .arrow-right {
@@ -49,7 +49,7 @@
 }
 
 .submitter-text{
-    margin: 1% 0;
+    margin: 2% 1%;
 }
 
 .nickname {
@@ -72,7 +72,7 @@
     z-index: 1060;
     padding: 10px;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 14px;
+    font-size: large;
     font-style: normal;
     font-weight: 400;
     line-height: 1.42857143;
@@ -95,6 +95,11 @@
     /*box-shadow: 0 5px 10px rgba(0,0,0,.2);*/
     line-break: auto;
     margin: 10px 0;
+}
+
+.msg-time {
+    font-size: small;
+    color: lightgrey;
 }
 
 /* mobile */

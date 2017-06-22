@@ -79,7 +79,11 @@ export default class chatTab extends Component {
             {/*<h2>Chat #{ this.state.chatId } {this.state.client}</h2>*/}
             <div className="chatArea" >
                 {this.state.messages.map((msg, index) => {
-                    return <Message key={index} author={msg.client} text={msg.text} isMe={ msg.client == this.state.client }></Message>
+                    return <Message key={index}
+                                    author={msg.client}
+                                    text={msg.text}
+                                    time={msg.createdAt}
+                                    isMe={ msg.client == this.state.client }></Message>
                 })}
                 <div style={{ float:"left", clear: "both" }}
                      ref={(el) => { this.messagesEnd = el; }} />
