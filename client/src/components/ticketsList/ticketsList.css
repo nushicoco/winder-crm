@@ -1,0 +1,11 @@
+.tickets-list-filters {
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+.tickets-list-filter-button {
+  background: none;
+  /* border: none; */
+  box-shadow: none;
+
+}

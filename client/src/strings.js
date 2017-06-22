@@ -54,6 +54,7 @@ export default {
     },
     back: 'חזרה',
     ticket: {
+        filters: 'סינון: ',
         noUpdates: 'אין עדכונים לקריאה זו.',
         headlinePrefix: 'קריאה #',
         watchMyTicket: 'למעקב אחר הקריאה שלי',
@@ -71,6 +72,7 @@ export default {
         status: 'סטטוס',
         statusUpdate: 'סטטוס שונה ל: ',
         statuses: {
+            all: 'הצג הכל',
             inTherapy: 'בטיפול',
             open: 'פתוח',
             closed: 'סגור'

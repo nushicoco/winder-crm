@@ -1,15 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import strings from '../../strings.js'
-import {  Button, Table} from 'react-bootstrap'
+import {  Button, ButtonGroup, Table} from 'react-bootstrap'
 import { getTickets } from '../../api.js'
 import {BackToFrequentBtn} from '../common'
+import './ticketsList.css'
 
+const NO_FILTER = 'all' // should has a matching string as well
 export default class TicketsList extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
             tickets: [],
+            filter: 'all',
             user: props.user
         }
     }
@@ -33,12 +36,39 @@ export default class TicketsList extends React.Component {
         this.reload()
     }
 
+    renderFilters() {
+        const buttons = [NO_FILTER, 'open', 'closed', 'inTherapy'].map( status => (
+            <Button
+              key={ status }
+              active={ this.state.filter === status }
+              className={ `tickets-list-filter-button ticket-status-${status}` }
+              onClick={ () => this.setState({filter: status}) }
+              bsSize="xsmall">
+              { strings.ticket.statuses[status] }
+            </Button>
+        ))
+        return (
+            <div className="tickets-list-filters">
+              { strings.ticket.filters }
+              <ButtonGroup>
+                { buttons }
+              </ButtonGroup>
+            </div>
+        )
+    }
+
+    filter = (ticket) => {
+        return this.state.filter === NO_FILTER || ticket.status === this.state.filter
+    }
+
     render () {
         return (
             <div>
               { this.state.user && (
                 <h1>{ strings.TicketsList.headline[this.state.user.isSuperuser ? 'admin' : 'user'] }</h1>
               )}
+
+            { this.renderFilters() }
               <Table className="center centered" striped bordered condensed hover>
                 <thead>
                   <tr>
@@ -52,7 +82,7 @@ export default class TicketsList extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
-                  { this.state.tickets.map(this.renderTicket) }
+                { this.state.tickets.filter(this.filter).map(this.renderTicket) }
                 </tbody>
               </Table>
 
