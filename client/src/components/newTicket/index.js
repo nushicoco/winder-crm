@@ -64,8 +64,6 @@ export default class NewTicket extends React.Component {
                   { Strings.ticket.watchMyTicket }
                 </Button>
               </Link>
-              <br/>
-              <BackToFrequentBtn></BackToFrequentBtn>
             </div>
             )
     }

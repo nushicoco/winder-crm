@@ -65,7 +65,7 @@ export default class TicketsAdmin extends React.Component {
                 <th >{ user ? `${user.firstName} ${user.lastName}` : ''}     </th>
                 <th >{ ticket.details.name }     </th>
                 <th  >
-                  <Link to={ `/view-ticket/${ticket.id}` }>
+                  <Link to={ `/view-ticket/${ticket.id}?accessToken=${ticket.accessToken}` }>
                     { ticket.details.subject }
                   </Link>
                 </th>
