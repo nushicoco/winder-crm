@@ -49,6 +49,7 @@ export default {
     },
     back: 'חזרה',
     ticket: {
+        noUpdates: 'אין עדכונים לקריאה זו.',
         headlinePrefix: 'קריאה #',
         watchMyTicket: 'למעקב אחר הקריאה שלי',
         user: 'משתמש',

@@ -192,6 +192,20 @@ export default class ViewTicket extends React.Component {
             </Form>
         )
     }
+    renderUpdatesTable () {
+        const updates = this.state.ticket.ticket_updates.length > 0
+              ?  this.state.ticket.ticket_updates.map(this.renderTicketUpdate)
+              : strings.ticket.noUpdates
+        return (
+            <div className="updates">
+              <h2>{ strings.ticket.updates } </h2>
+              { this.state.isSuperuser && this.renderNewUpdateForm() }
+              { updates }
+            </div>
+
+        )
+    }
+
     render () {
         const user = this.state.ticket.user
         const userDetails =  user ? `${user.firstName} ${user.lastName} (${user.email})` : ''
@@ -227,12 +241,7 @@ export default class ViewTicket extends React.Component {
               </Table>
 
               <hr/>
-              <div className="updates">
-                <h2>{ strings.ticket.updates } </h2>
-                { this.state.isSuperuser && this.renderNewUpdateForm() }
-                { this.state.ticket.ticket_updates.map(this.renderTicketUpdate) }
-
-              </div>
+              { this.renderUpdatesTable() }
               <hr/>
               <Link to={ linkBack }>{ strings.back }</Link>
             </div>
