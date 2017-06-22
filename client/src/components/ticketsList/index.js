@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom'
 import strings from '../../strings.js'
 import {  Button, Table} from 'react-bootstrap'
 import { getTickets } from '../../api.js'
+import {BackToFrequentBtn} from '../common'
 
-export default class TicketsAdmin extends React.Component {
+export default class TicketsList extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
-            tickets: []
+            tickets: [],
+            user: props.user
         }
     }
 
@@ -28,7 +30,7 @@ export default class TicketsAdmin extends React.Component {
     render () {
         return (
             <div>
-              <h1>{ strings.ticketsAdmin.headline }</h1>
+              <h1>{ strings.TicketsList.headline }</h1>
               <Table className="center centered" striped bordered condensed hover>
                 <thead>
                   <tr>
@@ -47,9 +49,10 @@ export default class TicketsAdmin extends React.Component {
               </Table>
 
               <Button onClick={ () => this.reload() } >
-                { strings.ticketsAdmin.reload }
+                { strings.TicketsList.reload }
               </Button>
 
+                <BackToFrequentBtn/>
             </div>
         )
     }
@@ -65,9 +68,14 @@ export default class TicketsAdmin extends React.Component {
                 <th >{ user ? `${user.firstName} ${user.lastName}` : ''}     </th>
                 <th >{ ticket.details.name }     </th>
                 <th  >
-                  <Link to={ `/view-ticket/${ticket.id}` }>
-                    { ticket.details.subject }
-                  </Link>
+                    {this.state.user && this.state.user.isSuperuser &&
+                        <Link to={ `/view-ticket/${ticket.id}` }>
+                            { ticket.details.subject }
+                        </Link>
+                    }
+                    {(!this.state.user || !this.state.user.isSuperuser) &&
+                         ticket.details.subject
+                    }
                 </th>
                 <th className={ `ticket-status-${ticket.status}`} >{ strings.ticket.statuses[ticket.status] }</th>
                 <th className="ltr" > { this.formatDate(ticket.createdAt) }</th>

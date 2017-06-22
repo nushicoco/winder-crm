@@ -77,8 +77,9 @@ export default {
         openTicket:'פתח קריאה',
         openTicketHeader:'פתח קריאה חדשה'
     },
-    ticketsAdmin: {
+    TicketsList: {
         headline: 'ניהול קריאות',
+        viewTickets: 'צפייה בקריאות שלי',
         reload: 'רענן'
     }
 }
