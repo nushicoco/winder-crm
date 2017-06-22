@@ -49,6 +49,7 @@ export default {
     },
     back: 'חזרה',
     ticket: {
+        headlinePrefix: 'קריאה #',
         watchMyTicket: 'למעקב אחר הקריאה שלי',
         user: 'משתמש',
         dateIssued: 'תאריך יצירה',

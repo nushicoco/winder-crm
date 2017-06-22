@@ -220,9 +220,6 @@ describe('GET /ticket/:id', function () {
                     .send()
             })
             .then(function (response) {
-
-                console.log('<-DANDEBUG-> tickets.js\\ 224: response.status:', response.status);
-                console.log('<-DANDEBUG-> tickets.js\\ 225: response.body:', response.body);
                 response.status.should.equal(200)
                 expect(response).to.be.json
                 response.should.be.json
