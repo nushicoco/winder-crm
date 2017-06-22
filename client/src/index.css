@@ -29,10 +29,6 @@ a:hover {
   color: #C20114;
 }
 
-.container {
-  margin: 10px 55px 55px 55px;
-}
-
 .sub-container{
   border: solid 4px lightgray;
   border-radius: 16px;
@@ -55,4 +51,15 @@ a:hover {
   top: 0em;
   background: white;
   position: fixed;
+}
+
+.mini-container{
+  margin: 15px;
+}
+
+@media screen
+and (min-device-width: 1200px) {
+  .container {
+    margin: 10px 55px 55px 55px;
+  }
 }

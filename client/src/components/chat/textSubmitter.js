@@ -24,7 +24,7 @@ export default class TextSubmitter extends Component {
     }
     render() {
         return (
-            <Form>
+            <Form className="submitter">
                 <Row>
                     <FormGroup controlId="subject">
                         <Col sm={4}>
@@ -32,15 +32,16 @@ export default class TextSubmitter extends Component {
                                 type="text"
                                 value={ this.state.text }
                                 onChange={ e => this.setState({text: e.target.value}) }
+                                className="submitter-text"
                                 />
-                        </Col>
-                        {/* todo - not sure why enter is submitting even though there's a type="button" */}
-                        <Col sm={2}>
                             <Button bsStyle="primary"
-                                    className="submit-text"
                                     disabled={ this.state.isLoading || !this.state.text}
                                     type="button"
-                                    onClick= { this.handleSubmit.bind(this) } >{ Strings.chat.submit }
+                                    onClick= { this.handleSubmit.bind(this) }
+                                    className="submitter-button"
+
+                            >
+                                { Strings.chat.submit }
                             </Button>
                         </Col>
                     </FormGroup>

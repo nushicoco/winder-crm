@@ -1,14 +1,51 @@
-.chatArea{
-    height: 300px;
-    width: 300px;
-    background-color: lightpink;
-    direction: ltr;
-}
-
 .left {
     text-align: left;
 }
 
 .right {
     text-align: righ;
+}
+
+.submitter-text{
+    margin: 10px 0;
+}
+
+/* mobile */
+@media screen
+and (max-device-width: 1200px) {
+    .chatArea{
+        height: 300px;
+        /*width: 300px;*/
+        background-color: lightblue;
+        direction: ltr;
+        overflow-y: scroll
+    }
+
+    .submitter-text{
+        width: 70%;
+        display: inline;
+    }
+
+    .submitter-button{
+        width: 30%;
+    }
+}
+/* regular*/
+@media screen
+and (min-device-width: 1200px) {
+    .chatArea{
+        height: 300px;
+        background-color: lightpink;
+        direction: ltr;
+        overflow-y: scroll
+    }
+
+    .submitter-text{
+        width: 85%;
+        display: inline;
+    }
+
+    .submitter-button{
+        width: 15%;
+    }
 }

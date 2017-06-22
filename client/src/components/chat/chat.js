@@ -22,7 +22,7 @@ export default class chatTab extends Component {
 
         this.state = {
             chats : [],
-            client: '',
+            client: props.user ? props.user.firstName : '',
             activeChatIndex: 0,
             user: props.user
         };
@@ -36,6 +36,9 @@ export default class chatTab extends Component {
         // b/c we read the user from the cookie it takes time for it to
         // be set
         this.setState({user:nextProps.user});
+        if (this.state.user){
+            this.setState({client: this.state.user.firstName});
+        }
     }
 
     createChat(){
@@ -96,14 +99,15 @@ export default class chatTab extends Component {
                     </Tabs>
                 </div>
                 }
+
                 <ButtonToolbar>
                     <BackToFrequentBtn/>
 
                     {(!this.state.user || !this.state.user.isSuperuser) &&
-                        <NewTicketButton />
+                    <NewTicketButton />
                     }
 
-                    </ButtonToolbar>
+                </ButtonToolbar>
             </div>
         )
     }

@@ -30,8 +30,8 @@
 }
 
 .back-btn {
-    float: left;
-    padding: 0 100px;
+    float: none !important;
+    padding: 10px 100px;
     margin: 25px 0;
 }
 
