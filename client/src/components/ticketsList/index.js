@@ -33,7 +33,29 @@ export default class TicketsList extends React.Component {
         this.reload()
     }
 
+    isSuperuser () {
+        return this.state.user && this.state.user.isSuperuser
+    }
+
     render () {
+        let headers = [
+            (<th>#</th>)
+        ]
+
+        if (this.isSuperuser()) {
+            headers = headers.concat([
+                (<th>{ strings.ticket.user } </th>),
+                (<th>{ strings.ticket.name } </th>)
+            ])
+        }
+
+        headers = headers.concat([
+                (<th>{ strings.ticket.subject }</th>),
+                (<th>{ strings.ticket.status }</th>),
+                (<th>{ strings.ticket.dateIssued }</th>),
+                (<th>{ strings.ticket.dateUpdated }</th>)
+        ])
+
         return (
             <div>
               { this.state.user && (
@@ -42,13 +64,7 @@ export default class TicketsList extends React.Component {
               <Table className="center centered" striped bordered condensed hover>
                 <thead>
                   <tr>
-                    <th>#</th>
-                    <th>{ strings.ticket.user } </th>
-                    <th>{ strings.ticket.name } </th>
-                    <th>{ strings.ticket.subject }</th>
-                    <th>{ strings.ticket.status }</th>
-                    <th>{ strings.ticket.dateIssued }</th>
-                    <th>{ strings.ticket.dateUpdated }</th>
+                { headers }
                   </tr>
                 </thead>
                 <tbody>
@@ -64,25 +80,36 @@ export default class TicketsList extends React.Component {
             </div>
         )
     }
+
     formatDate (date) {
         return new Date(date).toLocaleString()
     }
 
     renderTicket = (ticket) => {
         const user = ticket.user || {}
+
+        let ticketCells = [
+            (<td>{ ticket.id } </td>)
+        ]
+
+        if (this.isSuperuser()) {
+            ticketCells = ticketCells.concat([
+                (<td >{ `${user.firstName || ''} ${user.lastName || ''}`} </td>),
+                (<td >{ ticket.details.name }     </td>)
+            ])
+        }
+
+        ticketCells = ticketCells.concat([
+            (<td  > <Link to={ `/view-ticket/${ticket.id}?accessToken=${ticket.accessToken}` }> { ticket.details.subject } </Link> </td>),
+            (<td className={ `ticket-status-${ticket.status}`} >{ strings.ticket.statuses[ticket.status] }</td>),
+            (<td className="ltr" > { this.formatDate(ticket.createdAt) }</td>),
+            (<td className="ltr" > { this.formatDate(ticket.updatedAt) }</td>)
+        ])
+
+
         return (
             <tr  key={ ticket.id } >
-                <th>{ ticket.id }       </th>
-                <th >{ `${user.firstName || ''} ${user.lastName || ''}`} </th>
-                <th >{ ticket.details.name }     </th>
-                <th  >
-                  <Link to={ `/view-ticket/${ticket.id}?accessToken=${ticket.accessToken}` }>
-                    { ticket.details.subject }
-                  </Link>
-                </th>
-                <th className={ `ticket-status-${ticket.status}`} >{ strings.ticket.statuses[ticket.status] }</th>
-                <th className="ltr" > { this.formatDate(ticket.createdAt) }</th>
-                <th className="ltr" > { this.formatDate(ticket.updatedAt) }</th>
+              { ticketCells }
             </tr>
         )
     }
