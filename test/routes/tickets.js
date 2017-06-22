@@ -117,9 +117,7 @@ describe('POST /ticket', function () {
                     content: 'I have problem',
                     room: '101'
                 })
-                // TODO check the ticket's TicketUpdate array somehow
             })
-            // .catch( (e) => {console.error(e); throw e})
     })
 
 })
@@ -128,7 +126,7 @@ describe('GET /ticket/:id', function () {
     beforeEach(makeGreg)
     beforeEach(clearTickets)
 
-    it('should not work without superuser login', function (done) {
+    it('should not work without superuser or access token', function (done) {
         const agent = chai.request.agent(app)
         let ticketId
         Ticket.create({
@@ -143,7 +141,7 @@ describe('GET /ticket/:id', function () {
                 })
 
                     .then(function () {
-                        agent.get(`/tickets/${ticketId}`)
+                        agent.get(`/tickets/${ticketId}?accessToken=wildguess`)
                             .send()
                             .end(function (error, response) {
                                 expect(response.status).to.equal(401)
@@ -206,7 +204,7 @@ describe('GET /ticket/:id', function () {
             .catch( (e) => {console.error(e); throw e})
     })
 
-    it('should return ticket information when given correct accessKey', function () {
+    it('should return ticket information when given correct access token', function () {
         const agent = chai.request.agent(app)
 
         return Ticket.create({
