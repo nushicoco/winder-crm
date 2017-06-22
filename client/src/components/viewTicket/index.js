@@ -17,6 +17,8 @@ export default class ViewTicket extends React.Component {
         this.state = {
             newUpdateText: '',
             accessToken: accessToken,
+            isLoggedUser: props.user,
+            isSuperuser: props.user && props.user.isSuperuser,
             ticket: {
                 id: '',
                 user: {},
@@ -24,10 +26,6 @@ export default class ViewTicket extends React.Component {
                 ticket_updates: []
             }
         }
-    }
-
-    goBack() {
-        this.props.history.goBack()
     }
 
     componentDidMount () {
@@ -168,6 +166,7 @@ export default class ViewTicket extends React.Component {
     }
     componentWillReceiveProps (newProps) {
         this.setState({
+            isLoggedUser: newProps.user,
             isSuperuser: newProps.user && newProps.user.isSuperuser
         })
     }
@@ -215,10 +214,6 @@ export default class ViewTicket extends React.Component {
         const user = this.state.ticket.user
         const userDetails =  user ? `${user.firstName} ${user.lastName} (${user.email})` : ''
         const ticketUpdates = this.state.ticket.ticket_updates || []
-        const linkBack = this.state.isSuperuser
-              ? '/admin/tickets'
-              : '/'
-
 
         return (
             <div>
@@ -248,7 +243,7 @@ export default class ViewTicket extends React.Component {
               <hr/>
               { this.renderUpdatesTable() }
               <hr/>
-              <a href="javascript:void(0)" onClick={ ()=> { this.goBack() } }>{ strings.back }</a>
+              <Link to={ this.state.isLoggedUser ? '/tickets' : '/' } > { strings.back } </Link>
             </div>
         )
     }
