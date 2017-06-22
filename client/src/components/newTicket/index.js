@@ -22,12 +22,26 @@ export default class NewTicket extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
+            user: props.user,
             submitted: false,
-            name: '',
+            name: this.makeUserName(props.user),
             phone: '',
             subject: AVAILABLE_SUBJECTS[0],
             room: AVAILABLE_ROOMS[0],
             content: ''
+        }
+    }
+
+    makeUserName(user) {
+        return (user && user.firstName + " " + user.lastName) || ''
+    }
+
+    componentWillReceiveProps(newProps) {
+        if (newProps.user) {
+            this.setState({
+                user: newProps.user,
+                name: this.makeUserName(newProps.user)
+            })
         }
     }
 
@@ -78,7 +92,7 @@ export default class NewTicket extends React.Component {
         )
     }
 
-    renderField = (field, type, { children, validationState, style, componentClass} = {} ) => {
+    renderField = (field, type, { children, validationState, style, componentClass, locked} = {} ) => {
         return (
             <Row>
               <FormGroup controlId={ field }
@@ -89,6 +103,7 @@ export default class NewTicket extends React.Component {
                 <Col sm={8}>
                   <FormControl
                     type={ type }
+                    disabled={ locked }
                     value={ this.state[field] }
                     componentClass={ componentClass }
                     style={ style }
@@ -101,8 +116,9 @@ export default class NewTicket extends React.Component {
         )
     }
 
-    renderTextField = (field, validateLength) => {
+    renderTextField = (field, {validateLength, locked} = {}) => {
         return this.renderField(field, 'text', {
+            locked,
             validationState: (validateLength && this.getValidationState(this.state[field])) || null
         })
     }
@@ -130,7 +146,7 @@ export default class NewTicket extends React.Component {
             <div>
               <h1>{Strings.ticket.openTicketHeader}</h1>
               <Form>
-                { this.renderTextField('name', true ) }
+                { this.renderTextField('name', {validateLength: true, locked: this.state.user} ) }
                 { this.renderTextField('phone') }
                 { this.renderSelectField('subject', AVAILABLE_SUBJECTS) }
                 { this.renderSelectField('room', AVAILABLE_ROOMS) }
