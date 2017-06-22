@@ -11,13 +11,26 @@ export default class Footer extends Component {
     constructor(props){
         super(props);
 
-        this.state = { ticketsCount : 0 }
+        this.state = {
+            ticketsCount: 0,
+            user: props.user
+        }
     }
 
-    componentWillMount(){
+    componentWillReceiveProps (newProps) {
+        if (newProps.user !== this.state.user) {
+            this.updateTicketCount()
+        }
+    }
+
+    updateTicketCount () {
         getTickets().then((tickets) => {
             this.setState({ticketsCount: tickets.length });
         })
+    }
+
+    componentWillMount(){
+        this.updateTicketCount()
     }
 
     render() {
