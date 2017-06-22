@@ -1,5 +1,6 @@
 import React from 'react'
 import queryString from 'query-string'
+import { browserHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 import { Table, Col, Row, FormGroup, Form, FormControl, ControlLabel, Button} from 'react-bootstrap'
 
@@ -23,6 +24,10 @@ export default class ViewTicket extends React.Component {
                 ticket_updates: []
             }
         }
+    }
+
+    goBack() {
+        this.props.history.goBack()
     }
 
     componentDidMount () {
@@ -243,7 +248,7 @@ export default class ViewTicket extends React.Component {
               <hr/>
               { this.renderUpdatesTable() }
               <hr/>
-              <Link to={ linkBack }>{ strings.back }</Link>
+              <a href="javascript:void(0)" onClick={ ()=> { this.goBack() } }>{ strings.back }</a>
             </div>
         )
     }
