@@ -6,10 +6,10 @@ chai.use(require('chai-http'))
 const app = require('../../server')
 const { User, Ticket, TicketUpdate } = require('../../models')
 
-let goodGuyGreg
+let goodGuyGreg, scrappy
 const gggPassword = 'conference'
 
-const makeGreg = function () {
+const makeGregAndScrappy = function () {
     return User.sync({force: true})
         .then(function () {
             return User.create({
@@ -23,6 +23,18 @@ const makeGreg = function () {
         .then(function (ggg) {
             goodGuyGreg = ggg
         })
+        .then(function () {
+            return User.create({
+                firstName: 'scrappy',
+                lastName:  'coco',
+                password:  gggPassword,
+                isSuperuser: false,
+                email:     'scrapptcoco@deer.com'
+            })
+        })
+        .then(function (coco) {
+            scrappy = coco
+        })
 }
 
 const clearTickets = function () {
@@ -33,14 +45,14 @@ const clearTickets = function () {
 }
 
 describe('GET /tickets', function () {
-    beforeEach(makeGreg)
+    beforeEach(makeGregAndScrappy)
     beforeEach(clearTickets)
-    it('should list all available tickets', function () {
+    it.only('should list all available tickets', function () {
 
         const agent = chai.request.agent(app)
 
         // Create tickets:
-        const userId = goodGuyGreg.id
+        const userId = scrappy.id
         const tickets = [
              ['ticket1 subject', 'ticket1 text'],
              ['ticket2 subject', 'ticket2 text'],
@@ -62,10 +74,36 @@ describe('GET /tickets', function () {
             })
     })
 
+    it('should list all available tickets for specific user', function () {
+        const agent = chai.request.agent(app)
+
+        // Create tickets:
+
+        const tickets = [
+            ['ticket1 subject', goodGuyGreg.id],
+            ['ticket2 subject', goodGuyGreg.id],
+            ['ticket3 subject', scrappy.id],
+        ]
+        return Promise.all(tickets.map( ([subject, userId]) => { return Ticket.create({userId, subject}) }))
+
+        // Receive them:
+            .then(function () {
+                return agent.post('/login').send({email: scrappy.email, password: gggPassword})
+            })
+            .then(function () {
+                return agent.get('/tickets').send()
+            })
+            .then(function (response) {
+                expect(response.status).to.equal(200)
+                expect(response.body).to.be.a('array')
+                expect(response.body).to.have.lengthOf(1)
+            })
+    })
+
 })
 
 describe('POST /ticket', function () {
-    beforeEach(makeGreg)
+    beforeEach(makeGregAndScrappy)
     beforeEach(clearTickets)
 
     it('should allow creating a ticket for logged-in user', function () {

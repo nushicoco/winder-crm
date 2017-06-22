@@ -137,13 +137,13 @@ export default class ViewTicket extends React.Component {
         )
     }
 
-    renderField = (field) => {
-        return this.renderTicketInfo(field, this.state.ticket.details[field])
+    renderField = (field,index) => {
+        return this.renderTicketInfo(field, this.state.ticket.details[field], index)
     }
 
-    renderTicketInfo = (name, value) => {
+    renderTicketInfo = (name, value, index) => {
         return (
-            <tr>
+            <tr key={index || Math.random()}>
               <td className="main-column">
                 { strings.ticket[name] }
               </td>
@@ -163,7 +163,7 @@ export default class ViewTicket extends React.Component {
               <h1>קריאה #{ this.state.ticket.id }</h1>
               <Table className="ticket-view-table" condensed>
                 <tbody>
-                  { Object.keys(this.state.ticket.details).map( (field) => this.renderField(field) ) }
+                  { Object.keys(this.state.ticket.details).map( (field, index) => this.renderField(field, index) ) }
 
                   { this.renderTicketInfo('user', userDetails) }
                   { this.renderTicketInfo('dateIssued',  this.formatDate(this.state.ticket.createdAt)) }
