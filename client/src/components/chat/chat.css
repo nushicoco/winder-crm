@@ -105,7 +105,7 @@
 /* mobile */
 @media screen
 and (max-device-width: 500px) {
-    .chatArea{
+    .chat-area{
         height: 300px;
         /*width: 300px;*/
         background-color: #C7D6D5;
@@ -127,8 +127,8 @@ and (max-device-width: 500px) {
 /* regular*/
 @media screen
 and (min-device-width: 500px) {
-    .chatArea{
-        height: 600px;
+    .chat-area{
+        height: 500px;
         background-color: #C7D6D5;
         direction: ltr;
         overflow-y: scroll;

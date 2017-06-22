@@ -26,9 +26,6 @@
         /*padding: 10px 100px;*/
         /*margin: 25px 0;*/
         text-align: center;
-    }
-
-    .back-btn > a {
         font-size: large;
         color: #6D7275;
     }
@@ -52,14 +49,12 @@ and (max-device-width: 500px) {
     .back-btn {
         float: none !important;
         text-align: center;
-        width:90%;
-    }
-
-    .back-btn > a{
+        width: 90%;
         font-size: large;
         color: #6D7275;
-    }
-}
 
+    }
+
+}
 
 

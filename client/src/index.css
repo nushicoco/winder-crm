@@ -51,6 +51,7 @@ a:hover {
   top: 0em;
   background: white;
   position: fixed;
+  overflow-y: scroll;
 }
 
 .relative {
@@ -69,5 +70,6 @@ and (min-device-width: 500px) {
 
   .mini-container{
     margin: 45px;
+    margin-bottom: 15px;
   }
 }
