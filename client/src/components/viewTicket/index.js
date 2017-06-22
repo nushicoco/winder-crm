@@ -150,17 +150,17 @@ export default class ViewTicket extends React.Component {
         )
     }
 
-    renderField = (field,index) => {
-        return this.renderTicketInfo(field, this.state.ticket.details[field], index)
+    renderField = (field) => {
+        return this.renderTicketInfo(field, this.state.ticket.details[field])
     }
 
-    renderTicketInfo = (name, value, index) => {
+    renderTicketInfo = (name, value, opts = {}) => {
         return (
-            <tr key={index || Math.random()}>
+            <tr key={name || Math.random()}>
               <td className="main-column">
                 { strings.ticket[name] }
               </td>
-              <td className="value-column">
+              <td className={`value-column ${opts.leftToRight && 'ltr'}` }>
                 { value }
               </td>
             </tr>
@@ -228,10 +228,10 @@ export default class ViewTicket extends React.Component {
               </h1>
               <Table className="ticket-view-table" condensed>
                 <tbody>
-                  { Object.keys(this.state.ticket.details).map( (field, index) => this.renderField(field, index) ) }
+                  { Object.keys(this.state.ticket.details).map( (field) => this.renderField(field) ) }
 
                   { this.renderTicketInfo('user', userDetails) }
-                  { this.renderTicketInfo('dateIssued',  this.formatDate(this.state.ticket.createdAt)) }
+                  { this.renderTicketInfo('dateIssued',  this.formatDate(this.state.ticket.createdAt), {leftToRight: true})}
 
                   <tr>
                     <td className="main-column">
