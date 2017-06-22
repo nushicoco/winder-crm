@@ -83,6 +83,7 @@ export default {
             'אחר'
         ],
         openTicket:'פתח קריאה',
+        select: '-- בחר --',
         openTicketHeader:'פתח קריאה חדשה'
     },
     TicketsList: {
