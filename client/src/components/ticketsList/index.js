@@ -23,6 +23,12 @@ export default class TicketsList extends React.Component {
             })
     }
 
+    componentWillReceiveProps (newProps) {
+        this.setState({
+            user: newProps.user
+        })
+    }
+
     componentDidMount () {
         this.reload()
     }
@@ -30,7 +36,9 @@ export default class TicketsList extends React.Component {
     render () {
         return (
             <div>
-              <h1>{ strings.TicketsList.headline }</h1>
+              { this.state.user && (
+                <h1>{ strings.TicketsList.headline[this.state.user.isSuperuser ? 'admin' : 'user'] }</h1>
+              )}
               <Table className="center centered" striped bordered condensed hover>
                 <thead>
                   <tr>
