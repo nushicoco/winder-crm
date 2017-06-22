@@ -18,13 +18,17 @@ export default class TextSubmitter extends Component {
 
     }
 
-    handleSubmit() {
+    handleSubmit(e) {
         this.sendMessage(this.state.text);
         this.setState({text:''})
+
+        // disable enter from submitting, it's totally annoying
+        e.preventDefault();
     }
+
     render() {
         return (
-            <Form className="submitter">
+            <Form className="submitter" onSubmit={this.handleSubmit.bind(this)}>
                 <Row>
                     <FormGroup controlId="subject">
                         <Col sm={4}>

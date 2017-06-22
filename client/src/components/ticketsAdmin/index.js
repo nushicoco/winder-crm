@@ -27,7 +27,7 @@ export default class TicketsAdmin extends React.Component {
 
     render () {
         return (
-            <div>
+            <div className="container">
               <h1>{ strings.ticketsAdmin.headline }</h1>
               <Table className="center centered" striped bordered condensed hover>
                 <thead>

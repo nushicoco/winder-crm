@@ -12,7 +12,7 @@
 
 /* mobile */
 @media screen
-and (max-device-width: 1200px) {
+and (max-device-width: 500px) {
     .chatArea{
         height: 300px;
         /*width: 300px;*/
@@ -32,7 +32,7 @@ and (max-device-width: 1200px) {
 }
 /* regular*/
 @media screen
-and (min-device-width: 1200px) {
+and (min-device-width: 500px) {
     .chatArea{
         height: 300px;
         background-color: lightpink;

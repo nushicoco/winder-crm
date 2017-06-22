@@ -143,7 +143,7 @@ export default class ViewTicket extends React.Component {
         const userDetails =  user ? `${user.firstName} ${user.lastName} (${user.email})` : ''
         const ticketUpdates = this.state.ticket.ticket_updates || []
         return (
-            <div>
+            <div className="container">
               <LoadingSpinner show={ this.state.isLoading } />
               <h1>קריאה #{ this.state.ticket.id }</h1>
               <Table className="ticket-view-table" condensed>
@@ -189,7 +189,7 @@ export default class ViewTicket extends React.Component {
                     </Col>
                   </Row>
                 </Form>
-                { this.state.ticket.ticket_updates.map(this.renderTicketUpdate) }
+                { ticketUpdates.map(this.renderTicketUpdate) }
 
               </div>
               <hr/>
