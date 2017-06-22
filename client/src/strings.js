@@ -1,8 +1,13 @@
 export default {
     loading: 'טוען...',
     header:{
+        admin: 'ניהול',
+        adminFrequentProblems: 'תקלות נפוצות',
+        viewTickets: 'צפייה בקריאות שלי',
+        newTicket: 'פתיחת קריאה חדשה',
+        userActions: 'פעולות',
         loginAction: 'כניסה',
-        logout: 'התנתק/י',
+        logout: 'התנתקות',
         welcome: 'שלום '
 
     },
@@ -85,7 +90,6 @@ export default {
             admin: 'ניהול קריאות',
             user: 'הקריאות שלי'
         },
-        viewTickets: 'צפייה בקריאות שלי',
         reload: 'רענן'
     }
 }
