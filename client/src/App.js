@@ -80,7 +80,7 @@ class App extends Component {
               <hr />
             <Link to='/'>MAIN</Link>
             &nbsp;|&nbsp;
-            <Link to='/admin/tickets'>TICKET ADMIN </Link>
+            <Link to='/tickets'>TICKET ADMIN </Link>
             &nbsp;|&nbsp;
             <Link to='/admin/frequent-problems'>FREQUENT PROBLEM ADMIN </Link>
           </div>
