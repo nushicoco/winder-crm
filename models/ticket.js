@@ -17,9 +17,13 @@ module.exports = function (sequelize) {
             validate: {
                 isIn: [['open', 'closed', 'inTherapy']]
             }
-        }
+        },
+        accessToken: Sequelize.STRING
     }, {
         hooks: {
+            beforeCreate: function (ticket, attributes) {
+                ticket.accessToken = Math.random().toString(36).substring(2)
+            },
             afterCreate: function (ticket) {
                 notifyNewTicket(ticket)
             }

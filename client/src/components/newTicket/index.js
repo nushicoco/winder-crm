@@ -1,5 +1,6 @@
 import React from 'react'
 import {Row, Col, Form, FormGroup, FormControl, ControlLabel, Button} from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 import Strings from '../../strings';
 
@@ -34,10 +35,12 @@ export default class NewTicket extends React.Component {
         const { name, phone, room, content, subject } = this.state
         this.setState({isLoading: true})
         createTicket({name, phone, room, content, subject})
-            .then( () =>  {
+            .then( ({ id, accessToken }) => {
                 this.setState({
                     isLoading: false,
-                    submitted: true
+                    submitted: true,
+                    ticketId: id,
+                    accessToken
                 })
             })
     }
@@ -50,11 +53,17 @@ export default class NewTicket extends React.Component {
     }
 
     renderSubmitted = () => {
+        const { ticketId, accessToken } = this.state
+        const ticketUrl = `view-ticket/${ticketId}?accessToken=${accessToken}`
         return (
             <div>
               { Strings.ticket.sent }
               <br/>
-              <BackToFrequentBtn></BackToFrequentBtn>
+              <Link to={ ticketUrl }>
+                <Button bsStyle="primary">
+                  { Strings.ticket.watchMyTicket }
+                </Button>
+              </Link>
             </div>
             )
     }

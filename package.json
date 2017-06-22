@@ -13,7 +13,7 @@
     "bclient": "cd client && npm run build",
     "iclient": "cd client && npm i",
     "resetdb": "node db/reset_db && sequelize db:seed:all",
-    "migrate": "sequelize db:migrate",
+    "migrate": "node_modules/.bin/sequelize db:migrate",
     "superman": "node scripts/update_superuser"
   },
   "author": "",

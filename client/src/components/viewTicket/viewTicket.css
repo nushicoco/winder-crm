@@ -4,6 +4,9 @@
 .ticket-update-text {
   border: 1px solid black;
 }
+.ticket-update-status {
+  font-style: italic;
+}
 
 .ticket-view-table {
   margin: auto;

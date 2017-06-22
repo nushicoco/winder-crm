@@ -76,4 +76,24 @@ describe('Ticket model', function () {
                 expect(ticket.ticket_updates).to.have.lengthOf(1)
             })
     })
+
+    it('should be created with random access tokens', function () {
+        const COUNT = 100
+        const accessTokens = []
+        const tickets = Array.from(new Array(COUNT))
+              .map( _ => Ticket.create()
+                    .then(
+                        ticket => accessTokens.push(ticket.accessToken)
+                    )
+                  )
+        return Promise.all(tickets)
+            .then( function () {
+                const keys = {}
+                accessTokens.forEach(function (accessToken) {
+                    expect(keys[accessToken]).to.be.undefined
+                    accessTokens[accessToken] = 'EXISTS!'
+                })
+            })
+    })
+
 })

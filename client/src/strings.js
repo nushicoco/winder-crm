@@ -1,8 +1,13 @@
 export default {
     loading: 'טוען...',
     header:{
+        admin: 'ניהול',
+        adminFrequentProblems: 'תקלות נפוצות',
+        viewTickets: 'צפייה בקריאות שלי',
+        newTicket: 'פתיחת קריאה חדשה',
+        userActions: 'פעולות',
         loginAction: 'כניסה',
-        logout: 'התנתק/י',
+        logout: 'התנתקות',
         welcome: 'שלום '
 
     },
@@ -49,6 +54,9 @@ export default {
     },
     back: 'חזרה',
     ticket: {
+        noUpdates: 'אין עדכונים לקריאה זו.',
+        headlinePrefix: 'קריאה #',
+        watchMyTicket: 'למעקב אחר הקריאה שלי',
         user: 'משתמש',
         dateIssued: 'תאריך יצירה',
         dateUpdated: 'תאריך עדכון',
@@ -78,8 +86,10 @@ export default {
         openTicketHeader:'פתח קריאה חדשה'
     },
     TicketsList: {
-        headline: 'ניהול קריאות',
-        viewTickets: 'צפייה בקריאות שלי',
+        headline: {
+            admin: 'ניהול קריאות',
+            user: 'הקריאות שלי'
+        },
         reload: 'רענן'
     }
 }

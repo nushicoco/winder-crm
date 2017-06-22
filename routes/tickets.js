@@ -10,8 +10,9 @@ module.exports = function (app, passport) {
             status: 'open',
             userId
         })
-            .then( () => {
-                res.status(200).send()
+            .then( (ticket) => {
+                const { id, accessToken } = ticket
+                res.status(200).send({id, accessToken})
             })
 
             .catch( (error) => {
@@ -38,17 +39,24 @@ module.exports = function (app, passport) {
             })
     })
 
-    app.get('/tickets/:id', onlySuperuser ,function (req, res) {
-        const ticketId = req.params.id
+    app.get('/tickets/:id', function (req, res) {
         Ticket.findOne({
             where: {
-                id: ticketId
+                id: req.params.id
             },
             include: [{all: true, nested: true}],
             order: [[TicketUpdate, 'createdAt', 'DESC']]
         })
             .then( (ticket) => {
-                res.status(200).send(ticket.toJSON())
+                const accessToken = req.query.accessToken
+                const isSuperuser = req.user && req.user.isSuperuser
+
+                if (ticket.accessToken === accessToken || isSuperuser) {
+                    res.status(200).send(ticket)
+                }
+                else {
+                    res.status(401).send()
+                }
             })
             .catch ( (error) => {
                 console.error(error)

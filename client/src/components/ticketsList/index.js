@@ -23,6 +23,12 @@ export default class TicketsList extends React.Component {
             })
     }
 
+    componentWillReceiveProps (newProps) {
+        this.setState({
+            user: newProps.user
+        })
+    }
+
     componentDidMount () {
         this.reload()
     }
@@ -30,7 +36,9 @@ export default class TicketsList extends React.Component {
     render () {
         return (
             <div>
-              <h1>{ strings.TicketsList.headline }</h1>
+              { this.state.user && (
+                <h1>{ strings.TicketsList.headline[this.state.user.isSuperuser ? 'admin' : 'user'] }</h1>
+              )}
               <Table className="center centered" striped bordered condensed hover>
                 <thead>
                   <tr>
@@ -65,17 +73,12 @@ export default class TicketsList extends React.Component {
         return (
             <tr  key={ ticket.id } >
                 <th>{ ticket.id }       </th>
-                <th >{ user ? `${user.firstName} ${user.lastName}` : ''}     </th>
+                <th >{ `${user.firstName || ''} ${user.lastName || ''}`} </th>
                 <th >{ ticket.details.name }     </th>
                 <th  >
-                    {this.state.user && this.state.user.isSuperuser &&
-                        <Link to={ `/view-ticket/${ticket.id}` }>
-                            { ticket.details.subject }
-                        </Link>
-                    }
-                    {(!this.state.user || !this.state.user.isSuperuser) &&
-                         ticket.details.subject
-                    }
+                  <Link to={ `/view-ticket/${ticket.id}?accessToken=${ticket.accessToken}` }>
+                    { ticket.details.subject }
+                  </Link>
                 </th>
                 <th className={ `ticket-status-${ticket.status}`} >{ strings.ticket.statuses[ticket.status] }</th>
                 <th className="ltr" > { this.formatDate(ticket.createdAt) }</th>
