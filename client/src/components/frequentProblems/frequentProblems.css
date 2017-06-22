@@ -29,18 +29,15 @@
     margin: 0 0 20px 50px;
 }
 
-.back-btn {
-    float: none !important;
-    padding: 10px 100px;
-    margin: 25px 0;
-}
-
-.back-btn > a{
-    font-size: large;
-    color: #6D7275;
-}
-
 .solution {
     margin: 0 35px;
     font-size: large;
 }
+
+@media screen
+and (max-device-width: 500px) {
+    .footer{
+
+    }
+}
+

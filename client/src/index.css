@@ -53,13 +53,21 @@ a:hover {
   position: fixed;
 }
 
+.relative {
+  position: relative;
+}
+
 .mini-container{
   margin: 15px;
 }
 
 @media screen
-and (min-device-width: 1200px) {
+and (min-device-width: 500px) {
   .container {
     margin: 10px 55px 55px 55px;
+  }
+
+  .mini-container{
+    margin: 45px;
   }
 }

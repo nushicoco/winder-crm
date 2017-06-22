@@ -92,7 +92,7 @@ export default class chatTab extends Component {
                             return (
                                 <Tab key={chat.id} eventKey={index} title={chat.client}>
                                     <ChatTab key={`chat-tab-${chat.id}`} chatId={chat.id} client={ this.state.client }
-                                             socket={ this.socket }></ChatTab>
+                                             socket={ this.socket } isSuperuser={this.state.user && this.state.user.isSuperuser}></ChatTab>
                                 </Tab>
                             )
                         })}
@@ -100,14 +100,14 @@ export default class chatTab extends Component {
                 </div>
                 }
 
-                <ButtonToolbar>
+                <div>
                     <BackToFrequentBtn/>
 
-                    {(!this.state.user || !this.state.user.isSuperuser) &&
-                    <NewTicketButton />
-                    }
+                    {/*{(!this.state.user || !this.state.user.isSuperuser) &&*/}
+                    {/*<NewTicketButton />*/}
+                    {/*}*/}
 
-                </ButtonToolbar>
+                </div>
             </div>
         )
     }

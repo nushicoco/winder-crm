@@ -31,7 +31,7 @@ export default class TextSubmitter extends Component {
             <Form className="submitter" onSubmit={this.handleSubmit.bind(this)}>
                 <Row>
                     <FormGroup controlId="subject">
-                        <Col sm={4}>
+                        <Col>
                             <FormControl
                                 type="text"
                                 value={ this.state.text }

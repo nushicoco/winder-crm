@@ -9,7 +9,12 @@ import Strings from '../strings';
 
 import './common.css';
 
-export const BackToFrequentBtn = () => ( <Link to="/"><Button className="back-btn" >{ Strings.frequentProblems.back } </Button></Link>);
+export const BackToFrequentBtn = () => (
+    <Link to="/" className="back-btn">
+        {/*<Button  >*/}
+            { Strings.frequentProblems.back }
+        {/*</Button>*/}
+    </Link>);
 
 export class NewTicketButton extends React.Component {
     render () {

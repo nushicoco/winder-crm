@@ -37,13 +37,14 @@ export default class ChatNicknameModal extends Component {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <input onChange={this.onChange.bind(this)}/>
+                    <input className="nickname" onChange={this.onChange.bind(this)}/>
+                    <Button bsStyle="primary"
+                            onClick={ () => {this.close()} } >{Strings.chat.startChat}
+                    </Button>
                 </Modal.Body>
 
                 <Modal.Footer>
                     <BackToFrequentBtn/>
-                    <Button bsStyle="primary"
-                        onClick={ () => {this.close()} } >{Strings.chat.startChat}</Button>
                 </Modal.Footer>
         </Modal>
         )

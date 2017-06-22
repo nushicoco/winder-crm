@@ -2,6 +2,7 @@
  * Created by einavcarmon on 19/06/2017.
  */
 import React, { Component } from 'react';
+import { Popover } from 'react-bootstrap';
 
 export default class Message extends Component {
     constructor (props) {
@@ -16,8 +17,16 @@ export default class Message extends Component {
 
     render() {
         return (
-        <div className={this.state.isMe ? "left" : "right"}>
-            <p>{this.state.author } : {this.state.text}</p>
+        <div >
+            <div className={this.state.isMe ?  "arrow-right arrow" : "arrow-left arrow" }></div>
+            <div className={this.state.isMe ?  "right msg other-message" : "left msg my-message"}>
+                <span className="author">{this.state.author }</span>
+                <br/>
+                <span className="msg-txt">{this.state.text}</span>
+            </div>
+            <div className="dvider">
+                <span>SomeLongTextHereSoWeWouldBreakALineMightBeAHackButIDontCare</span>
+            </div>
         </div>
         )
     }

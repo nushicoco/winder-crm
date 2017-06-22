@@ -20,3 +20,46 @@
     padding: 10px 45px;
     font-size: large;
 }
+
+    .back-btn {
+        float: none !important;
+        /*padding: 10px 100px;*/
+        /*margin: 25px 0;*/
+        text-align: center;
+    }
+
+    .back-btn > a {
+        font-size: large;
+        color: #6D7275;
+    }
+
+@media screen
+and (max-device-width: 500px) {
+    .open-ticket {
+        width: 90%;
+        float: none !important;
+    }
+
+    .open-chat {
+        margin: 10px;
+        padding: 10px 45px;
+        font-size: large;
+        width: 90%;
+        float: none !important;
+
+    }
+
+    .back-btn {
+        float: none !important;
+        text-align: center;
+        width:90%;
+    }
+
+    .back-btn > a{
+        font-size: large;
+        color: #6D7275;
+    }
+}
+
+
+

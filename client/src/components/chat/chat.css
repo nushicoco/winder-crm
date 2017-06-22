@@ -1,12 +1,99 @@
 .left {
     text-align: left;
+    float: left;
 }
 
 .right {
-    text-align: righ;
+    text-align: right;
+    float: right;
+}
+
+.my-message {
+    margin-left:0
+}
+
+.my-message .author {
+    color: #C20114;
+}
+
+.other-message {
+}
+
+.other-message .author{
+    color: blue;
+}
+
+.arrow-right {
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid #fff;
+    margin-top:15px;
+    float:right;
+}
+
+.arrow{
+    width: 0;
+    height: 0;
+    margin-top:15px;
+    /*box-shadow: 0 5px 10px rgba(0,0,0,.2);*/
+    /*background-color: #fff;*/
+    /*background-clip: padding-box;*/
+
+}
+
+.arrow-left {
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right:10px solid #fff;
+    float: left;
 }
 
 .submitter-text{
+    margin: 1% 0;
+}
+
+.nickname {
+    margin: 0 15px;
+    width: 50%;
+}
+
+.dvider{
+    width: 100%;
+    min-height:85px;
+    color: transparent;
+
+    /*debug*/
+    /*background-color: red;*/
+    /*color: blue;*/
+}
+
+.msg {
+    max-width: 95%;
+    z-index: 1060;
+    padding: 10px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    letter-spacing: normal;
+    word-break: normal;
+    word-spacing: normal;
+    word-wrap: normal;
+    white-space: normal;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    /*border: 1px solid #ccc;*/
+    /*border: 1px solid rgba(0,0,0,.2);*/
+    border-radius: 6px;
+    /*-webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);*/
+    /*box-shadow: 0 5px 10px rgba(0,0,0,.2);*/
+    line-break: auto;
     margin: 10px 0;
 }
 
@@ -16,36 +103,40 @@ and (max-device-width: 500px) {
     .chatArea{
         height: 300px;
         /*width: 300px;*/
-        background-color: lightblue;
+        background-color: #C7D6D5;
         direction: ltr;
-        overflow-y: scroll
+        overflow-y: scroll;
+        border: solid 4px lightgray;
+        border-radius: 16px;
     }
 
     .submitter-text{
-        width: 70%;
+        width: 71%;
         display: inline;
     }
 
     .submitter-button{
-        width: 30%;
+        width: 20%;
     }
 }
 /* regular*/
 @media screen
 and (min-device-width: 500px) {
     .chatArea{
-        height: 300px;
-        background-color: lightpink;
+        height: 600px;
+        background-color: #C7D6D5;
         direction: ltr;
-        overflow-y: scroll
+        overflow-y: scroll;
+        border: solid 4px lightgray;
+        border-radius: 16px;
     }
 
     .submitter-text{
-        width: 85%;
+        width: 80%;
         display: inline;
     }
 
     .submitter-button{
-        width: 15%;
+        width: 17%;
     }
 }

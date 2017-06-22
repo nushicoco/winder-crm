@@ -5,9 +5,11 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import TextSubmitter from './textSubmitter'
-import Message from './message'
-import { getChat } from '../../api'
+import TextSubmitter from './textSubmitter';
+import Message from './message';
+import { getChat } from '../../api';
+
+import Strings from '../../strings';
 
 
 export default class chatTab extends Component {
@@ -19,7 +21,7 @@ export default class chatTab extends Component {
             chatId : props.chatId,
             messages: [],
             client: props.client,
-            user: props.user
+            isSuperuser: props.isSuperuser
         }
 
         this.socket = props.socket;
@@ -63,7 +65,18 @@ export default class chatTab extends Component {
     render() {
         return (
         <div className="mini-container">
-            <h2>Chat #{ this.state.chatId } {this.state.client}</h2>
+            {this.state.isSuperuser &&
+                <h2>
+                    {Strings.chat.chatWith} {this.state.client}
+                </h2>
+            }
+
+            {!this.state.isSuperuser &&
+                <h2>
+                    {Strings.chat.chatWithTech}
+                </h2>
+            }
+            {/*<h2>Chat #{ this.state.chatId } {this.state.client}</h2>*/}
             <div className="chatArea" >
                 {this.state.messages.map((msg, index) => {
                     return <Message key={index} author={msg.client} text={msg.text} isMe={ msg.client == this.state.client }></Message>
