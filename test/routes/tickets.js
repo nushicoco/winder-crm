@@ -68,8 +68,10 @@ describe('POST /ticket', function () {
     beforeEach(makeGreg)
     beforeEach(clearTickets)
 
-    it('should allow creating a ticket for logged-in user', function () {
+    it('should allow creating a ticket and return id & access token', function () {
         const agent = chai.request.agent(app)
+        let accessToken
+        let ticketId
 
         //login:
         const creds = {
@@ -78,9 +80,10 @@ describe('POST /ticket', function () {
         }
         return agent.post('/login').send(creds)
 
+
         // Create ticket:
             .then(function (response) {
-                expect(response.status).to.equal(200)
+                response.status.should.equal(200)
                 return agent.post('/ticket')
                     .send({
                         content: 'I have problem',
@@ -91,7 +94,17 @@ describe('POST /ticket', function () {
         // Check response
             .then(function (response) {
                 response.status.should.equal(200)
-                return Ticket.all()
+                expect(response).to.be.json
+                ticketId = response.body.id
+                expect(ticketId).to.not.be.undefined
+                accessToken = response.body.accessToken
+                accessToken.should.be.a('string')
+                return Ticket.findAll({
+                    where: {
+                        accessToken,
+                        id: ticketId
+                    }
+                })
             })
 
         // Check Database:
@@ -106,10 +119,16 @@ describe('POST /ticket', function () {
                 })
                 // TODO check the ticket's TicketUpdate array somehow
             })
-            .catch( (e) => {console.error(e); throw e})
+            // .catch( (e) => {console.error(e); throw e})
     })
 
-    it('/ticket:id should not work without login', function (done) {
+})
+
+describe('GET /ticket/:id', function () {
+    beforeEach(makeGreg)
+    beforeEach(clearTickets)
+
+    it('should not work without superuser login', function (done) {
         const agent = chai.request.agent(app)
         let ticketId
         Ticket.create({
@@ -135,7 +154,7 @@ describe('POST /ticket', function () {
             })
     })
 
-    it('/tickets/:id should return ticket information', function (done) {
+    it('should return ticket information for superuser', function (done) {
         const agent = chai.request.agent(app)
 
         let ticketId
@@ -185,5 +204,33 @@ describe('POST /ticket', function () {
             })
 
             .catch( (e) => {console.error(e); throw e})
+    })
+
+    it('should return ticket information when given correct accessKey', function () {
+        const agent = chai.request.agent(app)
+
+        return Ticket.create({
+            details: {
+                name: 'done',
+                content: 'kishot'
+            }
+        })
+            .then( function (ticket) {
+                return agent.get(`/tickets/${ticket.id}?accessToken=${ticket.accessToken}`)
+                    .send()
+            })
+            .then(function (response) {
+
+                console.log('<-DANDEBUG-> tickets.js\\ 224: response.status:', response.status);
+                console.log('<-DANDEBUG-> tickets.js\\ 225: response.body:', response.body);
+                response.status.should.equal(200)
+                expect(response).to.be.json
+                response.should.be.json
+                expect(response.body.details).to.include({
+                    name: 'done',
+                    content: 'kishot'
+                })
+            })
+
     })
 })

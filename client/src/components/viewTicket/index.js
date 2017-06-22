@@ -1,6 +1,8 @@
 import React from 'react'
+import queryString from 'query-string'
 import { Link } from 'react-router-dom'
 import { Table, Col, Row, FormGroup, Form, FormControl, ControlLabel, Button} from 'react-bootstrap'
+
 import './viewTicket.css'
 import { getTicket, updateTicket, updateTicketStatus} from '../../api.js'
 import strings from '../../strings.js'
@@ -10,9 +12,12 @@ const TICKET_STATUSES = ['open', 'closed', 'inTherapy']
 export default class ViewTicket extends React.Component {
     constructor (props) {
         super(props)
+        const accessToken = queryString.parse(props.location.search).accessToken
         this.state = {
             newUpdateText: '',
+            accessToken: accessToken,
             ticket: {
+                id: '',
                 user: {},
                 details: {},
                 ticket_updates: []
@@ -26,7 +31,7 @@ export default class ViewTicket extends React.Component {
 
     fetchData = () => {
         this.setState({isLoading: true})
-        getTicket(this.props.match.params.id)
+        getTicket(this.props.match.params.id, this.state.accessToken)
             .then( (ticket) => {
                 this.setState({
                     ticket,
@@ -41,7 +46,7 @@ export default class ViewTicket extends React.Component {
 
     renderStatusUpdate = (status) => {
         return (
-            <span>
+            <span className="ticket-update-status">
             { strings.ticket.statusUpdate }
                 <span className={ `ticket-status-${status}` }>
                 { strings.ticket.statuses[status] }
@@ -129,10 +134,13 @@ export default class ViewTicket extends React.Component {
               <span className={ `ticket-status-${this.state.ticket.status}` } >
                 { strings.ticket.statuses[this.state.ticket.status]  }
               </span>&nbsp;
+              { this.state.isSuperuser &&  (
               <Button
                 bsSize="xsmall"
                 onClick = { () => this.setState({editStatusMode: true})}
                 >עדכן</Button>
+              )}
+
             </div>
         )
     }
@@ -153,14 +161,52 @@ export default class ViewTicket extends React.Component {
             </tr>
         )
     }
+    componentWillReceiveProps (newProps) {
+        this.setState({
+            isSuperuser: newProps.user && newProps.user.isSuperuser
+        })
+    }
+
+    renderNewUpdateForm = () => {
+        return (
+            <Form>
+              <Row>
+                <Col sm={10} >
+                  <FormControl
+                    className="update-text-input"
+                    type="text"
+                    value={ this.state.newUpdateText }
+                    placeholder={ strings.ticket.addUpdate }
+                    onChange={ (e) => this.setState({newUpdateText: e.target.value}) } />
+                </Col>
+                <Col sm={2}>
+                  <Button
+                    className="update-text-button"
+                    type="submit"
+                    disabled={ this.state.loading }
+                    onClick={ this.handleSubmitUpdate }>
+                    { strings.ticket.submit }
+                  </Button>
+                </Col>
+              </Row>
+            </Form>
+        )
+    }
     render () {
         const user = this.state.ticket.user
         const userDetails =  user ? `${user.firstName} ${user.lastName} (${user.email})` : ''
         const ticketUpdates = this.state.ticket.ticket_updates || []
+        const linkBack = this.state.isSuperuser
+              ? '/admin/tickets'
+              : '/'
+
+
         return (
             <div>
               <LoadingSpinner show={ this.state.isLoading } />
-              <h1>קריאה #{ this.state.ticket.id }</h1>
+              <h1>
+                { strings.ticket.headlinePrefix + this.state.ticket.id }
+              </h1>
               <Table className="ticket-view-table" condensed>
                 <tbody>
                   { Object.keys(this.state.ticket.details).map( (field) => this.renderField(field) ) }
@@ -183,33 +229,12 @@ export default class ViewTicket extends React.Component {
               <hr/>
               <div className="updates">
                 <h2>{ strings.ticket.updates } </h2>
-                <Form>
-                  <Row>
-                    <Col sm={10} >
-                  <FormControl
-                    className="update-text-input"
-                    type="text"
-                    value={ this.state.newUpdateText }
-                    placeholder={ strings.ticket.addUpdate }
-                    onChange={ (e) => this.setState({newUpdateText: e.target.value}) } />
-                    </Col>
-                    <Col sm={2}>
-                    <Button
-                      className="update-text-button"
-                      type="submit"
-                      disabled={ this.state.loading }
-                      onClick={ this.handleSubmitUpdate }>
-                      { strings.ticket.submit }
-                    </Button>
-                    </Col>
-                  </Row>
-                </Form>
+                { this.state.isSuperuser && this.renderNewUpdateForm() }
                 { this.state.ticket.ticket_updates.map(this.renderTicketUpdate) }
 
               </div>
               <hr/>
-              <Link to="/admin/tickets">{ strings.back }</Link>
-
+              <Link to={ linkBack }>{ strings.back }</Link>
             </div>
         )
     }
