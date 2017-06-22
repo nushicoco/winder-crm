@@ -18,21 +18,42 @@ const AVAILABLE_ROOMS = [
     , 'Mix1' , 'Mix2' ]
     // TOOD Move to client-specific configuration
 
+const DEFAULT_SELECT_OPTION = Strings.ticket.select
 export default class NewTicket extends React.Component {
     constructor (props) {
         super(props)
+        AVAILABLE_ROOMS.splice(0,0, DEFAULT_SELECT_OPTION)
+        AVAILABLE_SUBJECTS.splice(0,0, DEFAULT_SELECT_OPTION)
         this.state = {
+            user: props.user,
             submitted: false,
-            name: '',
+
+            name: this.makeUserName(props.user),
             phone: '',
-            subject: AVAILABLE_SUBJECTS[0],
-            room: AVAILABLE_ROOMS[0],
+            subject: DEFAULT_SELECT_OPTION,
+            room: DEFAULT_SELECT_OPTION,
             content: ''
         }
     }
 
+    makeUserName(user) {
+        return (user && user.firstName + " " + user.lastName) || ''
+    }
+
+    componentWillReceiveProps(newProps) {
+        if (newProps.user) {
+            this.setState({
+                user: newProps.user,
+                name: this.makeUserName(newProps.user)
+            })
+        }
+    }
+
     handleSubmit = () => {
-        const { name, phone, room, content, subject } = this.state
+        let { name, phone, room, content, subject } = this.state
+        name = name.trim()
+        content = content.trim()
+        phone = phone.trim()
         this.setState({isLoading: true})
         createTicket({name, phone, room, content, subject})
             .then( ({ id, accessToken }) => {
@@ -78,7 +99,7 @@ export default class NewTicket extends React.Component {
         )
     }
 
-    renderField = (field, type, { children, validationState, style, componentClass} = {} ) => {
+    renderField = (field, type, { children, validationState, style, componentClass, locked} = {} ) => {
         return (
             <Row>
               <FormGroup controlId={ field }
@@ -89,6 +110,7 @@ export default class NewTicket extends React.Component {
                 <Col sm={8}>
                   <FormControl
                     type={ type }
+                    disabled={ locked }
                     value={ this.state[field] }
                     componentClass={ componentClass }
                     style={ style }
@@ -101,8 +123,9 @@ export default class NewTicket extends React.Component {
         )
     }
 
-    renderTextField = (field, validateLength) => {
+    renderTextField = (field, {validateLength, locked} = {}) => {
         return this.renderField(field, 'text', {
+            locked,
             validationState: (validateLength && this.getValidationState(this.state[field])) || null
         })
     }
@@ -126,11 +149,16 @@ export default class NewTicket extends React.Component {
     }
 
     renderForm = () => {
+        const formReady = !this.state.isLoading
+              && this.state.name.trim().length > 0
+              && this.state.room !== DEFAULT_SELECT_OPTION
+              && this.state.subject !== DEFAULT_SELECT_OPTION
+
         return (
             <div>
               <h1>{Strings.ticket.openTicketHeader}</h1>
               <Form>
-                { this.renderTextField('name', true ) }
+                { this.renderTextField('name', {validateLength: true, locked: this.state.user} ) }
                 { this.renderTextField('phone') }
                 { this.renderSelectField('subject', AVAILABLE_SUBJECTS) }
                 { this.renderSelectField('room', AVAILABLE_ROOMS) }
@@ -139,7 +167,7 @@ export default class NewTicket extends React.Component {
                 <Row>
                     <Button bsStyle="primary"
                             className="submit-ticket"
-                            disabled={ this.state.isLoading || !this.state.name}
+                            disabled={ !formReady }
                             type="submit"
                             onClick={ this.handleSubmit }>{ Strings.ticket.submit }
                     </Button>
