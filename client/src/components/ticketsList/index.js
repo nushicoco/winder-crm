@@ -73,7 +73,7 @@ export default class TicketsList extends React.Component {
         return (
             <tr  key={ ticket.id } >
                 <th>{ ticket.id }       </th>
-                <th >{ user ? `${user.firstName} ${user.lastName}` : ''}     </th>
+                <th >{ `${user.firstName || ''} ${user.lastName || ''}`} </th>
                 <th >{ ticket.details.name }     </th>
                 <th  >
                   <Link to={ `/view-ticket/${ticket.id}?accessToken=${ticket.accessToken}` }>
