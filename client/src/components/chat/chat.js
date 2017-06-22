@@ -82,26 +82,28 @@ export default class chatTab extends Component {
                     <ChatTab chatId={this.state.chats[0].id} client={ this.state.client } socket={ this.socket }></ChatTab>
                 }
                 { this.state.chats.length > 1 &&
-                    <div className="tabs">
-                        <Tabs activeKey={this.state.activeChatIndex} onSelect={this.handleChatChange.bind(this)} id="chatTabs">
-                            {this.state.chats.map((chat, index) => {
-                                return (
-                                    <Tab key={chat.id} eventKey={index} title={chat.client}>
-                                        <ChatTab  key={`chat-tab-${chat.id}`} chatId={chat.id} client={ this.state.client } socket = { this.socket }></ChatTab>
-                                    </Tab>
-                                )
-                            })}
-                        </Tabs>
-                    </div>
+                <div className="tabs">
+                    <Tabs activeKey={this.state.activeChatIndex} onSelect={this.handleChatChange.bind(this)}
+                          id="chatTabs">
+                        {this.state.chats.map((chat, index) => {
+                            return (
+                                <Tab key={chat.id} eventKey={index} title={chat.client}>
+                                    <ChatTab key={`chat-tab-${chat.id}`} chatId={chat.id} client={ this.state.client }
+                                             socket={ this.socket }></ChatTab>
+                                </Tab>
+                            )
+                        })}
+                    </Tabs>
+                </div>
                 }
-                {(!this.state.user || !this.state.user.isSuperuser) &&
                 <ButtonToolbar>
                     <BackToFrequentBtn/>
 
-                    <NewTicketButton />
-                </ButtonToolbar>
+                    {(!this.state.user || !this.state.user.isSuperuser) &&
+                        <NewTicketButton />
+                    }
 
-                }
+                    </ButtonToolbar>
             </div>
         )
     }
