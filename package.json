@@ -12,7 +12,8 @@
     "client": "cd client && npm start",
     "bclient": "cd client && npm run build",
     "iclient": "cd client && npm i",
-    "resetdb": "node db/reset_db",
+    "resetdb": "node db/reset_db && sequelize db:seed:all",
+    "migrate": "node_modules/.bin/sequelize db:migrate",
     "superman": "node scripts/update_superuser"
   },
   "author": "",
@@ -31,6 +32,7 @@
     "pg-hstore": "^2.3.2",
     "request": "^2.81.0",
     "sequelize": "^4.0.0",
+    "sequelize-cli": "^2.7.0",
     "socket.io": "^2.0.3",
     "sqlite3": "^3.1.8"
   },

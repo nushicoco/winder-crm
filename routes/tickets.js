@@ -10,8 +10,9 @@ module.exports = function (app, passport) {
             status: 'open',
             userId
         })
-            .then( () => {
-                res.status(200).send()
+            .then( (ticket) => {
+                const { id, accessToken } = ticket
+                res.status(200).send({id, accessToken})
             })
 
             .catch( (error) => {
@@ -38,17 +39,24 @@ module.exports = function (app, passport) {
             })
     })
 
-    app.get('/tickets/:id', onlySuperuser ,function (req, res) {
-        const ticketId = req.params.id
+    app.get('/tickets/:id', function (req, res) {
         Ticket.findOne({
             where: {
-                id: ticketId
+                id: req.params.id
             },
             include: [{all: true, nested: true}],
             order: [[TicketUpdate, 'createdAt', 'DESC']]
         })
             .then( (ticket) => {
-                res.status(200).send(ticket.toJSON())
+                const accessToken = req.query.accessToken
+                const isSuperuser = req.user && req.user.isSuperuser
+
+                if (ticket.accessToken === accessToken || isSuperuser) {
+                    res.status(200).send(ticket)
+                }
+                else {
+                    res.status(401).send()
+                }
             })
             .catch ( (error) => {
                 console.error(error)
@@ -62,8 +70,17 @@ module.exports = function (app, passport) {
 
         Ticket.findById(ticketId)
             .then( (ticket) => {
-                ticket.status = status
-                return ticket.save()
+                if (ticket.status !== status) {
+                    ticket.status = status
+                    return ticket.save()
+                        .then( () => {
+                            return TicketUpdate.create({
+                                ticketId,
+                                userId: req.user.id,
+                                status
+                            })
+                        })
+                }
             })
 
             .then( () => {
@@ -76,8 +93,14 @@ module.exports = function (app, passport) {
             })
     })
 
-    app.get('/tickets', onlySuperuser, (req, res) => {
-        Ticket.findAll({include: [TicketUpdate, User]})
+    app.get('/tickets', (req, res) => {
+
+        if (!req.user) {
+            return res.status(401).send({errorMessage:"no user is not logged in"})
+        }
+
+        var where = req.user.isSuperuser ? {} : {userId:req.user.id}
+        Ticket.findAll({include: [TicketUpdate, User], where:where})
             .then(function (tickets) {
                 res.status(200).send(tickets.map( ticket => ticket.toJSON()))
             })

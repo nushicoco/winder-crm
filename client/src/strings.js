@@ -1,8 +1,13 @@
 export default {
     loading: 'טוען...',
     header:{
+        admin: 'ניהול',
+        adminFrequentProblems: 'תקלות נפוצות',
+        viewTickets: 'צפייה בקריאות שלי',
+        newTicket: 'פתיחת קריאה חדשה',
+        userActions: 'פעולות',
         loginAction: 'כניסה',
-        logout: 'התנתק/י',
+        logout: 'התנתקות',
         welcome: 'שלום '
 
     },
@@ -49,6 +54,10 @@ export default {
     },
     back: 'חזרה',
     ticket: {
+        filters: 'סינון: ',
+        noUpdates: 'אין עדכונים לקריאה זו.',
+        headlinePrefix: 'קריאה #',
+        watchMyTicket: 'למעקב אחר הקריאה שלי',
         user: 'משתמש',
         dateIssued: 'תאריך יצירה',
         dateUpdated: 'תאריך עדכון',
@@ -61,7 +70,9 @@ export default {
         content: 'תוכן',
         submit: 'שלח',
         status: 'סטטוס',
+        statusUpdate: 'סטטוס שונה ל: ',
         statuses: {
+            all: 'הצג הכל',
             inTherapy: 'בטיפול',
             open: 'פתוח',
             closed: 'סגור'
@@ -74,10 +85,14 @@ export default {
             'אחר'
         ],
         openTicket:'פתח קריאה',
+        select: '-- בחר --',
         openTicketHeader:'פתח קריאה חדשה'
     },
-    ticketsAdmin: {
-        headline: 'ניהול קריאות',
+    TicketsList: {
+        headline: {
+            admin: 'ניהול קריאות',
+            user: 'הקריאות שלי'
+        },
         reload: 'רענן'
     },
     chat:{

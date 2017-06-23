@@ -61,8 +61,8 @@ module.exports.createTicket = function(details) {
     return post('/ticket', details)
 }
 
-module.exports.getTicket = function(ticketId) {
-    return get(`/tickets/${ticketId}`)
+module.exports.getTicket = function(ticketId, accessToken) {
+    return get(`/tickets/${ticketId}?accessToken=${accessToken}`)
 }
 
 module.exports.getTickets = function () {

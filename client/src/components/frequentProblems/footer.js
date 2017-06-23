@@ -10,6 +10,7 @@ export default class Footer extends Component {
         super(props);
         this.state = { shouldHide: props.shouldHide };
     }
+
     render() {
         return (
             <div className="footer">

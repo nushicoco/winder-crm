@@ -31,9 +31,10 @@ img.App-logo {
   border-bottom: 4px #0C120C solid;
 }
 
-.admin-footer a {
-  display: inline;
-  margin: 0px 20px;
+#user-action-menu {
+  background: none;
+  border: none;
+  box-shadow: none;
 }
 
 pallete {
