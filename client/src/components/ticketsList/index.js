@@ -16,6 +16,13 @@ export default class TicketsList extends React.Component {
             filter: 'all',
             user: props.user
         }
+
+    }
+
+    classForExtraColumns() {
+        return (this.state.user && this.state.user.isSuperuser)
+                ? ''
+                : 'hide'
     }
 
     reload = () => {
@@ -121,8 +128,8 @@ export default class TicketsList extends React.Component {
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>{ strings.ticket.user } </th>
-                    <th>{ strings.ticket.name } </th>
+                    <th className={this.classForExtraColumns()}>{ strings.ticket.user } </th>
+                    <th className={this.classForExtraColumns()}>{ strings.ticket.name } </th>
                     <th>{ strings.ticket.subject }</th>
                     <th>{ strings.ticket.status }</th>
                     <th>{ strings.ticket.dateIssued }</th>
@@ -156,17 +163,17 @@ export default class TicketsList extends React.Component {
         const user = ticket.user || {}
         return (
             <tr  key={ ticket.id } >
-                <th>{ ticket.id }       </th>
-                <th >{ this.formatUsername(user) } </th>
-                <th >{ ticket.details.name }     </th>
-                <th  >
+                <td>{ ticket.id }       </td>
+                <td className={this.classForExtraColumns()}>{ this.formatUsername(user) } </td>
+                <td className={this.classForExtraColumns()}>{ ticket.details.name }     </td>
+                <td  >
                   <Link to={ `/view-ticket/${ticket.id}?accessToken=${ticket.accessToken}` }>
                     { ticket.details.subject }
                   </Link>
-                </th>
-                <th className={ `ticket-status-${ticket.status}`} >{ strings.ticket.statuses[ticket.status] }</th>
-                <th className="ltr" > { this.formatDate(ticket.createdAt) }</th>
-                <th className="ltr" > { this.formatDate(ticket.updatedAt) }</th>
+                </td>
+                <td className={ `ticket-status-${ticket.status}`} >{ strings.ticket.statuses[ticket.status] }</td>
+                <td className="ltr" > { this.formatDate(ticket.createdAt) }</td>
+                <td className="ltr" > { this.formatDate(ticket.updatedAt) }</td>
             </tr>
         )
     }
