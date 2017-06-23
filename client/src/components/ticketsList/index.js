@@ -16,6 +16,8 @@ export default class TicketsList extends React.Component {
             filter: 'all',
             user: props.user
         }
+
+        this.classForExtraColumns = !this.state.user || !this.state.user.isSuperuser ? "hide" : "";
     }
 
     reload = () => {
@@ -121,8 +123,8 @@ export default class TicketsList extends React.Component {
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>{ strings.ticket.user } </th>
-                    <th>{ strings.ticket.name } </th>
+                    <th className={this.classForExtraColumns}>{ strings.ticket.user } </th>
+                    <th className={this.classForExtraColumns}>{ strings.ticket.name } </th>
                     <th>{ strings.ticket.subject }</th>
                     <th>{ strings.ticket.status }</th>
                     <th>{ strings.ticket.dateIssued }</th>
@@ -157,8 +159,8 @@ export default class TicketsList extends React.Component {
         return (
             <tr  key={ ticket.id } >
                 <th>{ ticket.id }       </th>
-                <th >{ this.formatUsername(user) } </th>
-                <th >{ ticket.details.name }     </th>
+                <th className={this.classForExtraColumns}>{ this.formatUsername(user) } </th>
+                <th className={this.classForExtraColumns}>{ ticket.details.name }     </th>
                 <th  >
                   <Link to={ `/view-ticket/${ticket.id}?accessToken=${ticket.accessToken}` }>
                     { ticket.details.subject }
