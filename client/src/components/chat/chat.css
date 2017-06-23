@@ -29,6 +29,7 @@
     border-left: 10px solid #fff;
     margin-top:15px;
     float:right;
+    margin-right: 15px;
 }
 
 .arrow{
@@ -46,6 +47,7 @@
     border-bottom: 10px solid transparent;
     border-right:10px solid #fff;
     float: left;
+    margin-left: 15px;
 }
 
 .submitter-text{
