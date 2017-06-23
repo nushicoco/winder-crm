@@ -1,12 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import strings from '../../strings.js'
-import {  Button, ButtonGroup, Table} from 'react-bootstrap'
+import { Button, ButtonGroup, Table} from 'react-bootstrap'
 import { getTickets } from '../../api.js'
-import {BackToFrequentBtn} from '../common'
+import { BackToFrequentBtn } from '../common'
 import './ticketsList.css'
+import CSVExport from './csvexport'
 
-const NO_FILTER = 'all' // should has a matching string as well
+const NO_FILTER = 'all'
 export default class TicketsList extends React.Component {
     constructor (props) {
         super(props)
@@ -24,6 +25,41 @@ export default class TicketsList extends React.Component {
                     tickets
                 })
             })
+    }
+
+    filteredTickets = (() => {
+        let allTickets, filteredTickets, lastFilter
+        return () => {
+            if (this.state.tickets === allTickets
+                && this.state.filter === lastFilter )  {
+                return filteredTickets
+            }
+            allTickets = this.state.tickets
+            filteredTickets = allTickets.filter(this.filter)
+            lastFilter = this.state.filter
+            return filteredTickets
+        }
+    })()
+
+    ticketsAsDataForCSV = () => {
+        const headers = [[
+            'id',
+            'username',
+            'name',
+            'subject',
+            'status',
+            'createdAt',
+            'updatedAt'
+        ]]
+        return headers.concat(this.filteredTickets().map(ticket => [
+            ticket.id,
+            this.formatUsername(ticket.user),
+            ticket.details.name,
+            ticket.details.subject,
+            ticket.status,
+            ticket.createdAt,
+            ticket.updatedAt,
+        ]))
     }
 
     componentWillReceiveProps (newProps) {
@@ -53,6 +89,8 @@ export default class TicketsList extends React.Component {
               <ButtonGroup>
                 { buttons }
               </ButtonGroup>
+              <CSVExport className="inline" data={this.ticketsAsDataForCSV()} filename="tickets.csv"/>
+
             </div>
         )
     }
@@ -82,7 +120,7 @@ export default class TicketsList extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
-                { this.state.tickets.filter(this.filter).map(this.renderTicket) }
+                { this.filteredTickets().map(this.renderTicket) }
                 </tbody>
               </Table>
 
@@ -98,12 +136,18 @@ export default class TicketsList extends React.Component {
         return new Date(date).toLocaleString()
     }
 
+    formatUsername (user) {
+        return user
+            ? `${user.firstName || ''} ${user.lastName || ''}`
+            : ''
+    }
+
     renderTicket = (ticket) => {
         const user = ticket.user || {}
         return (
             <tr  key={ ticket.id } >
                 <th>{ ticket.id }       </th>
-                <th >{ `${user.firstName || ''} ${user.lastName || ''}`} </th>
+                <th >{ this.formatUsername(user) } </th>
                 <th >{ ticket.details.name }     </th>
                 <th  >
                   <Link to={ `/view-ticket/${ticket.id}?accessToken=${ticket.accessToken}` }>
