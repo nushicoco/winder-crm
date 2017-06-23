@@ -21,6 +21,7 @@ export default class chatTab extends Component {
             chatId : props.chatId,
             messages: [],
             client: props.client,
+            clientId: '',
             isSuperuser: props.isSuperuser
         }
 
@@ -35,7 +36,11 @@ export default class chatTab extends Component {
 
     componentWillMount() {
         let self = this;
-        this.socket.emit(`client:connected`, { chatId : this.state.chatId , client: this.state.client })
+        this.socket.emit(`client:connected`, { chatId : this.state.chatId , client: this.state.client });
+        this.socket.on (`server:connected`, data => {
+            this.setState({clientId:data.clientId});
+        });
+
         this.socket.on(`server:gotMessage`, data => {
             // this is only for super user that should have one socket for all chats
             if (data.chatId != this.state.chatId){
@@ -59,7 +64,7 @@ export default class chatTab extends Component {
     }
 
     sendMessage = message => {
-        this.socket.emit(`client:sendMessage`, { text: message, client :this.state.client, chatId:this.state.chatId})
+        this.socket.emit(`client:sendMessage`, { text: message, chatId:this.state.chatId})
     }
 
     render() {
@@ -83,7 +88,7 @@ export default class chatTab extends Component {
                                     author={msg.client}
                                     text={msg.text}
                                     time={msg.createdAt}
-                                    isMe={ msg.client == this.state.client }></Message>
+                                    isMe={ msg.clientId == this.state.clientId }></Message>
                 })}
                 <div style={{ float:"left", clear: "both" }}
                      ref={(el) => { this.messagesEnd = el; }} />

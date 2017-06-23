@@ -16,10 +16,15 @@ module.exports = function (app, io) {
         socket.on('client:connected', function(data){
             socket.join(data.chatId);
             socket.chatId = data.chatId;
+            socket.owner = data.client;
+
+            socket.emit('server:connected', {clientId:socket.id});
         });
 
         socket.on('client:sendMessage', function (data) {
 
+            data.client = socket.owner;
+            data.clientId = socket.id;
             io.to(data.chatId).emit('server:gotMessage', data);
 
             Chat.findById(socket.chatId).then( (chat) => {
