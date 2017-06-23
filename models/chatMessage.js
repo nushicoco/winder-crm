@@ -5,6 +5,7 @@ const Sequelize = require('sequelize')
 module.exports = function (sequelize) {
     const ChatMessage = sequelize.define('chat_message', {
         client: Sequelize.TEXT,
+        clientId: Sequelize.TEXT,
         text: Sequelize.TEXT,
     });
 

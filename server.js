@@ -40,6 +40,7 @@ app.use(passport.session());
 // socket.io
 var server = require('http').Server(app);
 server.listen(process.env.CHAT_PORT,process.env.CHAT_HOST);
+// server.listen(process.env.CHAT_PORT,process.env.IP);
 var io = require('socket.io')(server , {origins:'*:*'});
 require('./io')(app, io);
 

@@ -31,6 +31,7 @@ export default class chatTab extends Component {
         // todo move url to .env
         // let socket = io(`${process.env.CHAT_HOST}:${process.env.CHAT_PORT}`);
         this.socket = io.connect(`http://localhost:8080`);
+        // this.socket = io.connect(`http://10.0.0.4:8080`);
     }
 
     componentWillReceiveProps (nextProps){

@@ -16,7 +16,8 @@ module.exports = function (app, passport) {
         }else{
 
             var client = req.param("client");
-            Chat.create({status:'active', client: client})
+            var clientId = req.param("clientId");
+            Chat.create({status:'active', client: client, clientId:clientId})
                 .then( (chat) => {
                     res.status(200).send(chat);
                     return null;
@@ -38,7 +39,7 @@ module.exports = function (app, passport) {
                 id: chatId
             },
             include: [{all: true, nested: true}],
-            order: [[ChatMessage, 'createdAt', 'DESC']]
+            order: [[ChatMessage, 'createdAt', 'ASC']]
         })
         .then( (chat) => {
             if (!chat){

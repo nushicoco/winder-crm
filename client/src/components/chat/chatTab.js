@@ -36,7 +36,7 @@ export default class chatTab extends Component {
 
     componentWillMount() {
         let self = this;
-        this.socket.emit(`client:connected`, { chatId : this.state.chatId , client: this.state.client });
+        this.socket.emit(`client:connected`, { chatId : this.state.chatId , client: this.state.client, clientId:this.state.user && this.state.userId });
         this.socket.on (`server:connected`, data => {
             this.setState({clientId:data.clientId});
         });
@@ -88,7 +88,7 @@ export default class chatTab extends Component {
                                     author={msg.client}
                                     text={msg.text}
                                     time={msg.createdAt}
-                                    isMe={ msg.clientId == this.state.clientId }></Message>
+                                    isMe={ msg.clientId == this.state.clientId  || msg.client == this.state.client}></Message>
                 })}
                 <div style={{ float:"left", clear: "both" }}
                      ref={(el) => { this.messagesEnd = el; }} />

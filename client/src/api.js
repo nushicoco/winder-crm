@@ -108,8 +108,8 @@ module.exports.logout = function () {
     return post('/logout');
 }
 
-module.exports.createChat = function (client) {
-    return post('/chat', {client});
+module.exports.createChat = function (client, clientId) {
+    return post('/chat', {client, clientId});
 }
 
 module.exports.getChat = function (chatId, ) {

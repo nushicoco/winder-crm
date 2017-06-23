@@ -17,21 +17,23 @@ module.exports = function (app, io) {
             socket.join(data.chatId);
             socket.chatId = data.chatId;
             socket.owner = data.client;
+            socket.clientId = data.clientId || socket.id
 
-            socket.emit('server:connected', {clientId:socket.id});
+            socket.emit('server:connected', {clientId: socket.clientId });
         });
 
         socket.on('client:sendMessage', function (data) {
 
             data.client = socket.owner;
-            data.clientId = socket.id;
+            data.clientId = socket.clientId;
             io.to(data.chatId).emit('server:gotMessage', data);
 
             Chat.findById(socket.chatId).then( (chat) => {
                 return ChatMessage.create({
                     chatId: data.chatId,
                     text: data.text,
-                    client: data.client
+                    client: data.client,
+                    clientId: data.clientId
                 })
             })
         });

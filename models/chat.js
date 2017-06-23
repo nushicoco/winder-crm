@@ -14,7 +14,7 @@ module.exports = function (sequelize) {
         },
 
         client: Sequelize.TEXT,
-
+        clientId: Sequelize.TEXT,
 }, {
         hooks: {
             afterCreate: function (chat) {
