@@ -18,48 +18,41 @@ export default class LoginContainer extends React.Component {
     adminItems = [
 
         (
-            <MenuItem header>{Strings.header.admin}</MenuItem>
+            <MenuItem key="100" header>{Strings.header.admin}</MenuItem>
         ),
 
         (
-            <MenuItem eventKey="10" >
-              <Link to="/admin/frequent-problems"
-                    className="inline">
+            <MenuItem  key="10" eventKey="10" href="/admin/frequent-problems">
                 {Strings.header.adminFrequentProblems}
-              </Link>
             </MenuItem>
         ),
 
         (
-            <MenuItem divider />
+            <MenuItem key="101" divider />
         )
 
     ]
 
     userItems = [
         (
-            <MenuItem  eventKey="1" >
-              <Link to="/new-ticket"  className="inline">
+            <MenuItem key="1"  eventKey="1" href="/new-ticket" className="inline">
                 {Strings.header.newTicket}
-              </Link>
             </MenuItem>
         ),
 
         (
-            <MenuItem  eventKey="2" >
-              <Link to="/tickets"  className="inline">
+            <MenuItem key="2" eventKey="2" href="/tickets"  className="inline">
                 {Strings.header.viewTickets}
-              </Link>
             </MenuItem>
         ),
 
         (
-            <MenuItem divider />
+            <MenuItem key="102" divider />
         ),
 
         (
-            <MenuItem  eventKey="2" onClick={() => logout()}>
-              {Strings.header.logout}
+            <MenuItem key="3"  eventKey="3" onClick={() => logout()}>
+                {Strings.header.logout}
             </MenuItem>
         ),
     ]
@@ -79,11 +72,11 @@ export default class LoginContainer extends React.Component {
     renderAnon() {
         return (
             <div className="login-container">
-              <a className="inline"
-                 href="javascript:void(0)"
-                 onClick={this.props.doLogin} >
-                { Strings.header.loginAction }
-              </a>
+                <a className="inline"
+                   href="javascript:void(0)"
+                   onClick={this.props.doLogin} >
+                    { Strings.header.loginAction }
+                </a>
             </div>
         )
     }
@@ -97,20 +90,20 @@ export default class LoginContainer extends React.Component {
         return (
 
             <div className="login-container">
-              <p className="inline logged-in-header"> {Strings.header.welcome}, {this.state.user.firstName} !</p>
-              <Dropdown
-                className="user-actions-menu logged-in-header"
-                bsSize="normal"
-                id="user-action-menu">
-                <Dropdown.Toggle>
-                  { Strings.header.userActions }
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
+                <p className="inline logged-in-header"> {Strings.header.welcome}, {this.state.user.firstName} !</p>
+                <Dropdown
+                    className="user-actions-menu logged-in-header"
+                    bsSize="normal"
+                    id="user-action-menu">
+                    <Dropdown.Toggle>
+                        { Strings.header.userActions }
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
 
-                  { items }
+                        { items }
 
-                </Dropdown.Menu>
-              </Dropdown>
+                    </Dropdown.Menu>
+                </Dropdown>
             </div>
         )
     }
