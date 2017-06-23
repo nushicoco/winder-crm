@@ -21,12 +21,22 @@ export default class TicketsList extends React.Component {
                     tickets
                 })
             })
+            .catch( (error) => {
+                if (error.status === 401) {
+                    this.props.doLogin()
+                    return
+                }
+                console.error(error)
+            })
     }
 
     componentWillReceiveProps (newProps) {
-        this.setState({
-            user: newProps.user
-        })
+        if (this.props.user !== newProps.user) {
+            this.setState({
+                user: newProps.user
+            })
+            this.reload()
+        }
     }
 
     componentDidMount () {
