@@ -81,7 +81,6 @@ export default class chatTab extends Component {
                     {Strings.chat.chatWithTech}
                 </h2>
             }
-            {/*<h2>Chat #{ this.state.chatId } {this.state.client}</h2>*/}
             <div className="chat-area" >
                 {this.state.messages.map((msg, index) => {
                     return <Message key={index}

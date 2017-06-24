@@ -12,7 +12,6 @@ import Strings from '../../strings'
 import { BackToFrequentBtn } from '../common';
 
 import ChatTab from "./chatTab";
-// import ChatNicknameModal from './chatModal'
 import './chat.css'
 
 export default class chatTab extends Component {
@@ -85,7 +84,6 @@ export default class chatTab extends Component {
                         <input className="nickname" onChange={(e) => this.setState({client:e.target.value})}/>
                         <Button bsStyle="primary"
                                 onClick={ () => {
-                                    {/*this.createChat();*/}
                                     this.closeModal();
                                 } } >{Strings.chat.startChat}
                         </Button>
@@ -95,9 +93,6 @@ export default class chatTab extends Component {
                         <BackToFrequentBtn/>
                     </Modal.Footer>
                 </Modal>
-
-                {/*<h2>client: I'm {this.state.client}</h2>*/}
-                {/*{this.state.user && <h2>User: I'm {this.state.user.firstName}</h2>}*/}
 
                 { this.state.chats.length == 0 && this.state.user && this.state.user.isSuperuser &&
                     <p>No chats pending</p>

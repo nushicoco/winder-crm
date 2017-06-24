@@ -36,10 +36,6 @@
     width: 0;
     height: 0;
     margin-top:15px;
-    /*box-shadow: 0 5px 10px rgba(0,0,0,.2);*/
-    /*background-color: #fff;*/
-    /*background-clip: padding-box;*/
-
 }
 
 .arrow-left {
@@ -90,11 +86,7 @@
     background-color: #fff;
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
-    /*border: 1px solid #ccc;*/
-    /*border: 1px solid rgba(0,0,0,.2);*/
     border-radius: 6px;
-    /*-webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);*/
-    /*box-shadow: 0 5px 10px rgba(0,0,0,.2);*/
     line-break: auto;
     margin: 10px 0;
 }
@@ -109,7 +101,6 @@
 and (max-device-width: 500px) {
     .chat-area{
         height: 300px;
-        /*width: 300px;*/
         background-color: #C7D6D5;
         direction: ltr;
         overflow-y: scroll;

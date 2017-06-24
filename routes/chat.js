@@ -27,7 +27,6 @@ module.exports = function (app, passport) {
                     console.error(error)
                     throw error
                 })
-            // res.status(200).send({chatId:counter++});
         }
     });
 
