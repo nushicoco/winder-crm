@@ -3,6 +3,9 @@ const expect = chai.expect
 chai.should()
 chai.use(require('chai-http'))
 
+const helpers = require('./../support/helpers')
+
+
 const app = require('../../server')
 const { User, Ticket, TicketUpdate } = require('../../models')
 
@@ -173,7 +176,7 @@ describe('POST /ticket', function () {
 })
 
 describe('GET /ticket/:id', function () {
-    beforeEach(makeGreg)
+    beforeEach(makeGregAndScrappy)
     beforeEach(clearTickets)
 
     it('should not work without superuser or access token', function (done) {
@@ -254,7 +257,7 @@ describe('GET /ticket/:id', function () {
     })
 
     it('/tickets/:id should return ticket information for superuser', function (done) {
-        const agent = chai.request.agent(app)
+        const agent = chai.request.agent(app);
 
         let scrappy;
         let ticketId;
@@ -271,8 +274,10 @@ describe('GET /ticket/:id', function () {
             scrappy = coco;
         }).then(function () {
             Ticket.create({
-                userId: scrappy.id,
-                subject: 'problem with microwave'
+                details: {
+                    name: 'done',
+                    content: 'kishot'
+                }
             }).then(function (ticket){
                 ticketId = ticket.id;
             })
@@ -286,13 +291,13 @@ describe('GET /ticket/:id', function () {
                 agent.get(`/tickets/${ticketId}`)
                     .send()
                     .end(function (error, response) {
-                        expect(200).to.equal(response.status);
-                        const ticket = response.body
-                        expect(ticket).to.include({
-                            userId: scrappy.id,
-                            subject: 'problem with microwave'
+                        response.status.should.equal(200)
+                        expect(response).to.be.json
+                        response.should.be.json
+                        expect(response.body.details).to.include({
+                            name: 'done',
+                            content: 'kishot'
                         })
-                        expect(ticket).to.have.property('user')
                         done()
                     })
             })
@@ -320,8 +325,8 @@ describe('GET /ticket/:id', function () {
             Ticket.create({
                 userId: goodGuyGreg.id,
                 subject: 'can\'t fall asleep'
-            }).then(function (tickId){
-                ticketId = tickId;
+            }).then(function (ticket){
+                ticketId = ticket.id;
             })
         }).then(function() {
             agent.post('/login').send({
