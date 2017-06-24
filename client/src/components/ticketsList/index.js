@@ -118,7 +118,7 @@ export default class TicketsList extends React.Component {
 
     render () {
         return (
-            <div>
+            <div className="container">
               { this.state.user && (
                 <h1>{ strings.TicketsList.headline[this.state.user.isSuperuser ? 'admin' : 'user'] }</h1>
               )}
