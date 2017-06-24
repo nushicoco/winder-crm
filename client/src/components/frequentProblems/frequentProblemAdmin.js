@@ -100,7 +100,7 @@ export default class FrequentProblemAdmin extends React.Component {
         ))
 
         return (
-            <div>
+            <div className="container">
               <LoadingSpinner show={ this.state.isLoading } />
               <h1>{ Strings.frequentProblems.admin.header }</h1>
 

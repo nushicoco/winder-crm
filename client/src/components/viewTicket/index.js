@@ -216,7 +216,7 @@ export default class ViewTicket extends React.Component {
         const ticketUpdates = this.state.ticket.ticket_updates || []
 
         return (
-            <div>
+            <div className="container">
               <LoadingSpinner show={ this.state.isLoading } />
               <h1>
                 { strings.ticket.headlinePrefix + this.state.ticket.id }
