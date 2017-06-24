@@ -20,8 +20,12 @@ module.exports.notifyNewChat = function (chat) {
         throw 'Cannot notify without a chat'
     }
 
-    const chatLink = `${hostname}/chat`;
-    notify({text: `A new chat has been requested: by ${chat.client}\n<${chatLink}|Go to Chat>`})
+    const chatLink = `http://${hostname}/chat`;
+    notify({
+        username: "chat bot",
+        icon_emoji: ":ghost:",
+        text: `A new chat has been requested: by ${chat.client}\n<${chatLink}|Go to Chat>`
+    })
 };
 
 module.exports.notifyNewTicket = function (ticket) {
