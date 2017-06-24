@@ -66,6 +66,7 @@
 }
 
 .msg {
+    direction: rtl;
     max-width: 95%;
     z-index: 1060;
     padding: 10px;
