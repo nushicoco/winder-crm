@@ -10,14 +10,9 @@ const app = require('../../server')
 
 const io = require('socket.io-client');
 
-// todo use env
-const socketURL = 'http://localhost:8080';
-// const socketURL = 'http://10.0.0.4:8080';
-
+const socketURL = `http://${process.env.CHAT_HOST}:${process.env.CHAT_PORT}`;
 
 describe('chats socket ', function () {
-
-    helpers.restoreConsoleLog();
 
     let clientConnected = `client:connected`;
     let clientSendMessage = `client:sendMessage`;
@@ -61,7 +56,7 @@ describe('chats socket ', function () {
     it('clients message is received by superuser', function (done){
 
         let client1 = io.connect(socketURL);
-        let superUser = io.connect(socketURL);
+        let superuserSocket = io.connect(socketURL);
         let chatId;
         let messageText = "client message"
 
@@ -73,14 +68,14 @@ describe('chats socket ', function () {
                 data.clientId.should.not.equal(undefined)
             });
 
-            superUser.on(serverGotMessage, function (data) {
+            superuserSocket.on(serverGotMessage, function (data) {
                 data.client.should.equal(chatClient1.name);
                 data.text.should.equal(messageText);
                 data.clientId.should.equal(chatClient1.id);
                 done();
             });
 
-            superUser.emit(clientConnected, { chatId : chatId , client: superUser.name});
+            superuserSocket.emit(clientConnected, { chatId : chatId , client: superUser.name});
             client1.emit(clientSendMessage, { text: messageText, chatId: chatId});
         })
     });

@@ -27,8 +27,8 @@ export default class chatTab extends Component {
             user: props.user
         };
 
-        // todo move url to .env
-        // let socket = io(`${process.env.CHAT_HOST}:${process.env.CHAT_PORT}`);
+        // todo move url to .env (@dancar help ?)
+        // this.socket = io.connect(`http://${process.env.REACT_APP_CHAT_HOST}:${process.env.REACT_APP_CHAT_PORT}`);
         this.socket = io.connect(`http://localhost:8080`);
         // this.socket = io.connect(`http://10.0.0.4:8080`);
     }
