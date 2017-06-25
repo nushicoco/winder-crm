@@ -6,11 +6,9 @@ const Sequelize = require('sequelize')
 
 module.exports = function (sequelize) {
     const Chat = sequelize.define('chat', {
-        status: {
-            type: Sequelize.STRING,
-            validate: {
-                isIn: [['active', 'closed']]
-            }
+        active: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true
         },
 
         client: Sequelize.TEXT,

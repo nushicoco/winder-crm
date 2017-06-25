@@ -3,7 +3,7 @@
  */
 
 import React, { Component } from 'react';
-import { createChat } from '../../api';
+import { createChat , getAdminChat} from '../../api';
 import { Tabs, Tab } from 'react-bootstrap';
 import io from 'socket.io-client'
 
@@ -50,14 +50,25 @@ export default class chatTab extends Component {
     createChat(){
         var self = this;
 
-        createChat(this.getClientName())
-        .then( (resp) =>  {
-            self.setState({
-                chats: self.state.chats.concat(resp)
-            })
-        })
-        .catch(function (err){
-        })
+        if (this.state.user && this.state.user.isSuperuser){
+            getAdminChat()
+                .then( (resp) =>  {
+                    self.setState({
+                        chats: self.state.chats.concat(resp)
+                    })
+                })
+                .catch(function (err){
+                })
+        }else {
+            createChat(this.getClientName())
+                .then( (resp) =>  {
+                    self.setState({
+                        chats: self.state.chats.concat(resp)
+                    })
+                })
+                .catch(function (err){
+                })
+        }
     }
 
     componentWillMount(){
@@ -84,7 +95,9 @@ export default class chatTab extends Component {
                     </Modal.Header>
 
                     <Modal.Body>
-                        <input className="nickname" onChange={(e) => this.setState({customerName:e.target.value})}/>
+                        <input className="nickname"
+                               onChange={(e) => this.setState({customerName:e.target.value})}
+                               maxLength="15"/>
                         <Button bsStyle="primary"
                                 onClick={ () => {
                                     this.closeModal();
@@ -109,7 +122,7 @@ export default class chatTab extends Component {
                           id="chatTabs">
                         {this.state.chats.map((chat, index) => {
                             return (
-                                <Tab key={chat.id} eventKey={index} title={chat.client}>
+                                <Tab key={chat.id} eventKey={index} title={`${index + 1}:${chat.client}`}>
                                     {this.renderChatTab(chat.id)}
                                 </Tab>
                             )

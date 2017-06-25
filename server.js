@@ -38,10 +38,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // socket.io
-var server = require('http').Server(app);
-server.listen(process.env.CHAT_PORT,process.env.CHAT_HOST);
-// server.listen(process.env.CHAT_PORT,process.env.IP);
-var io = require('socket.io')(server , {origins:'*:*'});
+var chatServer = require('http').Server(app);
+chatServer.listen(process.env.CHAT_PORT,process.env.CHAT_HOST);
+
+var io = require('socket.io')(chatServer , {origins:'*:*'});
 require('./io')(app, io);
 
 // Routes:

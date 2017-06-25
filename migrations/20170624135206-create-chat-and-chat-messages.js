@@ -10,11 +10,9 @@ module.exports = {
               primaryKey: true,
               type: Sequelize.INTEGER
           },
-          status: {
-              type: Sequelize.STRING,
-              validate: {
-                  isIn: [['active', 'closed']]
-              }
+          active: {
+              type: Sequelize.BOOLEAN,
+              defaultValue: true
           },
 
           client: Sequelize.TEXT,

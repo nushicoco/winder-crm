@@ -115,3 +115,7 @@ module.exports.createChat = function (client, clientId) {
 module.exports.getChat = function (chatId, ) {
     return get(`/chats/${chatId}`)
 }
+
+module.exports.getAdminChat = function () {
+    return get(`/admin/chat`)
+}

@@ -96,7 +96,7 @@ export default class chatTab extends Component {
                 })}
                 <div className="chat-bottom" ref={(el) => { this.messagesEnd = el; }} />
             </div>
-            <TextSubmitter sendMessage={ this.sendMessage.bind(this) }/>
+            <TextSubmitter sendMessage={ this.sendMessage}/>
         </div>
         )
     }

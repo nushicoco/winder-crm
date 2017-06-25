@@ -1,33 +1,35 @@
 /**
  * Created by einavcarmon on 20/06/2017.
  */
+const { onlySuperuser } = require('./helpers')
 
 module.exports = function (app, passport) {
 
-    const { Chat, ChatMessage, User  } = require('../models')
+    const { Chat, ChatMessage  } = require('../models')
 
-    var counter = 0;
+    app.get('/admin/chat', onlySuperuser,  (req, res) => {
+        Chat.findAll({where: {active: true}})
+                .then(all => res.status(200).send(all.map(item => item.toJSON())))
+    })
+
     app.post('/chat', (req, res) => {
-        // todo create chat in db and query them
-        if (req.user && req.user.isSuperuser){
-            console.log("super user logged in");
-            Chat.findAll({where:{status:'active'}})
-                .then( all => res.send(all.map( item => item.toJSON())))
-        }else{
+        let client = req.param("client");
+        let clientId = req.param("clientId");
 
-            var client = req.param("client");
-            var clientId = req.param("clientId");
-            Chat.create({status:'active', client: client, clientId:clientId})
-                .then( (chat) => {
-                    res.status(200).send(chat);
-                    return null;
-                })
+        Chat.create({
+            active:true,
+            client: client,
+            clientId:clientId
+        })
+            .then( (chat) => {
+                res.status(200).send(chat);
+                return null;
+            })
 
-                .catch( (error) => {
-                    console.error(error)
-                    throw error
-                })
-        }
+            .catch( (error) => {
+                console.error(error)
+                throw error
+            })
     });
 
     app.get('/chats/:chatId' ,function (req, res) {

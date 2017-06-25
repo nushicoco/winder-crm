@@ -101,6 +101,7 @@ export default {
         startChat: 'התחל בשיחה',
         chatWith: 'שיחה עם ',
         chatWithTech: 'שיחה עם הטכנאי',
-        newChat: 'צ׳אט עם טכנאי'
+        newChat: 'צ׳אט עם טכנאי',
+        techChat: 'צ׳אט'
     }
 }

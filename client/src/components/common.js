@@ -11,9 +11,7 @@ import './common.css';
 
 export const BackToFrequentBtn = () => (
     <Link to="/" className="back-btn">
-        {/*<Button  >*/}
             { Strings.frequentProblems.back }
-        {/*</Button>*/}
     </Link>);
 
 export class NewTicketButton extends React.Component {
@@ -30,12 +28,18 @@ export class NewTicketButton extends React.Component {
 
 export class NewChatButton extends React.Component {
 
+    constructor (props){
+        super(props)
+    }
+
     render () {
         return (
-            <Link to="/chat" >
+            <Link to="/chat">
                 <Button className="open-chat">
-                    {/*<Glyphicon glyph="log-in" />*/}
-                    {Strings.chat.newChat}
+                    {this.props.isSuperuser
+                        ? Strings.chat.techChat
+                        : Strings.chat.newChat
+                    }
                 </Button>
             </Link>
         )

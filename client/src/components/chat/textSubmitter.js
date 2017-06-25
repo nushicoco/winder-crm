@@ -37,6 +37,7 @@ export default class TextSubmitter extends Component {
                                 value={ this.state.text }
                                 onChange={ e => this.setState({text: e.target.value}) }
                                 className="submitter-text"
+                                maxLength="200"
                                 />
                             <Button bsStyle="primary"
                                     disabled={ this.state.isLoading || !this.state.text}
