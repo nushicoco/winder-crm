@@ -21,8 +21,8 @@ export default class chatTab extends Component {
 
         this.state = {
             chats : [],
-            client: props.user ? props.user.firstName : '',
             activeChatIndex: 0,
+            customerName: '',
             showModal:true,
             user: props.user
         };
@@ -37,39 +37,42 @@ export default class chatTab extends Component {
         // b/c we read the user from the cookie it takes time for it to
         // be set
         this.setState({user:nextProps.user});
-        if (this.state.user)
-        {
-            this.setState({client:this.state.user.firstName});
-        }
     }
 
     closeModal() {
         this.setState({ showModal: false });
     }
 
+    getClientName(){
+        return this.state.user ? this.state.user.firstName : this.state.customerName
+    }
+
     createChat(){
         var self = this;
 
-        createChat(this.state.client)
+        createChat(this.getClientName())
         .then( (resp) =>  {
             self.setState({
                 chats: self.state.chats.concat(resp)
             })
         })
         .catch(function (err){
-            // todo what's here?
         })
     }
 
     componentWillMount(){
         if (this.state.user){
-            this.setState({client:this.state.user.firstName});
             this.createChat();
         }
     }
 
     handleChatChange (index) {
         this.setState({activeChatIndex : index });
+    }
+
+    renderChatTab(chatId){
+        return <ChatTab key={`chat-tab-${chatId}`} chatId={chatId} client={ this.getClientName()}
+                 socket={ this.socket } isSuperuser={this.state.user && this.state.user.isSuperuser}/>
     }
 
     render() {
@@ -81,7 +84,7 @@ export default class chatTab extends Component {
                     </Modal.Header>
 
                     <Modal.Body>
-                        <input className="nickname" onChange={(e) => this.setState({client:e.target.value})}/>
+                        <input className="nickname" onChange={(e) => this.setState({customerName:e.target.value})}/>
                         <Button bsStyle="primary"
                                 onClick={ () => {
                                     this.closeModal();
@@ -94,12 +97,12 @@ export default class chatTab extends Component {
                     </Modal.Footer>
                 </Modal>
 
-                { this.state.chats.length == 0 && this.state.user && this.state.user.isSuperuser &&
+                { this.state.chats.length === 0 && this.state.user && this.state.user.isSuperuser &&
                     <p>No chats pending</p>
                 }
-                { this.state.chats.length == 1 &&
-                    <ChatTab chatId={this.state.chats[0].id} client={ this.state.client || this.state.user.firstName} socket={ this.socket }></ChatTab>
-                }
+
+                { this.state.chats.length === 1 && this.renderChatTab(this.state.chats[0].id)}
+
                 { this.state.chats.length > 1 &&
                 <div className="tabs">
                     <Tabs activeKey={this.state.activeChatIndex} onSelect={this.handleChatChange.bind(this)}
@@ -107,8 +110,7 @@ export default class chatTab extends Component {
                         {this.state.chats.map((chat, index) => {
                             return (
                                 <Tab key={chat.id} eventKey={index} title={chat.client}>
-                                    <ChatTab key={`chat-tab-${chat.id}`} chatId={chat.id} client={ this.state.client || this.state.user.firstName}
-                                             socket={ this.socket } isSuperuser={this.state.user && this.state.user.isSuperuser}/>
+                                    {this.renderChatTab(chat.id)}
                                 </Tab>
                             )
                         })}
@@ -118,11 +120,6 @@ export default class chatTab extends Component {
 
                 <div>
                     <BackToFrequentBtn/>
-
-                    {/*{(!this.state.user || !this.state.user.isSuperuser) &&*/}
-                    {/*<NewTicketButton />*/}
-                    {/*}*/}
-
                 </div>
             </div>
         )
