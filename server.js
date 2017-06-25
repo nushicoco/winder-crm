@@ -39,7 +39,7 @@ app.use(passport.session());
 
 // socket.io
 var chatServer = require('http').Server(app);
-chatServer.listen(process.env.CHAT_PORT,process.env.CHAT_HOST);
+chatServer.listen(process.env.CHAT_PORT, process.env.CHAT_HOST);
 
 var io = require('socket.io')(chatServer , {origins:'*:*'});
 require('./io')(app, io);
