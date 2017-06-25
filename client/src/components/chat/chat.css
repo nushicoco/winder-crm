@@ -97,6 +97,11 @@
     color: lightgrey;
 }
 
+.chat-bottom {
+    float: left;
+    clear: both;
+}
+
 /* mobile */
 @media screen
 and (max-device-width: 500px) {

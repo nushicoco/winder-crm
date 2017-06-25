@@ -18,32 +18,37 @@ export default class chatTab extends Component {
         super(props);
 
         this.state = {
-            chatId : props.chatId,
+            chatClientName: props.client,
             messages: [],
-            client: props.client,
+            myName: props.client,
             clientId: '',
-            isSuperuser: props.isSuperuser
         }
 
         this.socket = props.socket;
 
         let self = this;
 
-        getChat(this.state.chatId).then(function (chat) {
+        getChat(this.props.chatId).then(function (chat) {
+            self.setState({chatClientName:chat.client})
             self.setState({messages:chat.chat_messages});
         })
     }
 
     componentWillMount() {
         let self = this;
-        this.socket.emit(`client:connected`, { chatId : this.state.chatId , client: this.state.client, clientId:this.state.user && this.state.userId });
+        this.socket.emit(`client:connected`, {
+            chatId : this.props.chatId ,
+            client: this.state.myName,
+            clientId:this.state.user && this.state.userId
+        })
+
         this.socket.on (`server:connected`, data => {
             this.setState({clientId:data.clientId});
-        });
+        })
 
         this.socket.on(`server:gotMessage`, data => {
             // this is only for super user that should have one socket for all chats
-            if (data.chatId != this.state.chatId){
+            if (data.chatId !== this.props.chatId){
                 return;
             }
             self.setState( { messages : self.state.messages.concat([data]) } );
@@ -64,36 +69,34 @@ export default class chatTab extends Component {
     }
 
     sendMessage = message => {
-        this.socket.emit(`client:sendMessage`, { text: message, chatId:this.state.chatId})
+        this.socket.emit(`client:sendMessage`, { text: message, chatId:this.props.chatId})
     }
 
     render() {
         return (
         <div className="mini-container">
-            {this.state.isSuperuser &&
+            {this.props.isSuperuser ?
                 <h2>
-                    {Strings.chat.chatWith} {this.state.client}
+                    {Strings.chat.chatWith} {this.state.chatClientName}
                 </h2>
-            }
-
-            {!this.state.isSuperuser &&
+                :
                 <h2>
                     {Strings.chat.chatWithTech}
                 </h2>
+
             }
+
             <div className="chat-area" >
                 {this.state.messages.map((msg, index) => {
                     return <Message key={index}
                                     author={msg.client}
                                     text={msg.text}
                                     time={msg.createdAt}
-                                    isMe={ msg.clientId == this.state.clientId  || msg.client == this.state.client}></Message>
+                                    isMe={ msg.clientId === this.state.clientId  || msg.client === this.state.myName}/>
                 })}
-                <div style={{ float:"left", clear: "both" }}
-                     ref={(el) => { this.messagesEnd = el; }} />
+                <div className="chat-bottom" ref={(el) => { this.messagesEnd = el; }} />
             </div>
-            <TextSubmitter sendMessage={ this.sendMessage.bind(this) }>
-            </TextSubmitter>
+            <TextSubmitter sendMessage={ this.sendMessage.bind(this) }/>
         </div>
         )
     }
