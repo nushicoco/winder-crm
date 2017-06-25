@@ -26,8 +26,10 @@ export default class chatTab extends Component {
             showModal:true,
             user: props.user
         };
+        const CHAT_HOST = process.env.REACT_APP_CHAT_HOST
+        const CHAT_PORT = process.env.REACT_APP_CHAT_PORT
 
-        this.socket = io.connect(`http://${process.env.REACT_APP_CHAT_HOST}:${process.env.REACT_APP_CHAT_PORT}`);
+        this.socket = io.connect(`${CHAT_HOST}:${CHAT_PORT}`);
     }
 
     componentWillReceiveProps (nextProps){
