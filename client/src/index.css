@@ -29,10 +29,6 @@ a:hover {
   color: #C20114;
 }
 
-.container {
-  margin: 10px 55px 55px 55px;
-}
-
 .sub-container{
   border: solid 4px lightgray;
   border-radius: 16px;
@@ -45,4 +41,35 @@ a:hover {
 
 .inline {
   display: inline;
+}
+
+.all-over {
+  width: 100%;
+  height: 100%;
+  margin: 0em;
+  left: 0em;
+  top: 0em;
+  background: white;
+  position: fixed;
+  overflow-y: scroll;
+}
+
+.relative {
+  position: relative;
+}
+
+.mini-container{
+  margin: 15px;
+}
+
+@media screen
+and (min-device-width: 500px) {
+  .container {
+    margin: 10px 55px 55px 55px;
+  }
+
+  .mini-container{
+    margin: 45px;
+    margin-bottom: 15px;
+  }
 }

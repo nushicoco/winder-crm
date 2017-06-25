@@ -94,5 +94,14 @@ export default {
             user: 'הקריאות שלי'
         },
         reload: 'רענן'
+    },
+    chat:{
+        submit:'שלח',
+        nicknameHeader: 'איך לקרוא לך?',
+        startChat: 'התחל בשיחה',
+        chatWith: 'שיחה עם ',
+        chatWithTech: 'שיחה עם הטכנאי',
+        newChat: 'צ׳אט עם טכנאי',
+        techChat: 'צ׳אט'
     }
 }

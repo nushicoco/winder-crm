@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Button,  ButtonToolbar, Glyphicon} from 'react-bootstrap';
-import { NewTicketButton } from '../common';
+import { ButtonToolbar} from 'react-bootstrap';
+import { NewTicketButton, NewChatButton } from '../common';
 import Strings from '../../strings.js'
 
 import './frequentProblems.css'
@@ -9,16 +8,17 @@ import './frequentProblems.css'
 export default class Footer extends Component {
     constructor(props){
         super(props);
+        this.state = { shouldHide: props.shouldHide };
     }
 
     render() {
         return (
-            <div>
+            <div className="footer">
                 <ButtonToolbar>
-                    {/*<Button className={ this.state.shouldHide ? 'hide' : ''} > <Glyphicon glyph="log-in" />  צ׳אט עם טכנאי</Button>*/}
-                    <p className="call-us"> { Strings.frequentProblems.callTech }</p>
-                    <NewTicketButton />
+                        {this.props.user && <NewChatButton isSuperuser={this.props.user && this.props.user.isSuperuser } />}
+                        <NewTicketButton />
                 </ButtonToolbar>
+                <p className="call-us"> { Strings.frequentProblems.callTech }</p>
             </div>
         );
     }

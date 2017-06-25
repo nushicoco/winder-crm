@@ -37,6 +37,13 @@ const passport = require("./passportAuthentication");
 app.use(passport.initialize());
 app.use(passport.session());
 
+// socket.io
+var chatServer = require('http').Server(app);
+chatServer.listen(process.env.CHAT_PORT,process.env.CHAT_HOST);
+
+var io = require('socket.io')(chatServer , {origins:'*:*'});
+require('./io')(app, io);
+
 // Routes:
 app.use(express.static('client/build'));
 require('./routes')(app, passport, __dirname)

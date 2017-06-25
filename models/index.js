@@ -14,7 +14,9 @@ const models = {
     User             : sequelize.import(path.join(__dirname, './user.js')),
     FrequentProblem  : sequelize.import(path.join(__dirname, './frequentProblem.js')),
     TicketUpdate     : sequelize.import(path.join(__dirname, './ticketUpdate.js')),
-    Ticket           : sequelize.import(path.join(__dirname, './ticket.js'))
+    Ticket           : sequelize.import(path.join(__dirname, './ticket.js')),
+    Chat             : sequelize.import(path.join(__dirname, './chat.js')),
+    ChatMessage      : sequelize.import(path.join(__dirname, './chatMessage.js'))
 }
 
 // Set Relations:
