@@ -48,13 +48,11 @@ export default class chatTab extends Component {
     }
 
     createChat(){
-        var self = this;
-
         if (this.state.user && this.state.user.isSuperuser){
             getAdminChat()
                 .then( (resp) =>  {
-                    self.setState({
-                        chats: self.state.chats.concat(resp)
+                    this.setState({
+                        chats: this.state.chats.concat(resp)
                     })
                 })
                 .catch(function (err){
@@ -62,8 +60,8 @@ export default class chatTab extends Component {
         }else {
             createChat(this.getClientName())
                 .then( (resp) =>  {
-                    self.setState({
-                        chats: self.state.chats.concat(resp)
+                    this.setState({
+                        chats: this.state.chats.concat(resp)
                     })
                 })
                 .catch(function (err){
