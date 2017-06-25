@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { getFrequentProblemsList } from '../../api.js'
 import Footer from './footer';
 import Strings from '../../strings.js'
+import LoadingBox from '../loadingBox'
 
 
 import './frequentProblems.css';
@@ -12,6 +13,7 @@ export default class FrequentProblemsList extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoading: true,
             problems: []
         }
         this.getFrequentProblems();
@@ -20,7 +22,10 @@ export default class FrequentProblemsList extends Component {
     getFrequentProblems() {
         getFrequentProblemsList()
             .then( (problems ) => {
-                this.setState({problems})
+                this.setState({
+                    isLoading: false,
+                    problems
+                })
             })
     };
 
@@ -32,24 +37,26 @@ export default class FrequentProblemsList extends Component {
         return (
             <div className="container">
                 <h1> { Strings.frequentProblems.header } </h1>
-                <div className="sub-container">
-                    <Table bordered condensed hover>
-                        <tbody>
-                    {this.state.problems.map(function (problem) {
-                        return <tr key={problem.id} onClick={this.setProblemDetails(problem)}>
-                            <td>
-                                <div>
-                                {/*<Link to={`/frequent/${problem.id}`}>*/}
-                                    <Link to={{ pathname: `/frequent/${problem.id}`, problem }} className="frequent-link">
-                                        {problem.subject}
-                                    </Link>
-                                </div>
-                            </td>
-                        </tr>
-                    }.bind(this))}
-                        </tbody>
-                    </Table>
-                </div>
+                <LoadingBox show={ this.state.isLoading } />
+                { this.state.isLoading || (
+                    <div className="sub-container">
+                        <Table bordered condensed hover>
+                            <tbody>
+                                {this.state.problems.map( problem => (
+                                <tr key={problem.id} onClick={this.setProblemDetails(problem)}>
+                                    <td>
+                                        <div>
+                                            <Link to={{ pathname: `/frequent/${problem.id}`, problem }} className="frequent-link">
+                                                {problem.subject}
+                                            </Link>
+                                        </div>
+                                    </td>
+                                </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </div>
+                )}
                 <Footer user={ this.props.user }/>
             </div>
         )

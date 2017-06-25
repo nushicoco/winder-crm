@@ -1,5 +1,6 @@
 export default {
     loading: 'טוען...',
+    loadingBox: 'טוען',
     header:{
         admin: 'ניהול',
         adminFrequentProblems: 'תקלות נפוצות',
