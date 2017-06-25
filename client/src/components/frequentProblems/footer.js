@@ -15,7 +15,7 @@ export default class Footer extends Component {
         return (
             <div className="footer">
                 <ButtonToolbar>
-                        <NewChatButton isSuperuser={this.props.user && this.props.user.isSuperuser } />
+                        {this.props.user && <NewChatButton isSuperuser={this.props.user && this.props.user.isSuperuser } />}
                         <NewTicketButton />
                 </ButtonToolbar>
                 <p className="call-us"> { Strings.frequentProblems.callTech }</p>
