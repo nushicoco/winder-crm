@@ -28,12 +28,12 @@ export default class chatTab extends Component {
 
         this.socket = props.socket;
 
-        let self = this;
-
-        getChat(this.props.chatId).then(function (chat) {
-            self.setState({chatClientName:chat.clientName})
-            self.setState({messages:chat.chat_messages});
+        getChat(this.props.chatId).then( (chat) => {
+            this.setState({chatClientName:chat.clientName})
+            this.setState({messages:chat.chat_messages});
         })
+
+        this.ignoredOwnConnectMessage = false;
     }
 
     componentWillMount() {
@@ -58,18 +58,19 @@ export default class chatTab extends Component {
 
         this.socket.on(`server:userConnected`, data => {
 
-            /*if (data.clientId === this.state.clientId) {
+            if (!this.ignoredOwnConnectMessage){
+                this.ignoredOwnConnectMessage = true;
                 return;
             }
 
             let newUserMsg = {
-                author: "system",
-                text:   "some system text",
-                time:   Moment(),
+                clientName: "system",
+                text:   `${data.clientName} ${Strings.chat.hasJoined}`,
+                createdAd:   Moment(),
                 isMe:   false
             }
 
-            this.setState({messages: this.state.messages.concat([newUserMsg])});*/
+            this.setState({messages: this.state.messages.concat([newUserMsg])});
         })
     }
 

@@ -111,6 +111,11 @@
     transition: opacity 500ms ease-in;
 }
 
+.system-message{
+    color: darkblue;
+    font-size: 1.15em;
+}
+
 /* mobile */
 @media screen
 and (max-device-width: 500px) {

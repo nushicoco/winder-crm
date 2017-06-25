@@ -5,12 +5,9 @@ import React, { Component } from 'react';
 import Moment from 'moment';
 
 export default class Message extends Component {
-    constructor (props) {
-        super(props);
-    }
 
     renderSystemMessage() {
-        <div><p>msg here!</p></div>
+        return (<div><p className="system-message">{this.props.text}</p></div>)
     }
 
     renderMessage() {
