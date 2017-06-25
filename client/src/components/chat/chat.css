@@ -102,6 +102,15 @@
     clear: both;
 }
 
+.message-enter {
+    opacity: 0.01;
+}
+
+.message-enter.message-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+
 /* mobile */
 @media screen
 and (max-device-width: 500px) {

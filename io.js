@@ -19,6 +19,8 @@ module.exports = function (app, io) {
             socket.owner = data.clientName;
             socket.clientId = data.clientId || socket.id
 
+            io.to(data.chatId).emit('server:userConnected', data);
+
             socket.emit('server:connected', {clientId: socket.clientId });
         });
 

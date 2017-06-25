@@ -4,6 +4,8 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { CSSTransitionGroup } from 'react-transition-group' // ES6
+import Moment from 'moment';
 
 import TextSubmitter from './textSubmitter';
 import Message from './message';
@@ -53,6 +55,22 @@ export default class chatTab extends Component {
             }
             self.setState( { messages : self.state.messages.concat([data]) } );
         })
+
+        this.socket.on(`server:userConnected`, data => {
+
+            /*if (data.clientId === this.state.clientId) {
+                return;
+            }
+
+            let newUserMsg = {
+                author: "system",
+                text:   "some system text",
+                time:   Moment(),
+                isMe:   false
+            }
+
+            this.setState({messages: this.state.messages.concat([newUserMsg])});*/
+        })
     }
 
     scrollToBottom = () => {
@@ -75,18 +93,19 @@ export default class chatTab extends Component {
     render() {
         return (
         <div className="mini-container">
-            {this.props.isSuperuser ?
-                <h2>
-                    {Strings.chat.chatWith} {this.state.chatClientName}
-                </h2>
-                :
-                <h2>
-                    {Strings.chat.chatWithTech}
-                </h2>
-
-            }
+            <h2>
+                {
+                    this.props.isSuperuser
+                    ? `${Strings.chat.chatWith} ${this.state.chatClientName}`
+                    : Strings.chat.chatWithTech
+                }
+            </h2>
 
             <div className="chat-area" >
+                <CSSTransitionGroup
+                    transitionName="message"
+                    transitionEnterTimeout={300}
+                    transitionLeaveTimeout={300}>
                 {this.state.messages.map((msg, index) => {
                     return <Message key={index}
                                     author={msg.clientName}
@@ -95,6 +114,7 @@ export default class chatTab extends Component {
                                     isMe={ msg.clientId === this.state.clientId  || msg.clientName === this.state.myName}/>
                 })}
                 <div className="chat-bottom" ref={(el) => { this.messagesEnd = el; }} />
+                </CSSTransitionGroup>
             </div>
             <TextSubmitter sendMessage={ this.sendMessage}/>
         </div>

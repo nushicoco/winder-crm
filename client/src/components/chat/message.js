@@ -9,7 +9,11 @@ export default class Message extends Component {
         super(props);
     }
 
-    render() {
+    renderSystemMessage() {
+        <div><p>msg here!</p></div>
+    }
+
+    renderMessage() {
         return (
         <div >
             <div className={this.props.isMe ?  "arrow-right arrow" : "arrow-left arrow" }></div>
@@ -25,5 +29,11 @@ export default class Message extends Component {
             </div>
         </div>
         )
+    }
+
+    render() {
+        return this.props.author === "system"
+            ? this.renderSystemMessage()
+            : this.renderMessage();
     }
 }
