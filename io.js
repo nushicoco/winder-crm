@@ -16,7 +16,7 @@ module.exports = function (app, io) {
         socket.on('client:connected', function(data){
             socket.join(data.chatId);
             socket.chatId = data.chatId;
-            socket.owner = data.client;
+            socket.owner = data.clientName;
             socket.clientId = data.clientId || socket.id
 
             socket.emit('server:connected', {clientId: socket.clientId });
@@ -24,7 +24,7 @@ module.exports = function (app, io) {
 
         socket.on('client:sendMessage', function (data) {
 
-            data.client = socket.owner;
+            data.clientName = socket.owner;
             data.clientId = socket.clientId;
             io.to(data.chatId).emit('server:gotMessage', data);
 
@@ -32,7 +32,7 @@ module.exports = function (app, io) {
                 return ChatMessage.create({
                     chatId: data.chatId,
                     text: data.text,
-                    client: data.client,
+                    clientName: data.clientName,
                     clientId: data.clientId
                 })
             })

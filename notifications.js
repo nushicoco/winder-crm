@@ -24,7 +24,7 @@ module.exports.notifyNewChat = function (chat) {
     notify({
         username: "chat bot",
         icon_emoji: ":ghost:",
-        text: `A new chat has been requested: by ${chat.client}\n<${chatLink}|Go to Chat>`
+        text: `A new chat has been requested: by ${chat.clientName}\n<${chatLink}|Go to Chat>`
     })
 };
 

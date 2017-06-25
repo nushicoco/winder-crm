@@ -18,9 +18,9 @@ export default class chatTab extends Component {
         super(props);
 
         this.state = {
-            chatClientName: props.client,
+            chatClientName: props.clientName,
             messages: [],
-            myName: props.client,
+            myName: props.clientName,
             clientId: '',
         }
 
@@ -29,7 +29,7 @@ export default class chatTab extends Component {
         let self = this;
 
         getChat(this.props.chatId).then(function (chat) {
-            self.setState({chatClientName:chat.client})
+            self.setState({chatClientName:chat.clientName})
             self.setState({messages:chat.chat_messages});
         })
     }
@@ -38,7 +38,7 @@ export default class chatTab extends Component {
         let self = this;
         this.socket.emit(`client:connected`, {
             chatId : this.props.chatId ,
-            client: this.state.myName,
+            clientName: this.state.myName,
             clientId:this.state.user && this.state.userId
         })
 
@@ -89,10 +89,10 @@ export default class chatTab extends Component {
             <div className="chat-area" >
                 {this.state.messages.map((msg, index) => {
                     return <Message key={index}
-                                    author={msg.client}
+                                    author={msg.clientName}
                                     text={msg.text}
                                     time={msg.createdAt}
-                                    isMe={ msg.clientId === this.state.clientId  || msg.client === this.state.myName}/>
+                                    isMe={ msg.clientId === this.state.clientId  || msg.clientName === this.state.myName}/>
                 })}
                 <div className="chat-bottom" ref={(el) => { this.messagesEnd = el; }} />
             </div>

@@ -15,7 +15,7 @@ module.exports = {
               defaultValue: true
           },
 
-          client: Sequelize.TEXT,
+          clientName: Sequelize.TEXT,
           clientId: Sequelize.TEXT,
 
           createdAt: {

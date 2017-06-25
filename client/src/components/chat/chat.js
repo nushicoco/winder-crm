@@ -80,7 +80,7 @@ export default class chatTab extends Component {
     }
 
     renderChatTab(chatId){
-        return <ChatTab key={`chat-tab-${chatId}`} chatId={chatId} client={ this.getClientName()}
+        return <ChatTab key={`chat-tab-${chatId}`} chatId={chatId} clientName={ this.getClientName()}
                  socket={ this.socket } isSuperuser={this.state.user && this.state.user.isSuperuser}/>
     }
 
@@ -120,7 +120,7 @@ export default class chatTab extends Component {
                           id="chatTabs">
                         {this.state.chats.map((chat, index) => {
                             return (
-                                <Tab key={chat.id} eventKey={index} title={`${index + 1}:${chat.client}`}>
+                                <Tab key={chat.id} eventKey={index} title={`${index + 1}:${chat.clientName}`}>
                                     {this.renderChatTab(chat.id)}
                                 </Tab>
                             )

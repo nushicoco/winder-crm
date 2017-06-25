@@ -11,7 +11,7 @@ module.exports = function (sequelize) {
             defaultValue: true
         },
 
-        client: Sequelize.TEXT,
+        clientName: Sequelize.TEXT,
         clientId: Sequelize.TEXT,
 }, {
         hooks: {

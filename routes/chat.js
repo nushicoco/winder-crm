@@ -13,12 +13,12 @@ module.exports = function (app, passport) {
     })
 
     app.post('/chat', (req, res) => {
-        let client = req.param("client");
+        let clientName = req.param("clientName");
         let clientId = req.param("clientId");
 
         Chat.create({
             active:true,
-            client: client,
+            clientName: clientName,
             clientId:clientId
         })
             .then( (chat) => {
