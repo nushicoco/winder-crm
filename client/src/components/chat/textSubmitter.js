@@ -35,7 +35,10 @@ export default class TextSubmitter extends Component {
                             <FormControl
                                 type="text"
                                 value={ this.state.text }
-                                onChange={ e => this.setState({text: e.target.value}) }
+                                onChange={ e => {
+                                    this.setState({text: e.target.value})
+                                    this.props.notifyTyping()
+                                } }
                                 className="submitter-text"
                                 maxLength="200"
                                 />

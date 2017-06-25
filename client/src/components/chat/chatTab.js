@@ -24,6 +24,7 @@ export default class chatTab extends Component {
             messages: [],
             myName: props.clientName,
             clientId: '',
+            showIsTyping: ''
         }
 
         this.socket = props.socket;
@@ -53,7 +54,10 @@ export default class chatTab extends Component {
             if (data.chatId !== this.props.chatId){
                 return;
             }
-            self.setState( { messages : self.state.messages.concat([data]) } );
+            this.setState( {
+                showIsTyping: '',
+                messages : self.state.messages.concat([data])
+            });
         })
 
         this.socket.on(`server:userConnected`, data => {
@@ -71,6 +75,16 @@ export default class chatTab extends Component {
             }
 
             this.setState({messages: this.state.messages.concat([newUserMsg])});
+        })
+
+        this.socket.on('server:clientIsTyping', data => {
+            console.log(`data.clientId !== this.state.clientId ${data.clientId} !== ${this.state.clientId}`);
+            if (data.clientId !== this.state.clientId){
+                this.setState({showIsTyping:`${data.clientName} ${Strings.chat.isTyping}`});
+                setTimeout( () => {
+                    this.setState({showIsTyping:''})
+                }, 5000)
+            }
         })
     }
 
@@ -91,6 +105,10 @@ export default class chatTab extends Component {
         this.socket.emit(`client:sendMessage`, { text: message, chatId:this.props.chatId})
     }
 
+    notifyTyping () {
+        this.socket.emit(`client:isTyping`)
+    }
+
     render() {
         return (
         <div className="mini-container">
@@ -103,6 +121,7 @@ export default class chatTab extends Component {
             </h2>
 
             <div className="chat-area" >
+                {this.state.showIsTyping !== '' && (<div><p className="system-message">{this.state.showIsTyping}</p></div>)}
                 <CSSTransitionGroup
                     transitionName="message"
                     transitionEnterTimeout={300}
@@ -117,7 +136,7 @@ export default class chatTab extends Component {
                 <div className="chat-bottom" ref={(el) => { this.messagesEnd = el; }} />
                 </CSSTransitionGroup>
             </div>
-            <TextSubmitter sendMessage={ this.sendMessage}/>
+            <TextSubmitter sendMessage={ this.sendMessage} notifyTyping={() => this.notifyTyping()}/>
         </div>
         )
     }

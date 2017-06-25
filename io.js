@@ -40,6 +40,13 @@ module.exports = function (app, io) {
             })
         });
 
+        socket.on('client:isTyping', function () {
+            io.to(socket.chatId).emit('server:clientIsTyping', {
+                clientName:socket.owner,
+                clientId:socket.clientId
+            });
+        });
+
         socket.on('disconnecting', function () {
             console.log("socket " +  socket.id + " is disconnecting");
             for (room in socket.rooms){
