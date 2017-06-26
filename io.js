@@ -19,7 +19,7 @@ module.exports = function (app, io) {
             socket.owner = data.clientName;
             socket.clientId = data.clientId || socket.id
 
-            io.to(data.chatId).emit('server:userConnected', data);
+            socket.broadcast.to(data.chatId).emit('server:userConnected', data);
 
             socket.emit('server:connected', {clientId: socket.clientId });
         });
@@ -41,7 +41,7 @@ module.exports = function (app, io) {
         });
 
         socket.on('client:isTyping', function () {
-            io.to(socket.chatId).emit('server:clientIsTyping', {
+          socket.broadcast.to(socket.chatId).emit('server:clientIsTyping', {
                 clientName:socket.owner,
                 clientId:socket.clientId
             });
