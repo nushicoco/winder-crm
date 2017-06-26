@@ -21,18 +21,11 @@ export default class CSVExport extends React.Component {
 
     render () {
         return (
-            <div className="inline">
-              <Button
-                style={ {float: 'left'} }
-                onClick = { () => { this.a.click() } }
-                bsSize="xsmall">
-                CSV
-              </Button>
-              <a
-                href={ this.createUri(this.props.data) }
-                download={ this.props.filename }
-                ref={ (ref) => this.a = ref } />
-            </div>
+            <a className={ this.props.className } href={ this.createUri(this.props.data) }
+                 download={ this.props.filename }
+                 ref={ (ref) => this.a = ref } >
+                { this.props.children }
+            </a>
         )
     }
 }

@@ -5,6 +5,7 @@ import { Button, ButtonGroup, Table} from 'react-bootstrap'
 import { getTickets } from '../../api.js'
 import { BackToFrequentBtn } from '../common'
 import './ticketsList.css'
+import LoadingBox from '../loadingBox'
 import CSVExport from './csvexport'
 
 const NO_FILTER = 'all'
@@ -12,6 +13,7 @@ export default class TicketsList extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
+            isLoading: true,
             tickets: [],
             filter: 'all',
             user: props.user
@@ -26,9 +28,14 @@ export default class TicketsList extends React.Component {
     }
 
     reload = () => {
+        this.setState({
+            tickets: [],
+            isLoading: true
+        })
         getTickets()
             .then( (tickets) => {
                 this.setState({
+                    isLoading: false,
                     tickets
                 })
             })
@@ -37,6 +44,9 @@ export default class TicketsList extends React.Component {
                     this.props.doLogin()
                     return
                 }
+                this.setState({
+                    isLoading: 'error'
+                })
                 console.error(error)
             })
     }
@@ -89,8 +99,8 @@ export default class TicketsList extends React.Component {
         this.reload()
     }
 
-    renderFilters() {
-        const buttons = [NO_FILTER, 'open', 'closed', 'inTherapy'].map( status => (
+    renderToolbar() {
+        const filterButtons = [NO_FILTER, 'open', 'closed', 'inTherapy'].map( status => (
             <Button
               key={ status }
               active={ this.state.filter === status }
@@ -104,10 +114,30 @@ export default class TicketsList extends React.Component {
             <div className="tickets-list-filters">
               { strings.ticket.filters }
               <ButtonGroup>
-                { buttons }
+                { filterButtons }
               </ButtonGroup>
-              <CSVExport className="inline" data={this.ticketsAsDataForCSV()} filename="tickets.csv"/>
+              <div className="tickets-list-left-buttons">
+                  <Button
+                      className="inline"
+                      disabled={ !!this.state.isLoading }
+                      style={ {float: 'left'} }
+                      lassName="tickets-list-refresh-button"
+                      bsSize="xsmall"
+                      onClick={ () => this.reload() } >
+                      { strings.TicketsList.reload }
+                  </Button>
 
+                  <CSVExport
+                      className="inline"
+                      data={this.ticketsAsDataForCSV()}
+                      filename="tickets.csv">
+                      <Button
+                          bsSize="xsmall"
+                          disabled={ !!this.state.isLoading }
+                          >{ strings.ticket.csv } </Button>
+                  </CSVExport>
+
+              </div>
             </div>
         )
     }
@@ -116,35 +146,63 @@ export default class TicketsList extends React.Component {
         return this.state.filter === NO_FILTER || ticket.status === this.state.filter
     }
 
+    renderNoTicketsRow () {
+        return (
+            <tr>
+                <td className="tickets-list-no-ticket" colSpan="7" >
+                    <LoadingBox show={ this.state.isLoading }>
+                        { strings.ticket.noTickets }
+                    </LoadingBox>
+                </td>
+            </tr>
+        )
+
+    }
+
+    renderTickets () {
+        const filteredTickets = this.filteredTickets()
+        return (
+            <div>
+                { this.renderToolbar() }
+                <Table className="tickets-list-table center centered" striped bordered condensed hover>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th className={this.classForExtraColumns()}>{ strings.ticket.user } </th>
+                            <th className={this.classForExtraColumns()}>{ strings.ticket.name } </th>
+                            <th>{ strings.ticket.subject }</th>
+                            <th>{ strings.ticket.status }</th>
+                            <th>{ strings.ticket.dateIssued }</th>
+                            <th>{ strings.ticket.dateUpdated }</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        { filteredTickets.length === 0
+                            ? this.renderNoTicketsRow()
+                            : filteredTickets.map(this.renderTicket)
+                        }
+                    </tbody>
+                </Table>
+
+            </div>
+        )
+    }
+
+    renderNoTickets () {
+        return (
+                <div>
+                    { strings.ticket.noTickets }
+                </div>
+        )
+    }
+
     render () {
         return (
             <div className="container">
-              { this.state.user && (
-                <h1>{ strings.TicketsList.headline[this.state.user.isSuperuser ? 'admin' : 'user'] }</h1>
-              )}
-
-            { this.renderFilters() }
-              <Table className="center centered" striped bordered condensed hover>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th className={this.classForExtraColumns()}>{ strings.ticket.user } </th>
-                    <th className={this.classForExtraColumns()}>{ strings.ticket.name } </th>
-                    <th>{ strings.ticket.subject }</th>
-                    <th>{ strings.ticket.status }</th>
-                    <th>{ strings.ticket.dateIssued }</th>
-                    <th>{ strings.ticket.dateUpdated }</th>
-                  </tr>
-                </thead>
-                <tbody>
-                { this.filteredTickets().map(this.renderTicket) }
-                </tbody>
-              </Table>
-
-              <Button onClick={ () => this.reload() } >
-                { strings.TicketsList.reload }
-              </Button>
-
+                { this.state.user && (
+                    <h1>{ strings.TicketsList.headline[this.state.user.isSuperuser ? 'admin' : 'user'] }</h1>
+                )}
+                { this.renderTickets() }
                 <BackToFrequentBtn/>
             </div>
         )

@@ -1,6 +1,9 @@
 export default {
     loading: 'טוען...',
-    loadingBox: 'טוען',
+    loadingBox: {
+        loading: 'טוען',
+        error: 'אירעה שגיאה'
+    },
     header:{
         admin: 'ניהול',
         adminFrequentProblems: 'תקלות נפוצות',
@@ -55,6 +58,8 @@ export default {
     },
     back: 'חזרה',
     ticket: {
+        csv: 'הורד CSV',
+        noTickets: 'אין קריאות להצגה',
         filters: 'סינון: ',
         noUpdates: 'אין עדכונים לקריאה זו.',
         headlinePrefix: 'קריאה #',

@@ -10,21 +10,37 @@ export default class LoadingBox extends React.Component {
     }
 
     componentDidMount() {
-        setInterval(this.nextTick, 200)
+        this.interval = setInterval(this.nextTick, 200)
+    }
+    componentWillUnmount() {
+        clearInterval(this.interval)
     }
 
     nextTick = () => {
         this.setState({ticks: this.state.ticks + 1})
     }
 
+    renderError() {
+        return (
+            <div className="loading-box-error">
+                { Strings.loadingBox.error }
+            </div>
+        )
+    }
+
     render () {
         if (!this.props.show) {
-            return null
+            return <div> { this.props.children } </div>
         }
+
+        if (this.props.show === 'error') {
+            return this.renderError()
+        }
+
         const dots = (new Array((this.state.ticks % 4) + 1)).join('.')
         return (
             <div className="loading-box">
-                { Strings.loadingBox + dots }
+                { Strings.loadingBox.loading + dots }
             </div>
         )
     }

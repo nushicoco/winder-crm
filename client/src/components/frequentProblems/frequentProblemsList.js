@@ -27,36 +27,37 @@ export default class FrequentProblemsList extends Component {
                     problems
                 })
             })
-    };
-
-    setProblemDetails(problem){
-
+            .catch( (error) => {
+                this.setState({
+                    isLoading: 'error'
+                })
+                console.error(error)
+            })
     };
 
     render() {
         return (
             <div className="container">
                 <h1> { Strings.frequentProblems.header } </h1>
-                <LoadingBox show={ this.state.isLoading } />
-                { this.state.isLoading || (
-                    <div className="sub-container">
+                <div className="sub-container">
+                    <LoadingBox show={ this.state.isLoading } >
                         <Table bordered condensed hover>
                             <tbody>
-                                {this.state.problems.map( problem => (
-                                <tr key={problem.id} onClick={this.setProblemDetails(problem)}>
-                                    <td>
-                                        <div>
-                                            <Link to={{ pathname: `/frequent/${problem.id}`, problem }} className="frequent-link">
-                                                {problem.subject}
-                                            </Link>
-                                        </div>
-                                    </td>
-                                </tr>
-                                ))}
+                                    {this.state.problems.map( problem => (
+                                        <tr key={problem.id} >
+                                            <td>
+                                                <div>
+                                                    <Link to={{ pathname: `/frequent/${problem.id}`, problem }} className="frequent-link">
+                                                        {problem.subject}
+                                                    </Link>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
                             </tbody>
                         </Table>
-                    </div>
-                )}
+                    </LoadingBox>
+                </div>
                 <Footer user={ this.props.user }/>
             </div>
         )
