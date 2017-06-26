@@ -102,6 +102,25 @@
     clear: both;
 }
 
+.message-enter {
+    opacity: 0.01;
+}
+
+.message-enter.message-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+
+.system-message{
+    color: darkblue;
+    font-size: 1.15em;
+}
+
+.typing-container {
+    height: 20px;
+    margin: 10px
+}
+
 /* mobile */
 @media screen
 and (max-device-width: 500px) {
