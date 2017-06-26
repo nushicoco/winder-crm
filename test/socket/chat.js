@@ -60,19 +60,19 @@ describe('chats socket ', function () {
         Chat.create().then(function (chat) {
             chatId = chat.id;
 
-            client1.emit(clientConnected, { chatId : chatId , client: chatClient1.name, clientId:chatClient1.id});
+            client1.emit(clientConnected, { chatId : chatId , clientName: chatClient1.name, clientId:chatClient1.id});
             client1.on (serverConnected, data => {
                 data.clientId.should.not.equal(undefined)
             });
 
             superuserSocket.on(serverGotMessage, function (data) {
-                data.client.should.equal(chatClient1.name);
+                data.clientName.should.equal(chatClient1.name);
                 data.text.should.equal(messageText);
                 data.clientId.should.equal(chatClient1.id);
                 done();
             });
 
-            superuserSocket.emit(clientConnected, { chatId : chatId , client: superUser.name});
+            superuserSocket.emit(clientConnected, { chatId : chatId , clientName: superUser.name});
             client1.emit(clientSendMessage, { text: messageText, chatId: chatId});
         })
     });
