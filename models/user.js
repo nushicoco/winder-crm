@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const bcrypt = require('bcrypt-nodejs')
+const { notifyNewUser } = require('../notifications.js')
 
 const USER_LENGTH_VALIDATION = [2, 20]
 
@@ -42,6 +43,12 @@ module.exports = function (sequelize) {
             allowNull: false,
             defaultValue: false
         }
+    }, {
+      hooks: {
+        afterCreate: function (user) {
+          notifyNewUser(user)
+        }
+      }
     });
 
     User.beforeCreate( (user, options) => {
