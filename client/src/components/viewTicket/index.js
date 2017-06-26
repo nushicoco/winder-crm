@@ -188,27 +188,30 @@ export default class ViewTicket extends React.Component {
 
     renderNewUpdateForm = () => {
         return (
-            <Form>
-              <Row>
-                <Col sm={10} >
-                  <FormControl
-                    className="update-text-input"
-                    type="text"
-                    value={ this.state.newUpdateText }
-                    placeholder={ strings.ticket.addUpdate }
-                    onChange={ (e) => this.setState({newUpdateText: e.target.value}) } />
-                </Col>
-                <Col sm={2}>
-                  <Button
-                    className="update-text-button"
-                    type="submit"
-                    disabled={ this.state.isLoadingUpdates }
-                    onClick={ this.handleSubmitUpdate }>
-                    { strings.ticket.submit }
-                  </Button>
-                </Col>
-              </Row>
-            </Form>
+            <div>
+                <Form>
+                <Row>
+                    <Col sm={10} >
+                    <FormControl
+                        className="update-text-input"
+                        type="text"
+                        value={ this.state.newUpdateText }
+                        placeholder={ strings.ticket.addUpdate }
+                        onChange={ (e) => this.setState({newUpdateText: e.target.value}) } />
+                    </Col>
+                    <Col sm={2}>
+                    <Button
+                        className="update-text-button"
+                        type="submit"
+                        disabled={ this.state.isLoadingUpdates }
+                        onClick={ this.handleSubmitUpdate }>
+                        { strings.ticket.submit }
+                    </Button>
+                    </Col>
+                </Row>
+                </Form>
+                <LoadingBox show={this.state.isLoadingUpdates}>&nbsp;</LoadingBox>
+            </div>
         )
     }
     renderUpdatesTable () {
@@ -219,8 +222,7 @@ export default class ViewTicket extends React.Component {
             <div className="updates">
               <h2>{ strings.ticket.updates } </h2>
               { this.state.isSuperuser && this.renderNewUpdateForm() }
-              <LoadingBox show={this.state.isLoadingUpdates}>&nbsp;</LoadingBox>
-                  { updates }
+              { updates }
             </div>
 
         )
