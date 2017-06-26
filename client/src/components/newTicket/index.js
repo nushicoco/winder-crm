@@ -165,13 +165,21 @@ export default class NewTicket extends React.Component {
                 { this.renderTextareaField('content') }
 
                 <Row>
-                    <Button bsStyle="primary"
-                            className="submit-ticket"
-                            disabled={ !formReady }
-                            type="submit"
-                            onClick={ this.handleSubmit }>{ Strings.ticket.submit }
-                    </Button>
-                    <BackToFrequentBtn />
+                    <Col sm={6}>
+                        <Button bsStyle="primary"
+                                className="submit-ticket"
+                                disabled={ !formReady }
+                                type="submit"
+                                onClick={ this.handleSubmit }>{ Strings.ticket.submit }
+                        </Button>
+                    </Col>
+                    <Col sm={6}>
+                        <Link to="/">
+                            <Button className="cancel-new-ticket">
+                                { Strings.frequentProblems.back }
+                            </Button>
+                        </Link>
+                    </Col>
                 </Row>
               </Form>
             </div>

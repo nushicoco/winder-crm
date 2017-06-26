@@ -20,7 +20,7 @@ module.exports.notifyNewChat = function (chat) {
         throw 'Cannot notify without a chat'
     }
 
-    const chatLink = `http://${hostname}/chat`;
+    const chatLink = `${hostname}/chat`;
     notify({
         username: "chat bot",
         icon_emoji: ":ghost:",
@@ -34,4 +34,12 @@ module.exports.notifyNewTicket = function (ticket) {
     }
     const ticketLink = `${hostname}/view-ticket/${ticket.id}?accessToken=${ticket.accessToken}`
     notify({text: `A new ticket has been opened:\n"${ticket.details.name} at room #${ticket.details.room}"\n<${ticketLink}|More Details>`})
+};
+
+module.exports.notifyNewUser = function (user) {
+  if (!user.id) {
+    throw 'Cannot notify about a user with no id'
+  }
+
+  notify({text: `A new user has registered: ${user.firstName} ${user.lastName}`})
 };

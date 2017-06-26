@@ -1,8 +1,13 @@
 export default {
     loading: 'טוען...',
+    loadingBox: {
+        loading: 'טוען',
+        error: 'אירעה שגיאה'
+    },
     header:{
         admin: 'ניהול',
         adminFrequentProblems: 'תקלות נפוצות',
+        adminChats: 'צ׳אט',
         viewTickets: 'צפייה בקריאות שלי',
         newTicket: 'פתיחת קריאה חדשה',
         userActions: 'פעולות',
@@ -54,6 +59,8 @@ export default {
     },
     back: 'חזרה',
     ticket: {
+        csv: 'הורד CSV',
+        noTickets: 'אין קריאות להצגה',
         filters: 'סינון: ',
         noUpdates: 'אין עדכונים לקריאה זו.',
         headlinePrefix: 'קריאה #',
@@ -96,6 +103,7 @@ export default {
         reload: 'רענן'
     },
     chat:{
+        noChats: 'אין שיחות פעילות',
         submit:'שלח',
         nicknameHeader: 'איך לקרוא לך?',
         startChat: 'התחל בשיחה',

@@ -7,3 +7,26 @@
   background: none;
   box-shadow: none;
 }
+
+.tickets-list-no-ticket {
+  color: silver;
+  font-style: italic;
+}
+
+
+.table.tickets-list-table  {
+  margin-bottom: 12px;
+}
+
+.tickets-list-left-buttons {
+  float: left;
+}
+
+.tickets-list-left-buttons > button{
+  margin-right: -1px;
+}
+.tickets-list-left-buttons button{
+  box-shadow: none;
+  border-radius: 0px;
+  background: none;
+}

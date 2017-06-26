@@ -1,0 +1,26 @@
+.loading-box {
+  font-style: italic;
+  margin:auto;
+  width: 50px;
+  text-align: right;
+  display: inline-block;
+}
+
+.loading-box-error {
+  animation-name: blink;
+  animation-timing-function: linear;
+  animation-direction: alternate;
+  animation-duration: 0.75s;
+  animation-delay: 0;
+  animation-iteration-count: infinite;
+  display: inline-block;
+  padding: 9px;
+  font-weight: bolder;
+  color: red;
+  width: auto;
+}
+
+@keyframes blink {
+  0% {   color: white;}
+  100% {   color: red;}
+}
