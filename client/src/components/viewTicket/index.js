@@ -38,12 +38,14 @@ export default class ViewTicket extends React.Component {
             .then( (ticket) => {
                 this.setState({
                     ticket,
+                    isLoadingUpdates: false,
                     isLoadingStatus: false,
                     isInitialLoading: false
                 })
             })
             .catch( (error) => {
                 this.setState({
+                    isLoadingUpdates: 'error',
                     isLoadingStatus: 'error',
                     isInitialLoading: 'error'
                 })
@@ -109,7 +111,10 @@ export default class ViewTicket extends React.Component {
     }
 
     updateTicketStatus = () => {
-        this.setState({ isLoadingStatus: true})
+        this.setState({
+            isLoadingUpdates: true,
+            isLoadingStatus: true
+        })
         updateTicketStatus(this.state.ticket.id, this.state.ticket.status)
             .then( () => {
                 this.setState({editStatusMode: false})
@@ -197,7 +202,7 @@ export default class ViewTicket extends React.Component {
                   <Button
                     className="update-text-button"
                     type="submit"
-                    disabled={ this.state.loading }
+                    disabled={ this.state.isLoadingUpdates }
                     onClick={ this.handleSubmitUpdate }>
                     { strings.ticket.submit }
                   </Button>
@@ -214,7 +219,8 @@ export default class ViewTicket extends React.Component {
             <div className="updates">
               <h2>{ strings.ticket.updates } </h2>
               { this.state.isSuperuser && this.renderNewUpdateForm() }
-              { updates }
+              <LoadingBox show={this.state.isLoadingUpdates}>&nbsp;</LoadingBox>
+                  { updates }
             </div>
 
         )
