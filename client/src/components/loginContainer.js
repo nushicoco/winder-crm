@@ -28,6 +28,12 @@ export default class LoginContainer extends React.Component {
         ),
 
         (
+            <MenuItem  key="11" eventKey="11" href="/admin/chats">
+                {Strings.header.adminChats}
+            </MenuItem>
+        ),
+
+        (
             <MenuItem key="101" divider />
         )
 
