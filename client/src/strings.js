@@ -7,7 +7,6 @@ export default {
     header:{
         admin: 'ניהול',
         adminFrequentProblems: 'תקלות נפוצות',
-        adminChats: 'צ׳אט',
         viewTickets: 'צפייה בקריאות שלי',
         newTicket: 'פתיחת קריאה חדשה',
         userActions: 'פעולות',
@@ -103,7 +102,6 @@ export default {
         reload: 'רענן'
     },
     chat:{
-        noChats: 'אין שיחות פעילות',
         submit:'שלח',
         nicknameHeader: 'איך לקרוא לך?',
         startChat: 'התחל בשיחה',
