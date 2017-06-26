@@ -55,7 +55,7 @@ export default class chatTab extends Component {
 
       this.setState({
         whoIsTyping: '',
-        message: self.state.messages.concat([data])
+        messages: self.state.messages.concat([data])
       })
     })
 
@@ -132,7 +132,7 @@ export default class chatTab extends Component {
             <div className='chat-bottom' ref={(el) => { this.messagesEnd = el }} />
           </CSSTransitionGroup>
         </div>
-        <TextSubmitter sendMessage={this.sendMessage} notifyTyping={() => this.notifyTyping()} />
+        <TextSubmitter sendMessage={this.sendMessage.bind(this)} notifyTyping={() => this.notifyTyping()} />
       </div>
     )
   }
