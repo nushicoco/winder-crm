@@ -116,6 +116,11 @@
     font-size: 1.15em;
 }
 
+.typing-container {
+    height: 20px;
+    margin: 10px
+}
+
 /* mobile */
 @media screen
 and (max-device-width: 500px) {

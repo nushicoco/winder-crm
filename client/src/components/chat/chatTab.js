@@ -111,9 +111,12 @@ export default class chatTab extends Component {
               : Strings.chat.chatWithTech
           }
         </h2>
-
+        <div className="typing-container">
+          {this.state.whoIsTyping !== '' && (
+            <p className='system-message'>{`${this.state.whoIsTyping} ${Strings.chat.isTyping}`}</p>
+          )}
+        </div>
         <div className='chat-area' >
-          {this.state.whoIsTyping !== '' && (<div><p className='system-message'>{`${this.state.whoIsTyping} ${Strings.chat.isTyping}`}</p></div>)}
           <CSSTransitionGroup
             transitionName='message'
             transitionEnterTimeout={300}
