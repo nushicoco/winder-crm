@@ -7,7 +7,7 @@ import { Table, Col, Row, FormGroup, Form, FormControl, ControlLabel, Button} fr
 import './viewTicket.css'
 import { getTicket, updateTicket, updateTicketStatus} from '../../api.js'
 import strings from '../../strings.js'
-import LoadingSpinner from '../loadingSpinner.js'
+import LoadingBox from '../loadingBox'
 const TICKET_STATUSES = ['open', 'closed', 'inTherapy']
 
 export default class ViewTicket extends React.Component {
@@ -15,6 +15,7 @@ export default class ViewTicket extends React.Component {
         super(props)
         const accessToken = queryString.parse(props.location.search).accessToken
         this.state = {
+            isInitialLoading: true,
             newUpdateText: '',
             accessToken: accessToken,
             isLoggedUser: props.user,
@@ -33,13 +34,20 @@ export default class ViewTicket extends React.Component {
     }
 
     fetchData = () => {
-        this.setState({isLoading: true})
         getTicket(this.props.match.params.id, this.state.accessToken)
             .then( (ticket) => {
                 this.setState({
                     ticket,
-                    isLoading: false
+                    isLoadingStatus: false,
+                    isInitialLoading: false
                 })
+            })
+            .catch( (error) => {
+                this.setState({
+                    isLoadingStatus: 'error',
+                    isInitialLoading: 'error'
+                })
+                console.error(error)
             })
     }
 
@@ -92,7 +100,7 @@ export default class ViewTicket extends React.Component {
         const text = this.state.newUpdateText
         this.setState({
             newUpdateText: '',
-            isLoading: true
+            isLoadingUpdates: true
         })
         updateTicket(this.state.ticket.id, this.state.newUpdateText)
             .then( () => {
@@ -101,7 +109,7 @@ export default class ViewTicket extends React.Component {
     }
 
     updateTicketStatus = () => {
-        this.setState({ isLoading: true})
+        this.setState({ isLoadingStatus: true})
         updateTicketStatus(this.state.ticket.id, this.state.ticket.status)
             .then( () => {
                 this.setState({editStatusMode: false})
@@ -116,6 +124,7 @@ export default class ViewTicket extends React.Component {
     renderUpdateStatus = () => {
         if (this.state.editStatusMode) {
             return (
+                <LoadingBox show={ this.state.isLoadingStatus }>
                   <form>
                     <select value={this.state.ticket.status} onChange={this.handleTicketStatusChange}>
                       {TICKET_STATUSES.map( status => (
@@ -129,6 +138,7 @@ export default class ViewTicket extends React.Component {
                       { strings.ticket.submit }
                     </Button>
                   </form>
+                </LoadingBox>
             )
         }
 
@@ -216,8 +226,8 @@ export default class ViewTicket extends React.Component {
         const ticketUpdates = this.state.ticket.ticket_updates || []
 
         return (
+            <LoadingBox show={this.state.isInitialLoading }>
             <div className="container">
-              <LoadingSpinner show={ this.state.isLoading } />
               <h1>
                 { strings.ticket.headlinePrefix + this.state.ticket.id }
               </h1>
@@ -245,6 +255,7 @@ export default class ViewTicket extends React.Component {
               <hr/>
               <Link to={ this.state.isLoggedUser ? '/tickets' : '/' } > { strings.back } </Link>
             </div>
+            </LoadingBox>
         )
     }
 }
