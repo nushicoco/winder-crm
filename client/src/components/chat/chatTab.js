@@ -78,7 +78,6 @@ export default class chatTab extends Component {
         })
 
         this.socket.on('server:clientIsTyping', data => {
-            console.log(`data.clientId !== this.state.clientId ${data.clientId} !== ${this.state.clientId}`);
             if (data.clientId !== this.state.clientId){
                 this.setState({showIsTyping:`${data.clientName} ${Strings.chat.isTyping}`});
                 setTimeout( () => {

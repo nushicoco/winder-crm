@@ -34,7 +34,6 @@ module.exports = function (app, passport) {
 
     app.get('/chats/:chatId' ,function (req, res) {
         const chatId = req.params.chatId;
-        console.log("getting chat with id=" + chatId);
         Chat.findOne({
             where: {
                 id: chatId
