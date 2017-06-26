@@ -36,7 +36,6 @@ export default class chatTab extends Component {
   }
 ה
   componentWillMount () {
-    let self = this
     this.socket.emit(`client:connected`, {
       chatId: this.props.chatId,
       clientName: this.state.myName,
@@ -55,7 +54,7 @@ export default class chatTab extends Component {
 
       this.setState({
         whoIsTyping: '',
-        messages: self.state.messages.concat([data])
+        messages: this.state.messages.concat([data])
       })
     })
 
