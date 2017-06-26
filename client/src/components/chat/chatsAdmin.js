@@ -42,7 +42,7 @@ export default class ChatsAdmin extends React.Component {
     }
 
     return (
-      <Tabs defaultActiveKey={1} id='chatTabs'>
+      <Tabs defaultActiveKey={0} id='chatTabs'>
         { this.state.chats.map((chat, index) => {
           return (
             <Tab key={chat.id} eventKey={index} title={`${index + 1}] ${chat.clientName}`}>
