@@ -22,7 +22,7 @@ export default class chatTab extends Component {
       messages: [],
       myName: props.clientName,
       clientId: '',
-      showIsTyping: ''
+      whoIsTyping: ''
     }
 
     this.socket = props.socket
@@ -54,7 +54,7 @@ export default class chatTab extends Component {
       }
 
       this.setState({
-        showIsTyping: '',
+        whoIsTyping: '',
         message: self.state.messages.concat([data])
       })
     })
@@ -72,9 +72,9 @@ export default class chatTab extends Component {
 
     this.socket.on('server:clientIsTyping', data => {
       if (data.clientId !== this.state.clientId) {
-        this.setState({showIsTyping: data.clientName})
+        this.setState({whoIsTyping: data.clientName})
         setTimeout(() => {
-          this.setState({showIsTyping: ''})
+          this.setState({whoIsTyping: ''})
         }, 5000)
       }
     })
@@ -113,7 +113,7 @@ export default class chatTab extends Component {
         </h2>
 
         <div className='chat-area' >
-          {this.state.showIsTyping !== '' && (<div><p className='system-message'>{`${this.state.showIsTyping} ${Strings.chat.isTyping}`}</p></div>)}
+          {this.state.whoIsTyping !== '' && (<div><p className='system-message'>{`${this.state.whoIsTyping} ${Strings.chat.isTyping}`}</p></div>)}
           <CSSTransitionGroup
             transitionName='message'
             transitionEnterTimeout={300}
