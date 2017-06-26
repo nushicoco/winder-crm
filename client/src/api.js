@@ -107,3 +107,15 @@ module.exports.updateTicketStatus = function (ticketId, status) {
 module.exports.logout = function () {
     return post('/logout');
 }
+
+module.exports.createChat = function (clientName, clientId) {
+    return post('/chat', {clientName, clientId});
+}
+
+module.exports.getChat = function (chatId, ) {
+    return get(`/chats/${chatId}`)
+}
+
+module.exports.getAdminChat = function () {
+    return get(`/admin/chat`)
+}

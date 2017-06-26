@@ -12,7 +12,21 @@ const notify = function (payload) {
         body: JSON.stringify(payload)
     })
 
-}
+};
+
+module.exports.notifyNewChat = function (chat) {
+
+    if (!chat) {
+        throw 'Cannot notify without a chat'
+    }
+
+    const chatLink = `http://${hostname}/chat`;
+    notify({
+        username: "chat bot",
+        icon_emoji: ":ghost:",
+        text: `A new chat has been requested: by ${chat.clientName}\n<${chatLink}|Go to Chat>`
+    })
+};
 
 module.exports.notifyNewTicket = function (ticket) {
     if (!ticket.id) {
@@ -20,4 +34,4 @@ module.exports.notifyNewTicket = function (ticket) {
     }
     const ticketLink = `${hostname}/view-ticket/${ticket.id}?accessToken=${ticket.accessToken}`
     notify({text: `A new ticket has been opened:\n"${ticket.details.name} at room #${ticket.details.room}"\n<${ticketLink}|More Details>`})
-}
+};

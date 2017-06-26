@@ -5,7 +5,9 @@ const {
     sequelize,
     User,
     Ticket,
-    TicketUpdate
+    TicketUpdate,
+    Chat,
+    ChatMessage
 } = require('../../models')
 
 const users = [

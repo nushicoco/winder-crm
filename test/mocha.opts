@@ -1,3 +1,4 @@
 test/models
 test/routes
+test/socket
 --require test/support/env.js

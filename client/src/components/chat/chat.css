@@ -1,0 +1,146 @@
+.left {
+    text-align: left;
+    float: left;
+}
+
+.right {
+    text-align: right;
+    float: right;
+}
+
+.my-message {
+    margin-left:0
+}
+
+.my-message .author {
+    color: #C20114;
+}
+
+.other-message {
+}
+
+.other-message .author{
+    color: #5656da;
+}
+
+.arrow-right {
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid #fff;
+    margin-top:15px;
+    float:right;
+    margin-right: 15px;
+}
+
+.arrow{
+    width: 0;
+    height: 0;
+    margin-top:15px;
+}
+
+.arrow-left {
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right:10px solid #fff;
+    float: left;
+    margin-left: 15px;
+}
+
+.submitter-text{
+    margin: 2% 1%;
+}
+
+.nickname {
+    margin: 0 15px;
+    width: 50%;
+}
+
+.dvider{
+    width: 100%;
+    min-height:125px;
+    color: transparent;
+
+    /*debug*/
+    /*background-color: red;*/
+    /*color: blue;*/
+}
+
+.msg {
+    direction: rtl;
+    max-width: 95%;
+    z-index: 1060;
+    padding: 10px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: large;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    letter-spacing: normal;
+    word-break: normal;
+    word-spacing: normal;
+    word-wrap: normal;
+    white-space: normal;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border-radius: 6px;
+    line-break: auto;
+    margin: 10px 0;
+}
+
+.msg-time {
+    font-size: small;
+    color: lightgrey;
+}
+
+.chat-bottom {
+    float: left;
+    clear: both;
+}
+
+/* mobile */
+@media screen
+and (max-device-width: 500px) {
+    .chat-area{
+        height: 300px;
+        background-color: #C7D6D5;
+        direction: ltr;
+        overflow-y: scroll;
+        border: solid 4px lightgray;
+        border-radius: 16px;
+    }
+
+    .submitter-text{
+        width: 71%;
+        display: inline;
+    }
+
+    .submitter-button{
+        width: 20%;
+    }
+}
+/* regular*/
+@media screen
+and (min-device-width: 500px) {
+    .chat-area{
+        height: 500px;
+        background-color: #C7D6D5;
+        direction: ltr;
+        overflow-y: scroll;
+        border: solid 4px lightgray;
+        border-radius: 16px;
+    }
+
+    .submitter-text{
+        width: 80%;
+        display: inline;
+    }
+
+    .submitter-button{
+        width: 17%;
+    }
+}

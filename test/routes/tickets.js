@@ -3,6 +3,9 @@ const expect = chai.expect
 chai.should()
 chai.use(require('chai-http'))
 
+const helpers = require('./../support/helpers')
+
+
 const app = require('../../server')
 const { User, Ticket, TicketUpdate } = require('../../models')
 
@@ -173,7 +176,7 @@ describe('POST /ticket', function () {
 })
 
 describe('GET /ticket/:id', function () {
-    beforeEach(makeGreg)
+    beforeEach(makeGregAndScrappy)
     beforeEach(clearTickets)
 
     it('should not work without superuser or access token', function (done) {
@@ -211,16 +214,15 @@ describe('GET /ticket/:id', function () {
             details: {
                 name: 'john',
                 content: 'problem with toaster'
-            }
-        })
+        }})
 
-            .then(function (ticket) {
-                ticketId = ticket.id
-                TicketUpdate.create({
-                    ticketId,
-                    text: 'does no say lechayim'
-                })
+        .then(function (ticket) {
+            ticketId = ticket.id
+            TicketUpdate.create({
+                ticketId,
+                text: 'does no say lechayim'
             })
+        })
 
             .then(function() {
                 agent.post('/login').send({
@@ -236,7 +238,7 @@ describe('GET /ticket/:id', function () {
                                 const ticket = response.body
                                 expect(ticket).to.include({
                                     userId: goodGuyGreg.id
-                                })
+                                    })
                                 expect(ticket).to.have.property('details')
                                 expect(ticket.details).to.include({
                                     name: 'john',
@@ -251,7 +253,98 @@ describe('GET /ticket/:id', function () {
                     })
             })
 
-            .catch( (e) => {console.error(e); throw e})
+        .catch( (e) => {console.error(e); throw e})
+    })
+
+    it('/tickets/:id should return ticket information for superuser', function (done) {
+        const agent = chai.request.agent(app);
+
+        let scrappy;
+        let ticketId;
+
+
+        User.create({
+            firstName: 'scrappy',
+            lastName:  'coco',
+            password:  gggPassword,
+            isSuperuser: false,
+            email:     'scrappycoco@dogs-world.com'
+        })
+        .then(function (coco) {
+            scrappy = coco;
+        }).then(function () {
+            Ticket.create({
+                details: {
+                    name: 'done',
+                    content: 'kishot'
+                }
+            }).then(function (ticket){
+                ticketId = ticket.id;
+            })
+        }).then(function() {
+            agent.post('/login').send({
+                email: goodGuyGreg.email,
+                password: gggPassword
+            })
+            .end(function (error, response) {
+                response.status.should.equal(200)
+                agent.get(`/tickets/${ticketId}`)
+                    .send()
+                    .end(function (error, response) {
+                        response.status.should.equal(200)
+                        expect(response).to.be.json
+                        response.should.be.json
+                        expect(response.body.details).to.include({
+                            name: 'done',
+                            content: 'kishot'
+                        })
+                        done()
+                    })
+            })
+        })
+
+        .catch( (e) => {console.log(e); throw e})
+    })
+
+    it('/tickets/:id shouldn\'t return ticket information for another user', function (done) {
+        const agent = chai.request.agent(app)
+
+        let scrappy;
+        let ticketId;
+
+        User.create({
+            firstName: 'scrappy',
+            lastName:  'coco',
+            password:  gggPassword,
+            isSuperuser: false,
+            email:     'scrappycoco@dogs-world.com'
+        })
+            .then(function (coco) {
+                scrappy = coco;
+            }).then(function () {
+            Ticket.create({
+                userId: goodGuyGreg.id,
+                subject: 'can\'t fall asleep'
+            }).then(function (ticket){
+                ticketId = ticket.id;
+            })
+        }).then(function() {
+            agent.post('/login').send({
+                email: scrappy.email,
+                password: gggPassword
+            })
+                .end(function (error, response) {
+                    response.status.should.equal(200)
+                    agent.get(`/tickets/${ticketId}`)
+                        .send()
+                        .end(function (error, response) {
+                            expect(401).to.equal(response.status);
+                            done()
+                        })
+                })
+        })
+
+            .catch( (e) => {console.log(e); throw e})
     })
 
     it('should return ticket information when given correct access token', function () {

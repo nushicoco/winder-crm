@@ -3,11 +3,16 @@
  */
 import React  from 'react';
 import { Link } from 'react-router-dom'
-import { Button } from 'react-bootstrap'
+import { Button , Glyphicon} from 'react-bootstrap'
 
 import Strings from '../strings';
 
-export const BackToFrequentBtn = () => ( <Link to="/"><Button className="back-btn" >{ Strings.frequentProblems.back } </Button></Link>);
+import './common.css';
+
+export const BackToFrequentBtn = () => (
+    <Link to="/" className="back-btn">
+            { Strings.frequentProblems.back }
+    </Link>);
 
 export class NewTicketButton extends React.Component {
     render () {
@@ -17,6 +22,26 @@ export class NewTicketButton extends React.Component {
                   { Strings.ticket.openTicket }
                 </Button>
               </Link>
+        )
+    }
+}
+
+export class NewChatButton extends React.Component {
+
+    constructor (props){
+        super(props)
+    }
+
+    render () {
+        return (
+            <Link to="/chat">
+                <Button className="open-chat">
+                    {this.props.isSuperuser
+                        ? Strings.chat.techChat
+                        : Strings.chat.newChat
+                    }
+                </Button>
+            </Link>
         )
     }
 }
