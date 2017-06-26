@@ -9,6 +9,7 @@ import TicketsList from './components/ticketsList'
 import FrequentProblemAdmin from './components/frequentProblems/frequentProblemAdmin'
 import ViewTicket from './components/viewTicket'
 import Chat from './components/chat/chat';
+import ChatsAdmin from './components/chat/chatsAdmin'
 export const routes = [
 
     {
@@ -49,6 +50,11 @@ export const routes = [
     {
         path: '/chat',
         component: Chat,
+        exact: true
+    },
+    {
+        path: '/admin/chats',
+        component: ChatsAdmin,
         exact: true
     }
 

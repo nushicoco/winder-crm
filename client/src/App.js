@@ -15,13 +15,15 @@ class App extends Component {
         super(man) //.dooms('day')
         this.state = {
             showLogin: false,
+            userQueryCompleted: false,
             user: null
         }
     }
     receivedUser = (user) => {
         this.setState({
+            userQueryCompleted: true,
             showLogin: false,
-            user
+            user: user
         })
 
     }
@@ -40,6 +42,7 @@ class App extends Component {
         return (props) => {
             return React.createElement(route.component, {
                 user: this.state.user,
+                userQueryCompleted: this.state.userQueryCompleted,
                 doLogin: this.doLogin,
                 ...props
             })
