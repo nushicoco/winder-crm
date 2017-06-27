@@ -36,7 +36,7 @@ export default class CreateTicketUpdateForm extends React.Component {
     })
   }
   handleStatusChange (status) {
-    let assigneeId = status === 'inTherapy' ? this.state.assigneeId : null
+    let assigneeId = status === 'assigned' ? this.state.assigneeId : null
     this.setState({
       status, assigneeId
     })
@@ -59,7 +59,7 @@ export default class CreateTicketUpdateForm extends React.Component {
           <TicketStatusSelector
             assignees={this.props.assignees}
             onSelect={assigneeId => this.setState({assigneeId})}
-            expandInTherapy
+            expandAssigned
             onChange={(status) => this.handleStatusChange(status)}
             assigneeId={this.state.assigneeId}
             selected={this.state.status} />

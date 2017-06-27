@@ -73,6 +73,7 @@ export default {
     dateIssued: 'תאריך יצירה',
     dateUpdated: 'תאריך עדכון',
     sent: 'פנייתך נשלחה בהצלחה',
+    assigneeName: 'בטיפול של',
     name: 'שם',
     phone: 'טלפון',
     updates: 'עדכונים',
@@ -84,7 +85,7 @@ export default {
     statusUpdate: 'סטטוס שונה ל: ',
     statuses: {
       all: 'הצג הכל',
-      inTherapy: 'בטיפול',
+      assigned: 'בטיפול',
       open: 'פתוח',
       closed: 'סגור'
     },

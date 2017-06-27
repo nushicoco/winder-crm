@@ -4,22 +4,22 @@ import { DropdownButton, MenuItem, ButtonGroup, Button } from 'react-bootstrap'
 import Strings from '../../../strings'
 
 export default class TicketStatusSelector extends React.Component {
-  renderInTherapyButton () {
-    if (this.props.expandInTherapy) {
-      let buttonTitle = Strings.ticket.statuses.inTherapy
+  renderAssignedButton () {
+    if (this.props.expandAssigned) {
+      let buttonTitle = Strings.ticket.statuses.assigned
       let assignee = this.props.assignees.find(assignee => assignee.id === this.props.assigneeId)
       if (assignee) {
         buttonTitle += ': ' + assignee.firstName
       }
       return (
         <DropdownButton
-          active={this.props.selected === 'inTherapy'}
+          active={this.props.selected === 'assigned'}
           onSelect={id => this.props.onSelect(id)}
-          className={'ticket-status-selector-button ticket-status-inTherapy'}
-          onClick={() => this.props.onChange('inTherapy')}
+          className={'ticket-status-selector-button ticket-status-assigned'}
+          onClick={() => this.props.onChange('assigned')}
           bsSize={this.props.bsSize}
           title={buttonTitle}
-          id='inTherapy-status'>
+          id='assigned-status'>
 
           <MenuItem eventKey={null} >{Strings.ticket.noAssignee}</MenuItem>
           <MenuItem divider />
@@ -31,11 +31,11 @@ export default class TicketStatusSelector extends React.Component {
     } else {
       return (
         <Button
-          active={this.props.selected === 'inTherapy'}
-          className={'ticket-status-selector-button ticket-status-inTherapy'}
-          onClick={() => this.props.onChange('inTherapy')}
+          active={this.props.selected === 'assigned'}
+          className={'ticket-status-selector-button ticket-status-assigned'}
+          onClick={() => this.props.onChange('assigned')}
           bsSize={this.props.bsSize}>
-          { Strings.ticket.statuses.inTherapy }
+          { Strings.ticket.statuses.assigned }
         </Button>
       )
     }
@@ -70,7 +70,7 @@ export default class TicketStatusSelector extends React.Component {
           { Strings.ticket.statuses.closed }
         </Button>
 
-        { this.renderInTherapyButton() }
+        { this.renderAssignedButton() }
       </ButtonGroup>
     )
   }

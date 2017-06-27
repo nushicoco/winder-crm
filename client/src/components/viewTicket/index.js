@@ -10,6 +10,7 @@ import CreateTicketUpdateForm from './CreateTicketUpdateForm'
 import { getTicket, updateTicket, getAdmins } from '../../api.js'
 import strings from '../../strings.js'
 import LoadingBox from '../loadingBox'
+const SHOW_FIELDS = ['name', 'room', 'subject', 'content', 'assigneeName']
 
 export default class ViewTicket extends React.Component {
   constructor (props) {
@@ -139,7 +140,7 @@ export default class ViewTicket extends React.Component {
           </h1>
           <Table className='ticket-view-table' condensed>
             <tbody>
-              { Object.keys(this.state.ticket.details).map((field) => this.renderField(field)) }
+              { Object.keys(this.state.ticket.details).filter(field => SHOW_FIELDS.indexOf(field) > -1).map(field => this.renderField(field)) }
 
               { this.renderTicketInfo('user', userDetails) }
               { this.renderTicketInfo('dateIssued', this.formatDate(this.state.ticket.createdAt), {leftToRight: true})}
