@@ -15,7 +15,7 @@ const AVAILABLE_ROOMS = [
     , '515' , '516' , '517' , '518' , '519' , '520' , '521'
     , '522' , '523' , '524' ,
     , '601' , '602' , '603' , '604' , '605' , '606' , '607'
-    , 'Mix1' , 'Mix2' ]
+    , 'Mix1' , 'Mix2', 'אחר']
     // TOOD Move to client-specific configuration
 
 const DEFAULT_SELECT_OPTION = Strings.ticket.select
