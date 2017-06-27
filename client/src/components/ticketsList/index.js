@@ -7,7 +7,8 @@ import { BackToFrequentBtn } from '../common'
 import './ticketsList.css'
 import LoadingBox from '../loadingBox'
 import CSVExport from './csvexport'
-import { TicketStatusSelector, TicketStatusIndicator } from '../common'
+import { TicketStatusIndicator } from '../common'
+import TicketStatusSelector from '../common/TicketStatusSelector'
 
 const NO_FILTER = 'all'
 export default class TicketsList extends React.Component {

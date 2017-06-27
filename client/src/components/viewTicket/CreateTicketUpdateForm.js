@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col, Row, Form, FormControl, Button } from 'react-bootstrap'
-import { TicketStatusSelector } from '../common'
+import TicketStatusSelector from '../common/TicketStatusSelector'
 
 import strings from '../../strings.js'
 import './viewTicket.css'
@@ -8,10 +8,12 @@ import './viewTicket.css'
 export default class CreateTicketUpdateForm extends React.Component {
   constructor (props) {
     super(props)
+
     this.state = {
       status: props.ticket.status,
+      assigneeid: props.assigneeId,
       text: '',
-      assigneeId: null,
+      assigned: null,
       admins: [],
       isLoading: true
     }
@@ -25,6 +27,12 @@ export default class CreateTicketUpdateForm extends React.Component {
     })
     this.props.onSubmit({
       text, status, assigneeId
+    })
+  }
+
+  handleAssigned (assignedId) {
+    this.setState({
+      assigneeId: assignedId
     })
   }
 
@@ -42,8 +50,13 @@ export default class CreateTicketUpdateForm extends React.Component {
 
           <Col sm={4} >
             <TicketStatusSelector
-              selected={this.state.status}
-              onChange={status => this.setState({status})} />
+              assignees={this.props.assignees}
+              onAssigned={assignedId => this.handleAssigned(assignedId)}
+              expandInTherapy
+              onChange={(status) => { this.setState({status}) }}
+              assignedId={this.props.assignedId}
+              selected={this.state.status} />
+
             <Button
               className='create-update-form-text-button'
               type='submit'

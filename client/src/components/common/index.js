@@ -3,9 +3,9 @@
  */
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { ButtonGroup, Button } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 
-import Strings from '../strings'
+import Strings from '../../strings'
 import './common.css'
 
 export const BackToFrequentBtn = () => (
@@ -46,30 +46,6 @@ export class TicketStatusIndicator extends React.Component {
       <span className={`ticket-status-${this.props.status}`}>
         { Strings.ticket.statuses[this.props.status] }
       </span>
-    )
-  }
-}
-
-const AVAILABLE_STATUSES = ['open', 'closed', 'inTherapy']
-export class TicketStatusSelector extends React.Component {
-  render () {
-    const statuses = (this.props.extra ? [this.props.extra] : [])
-        .concat(AVAILABLE_STATUSES)
-
-    return (
-      <ButtonGroup>
-        {statuses.map(status => (
-          <Button
-            key={status}
-            active={this.props.selected === status}
-            className={`ticket-status-selector-button ticket-status-${status}`}
-            onClick={() => this.props.onChange(status)}
-            bsSize={this.props.bsSize}>
-            { Strings.ticket.statuses[status] }
-          </Button>
-        ))
-        }
-      </ButtonGroup>
     )
   }
 }

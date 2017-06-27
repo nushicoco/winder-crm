@@ -7,7 +7,7 @@ import './viewTicket.css'
 import { TicketStatusIndicator } from '../common'
 import TicketUpdateRow from './TicketUpdateRow'
 import CreateTicketUpdateForm from './CreateTicketUpdateForm'
-import { getTicket, updateTicket } from '../../api.js'
+import { getTicket, updateTicket, getAdmins } from '../../api.js'
 import strings from '../../strings.js'
 import LoadingBox from '../loadingBox'
 
@@ -16,6 +16,7 @@ export default class ViewTicket extends React.Component {
     super(props)
     const accessToken = queryString.parse(props.location.search).accessToken
     this.state = {
+      admins: [],
       isInitialLoading: true,
       accessToken: accessToken,
       isLoggedUser: props.user,
@@ -31,6 +32,9 @@ export default class ViewTicket extends React.Component {
 
   componentDidMount () {
     this.fetchData()
+    getAdmins().then((admins) => {
+      this.setState({admins})
+    })
   }
 
   fetchData () {
@@ -60,7 +64,13 @@ export default class ViewTicket extends React.Component {
       isLoadingUpdates: true
     })
     const ticketId = this.state.ticket.id
-    updateTicket({ ticketId, text, status, assigneeId })
+    const assigneeName = assigneeId !== null && this.state.admins.find(admin => admin.id === assigneeId).firstName
+    updateTicket({
+      ticketId,
+      text,
+      status,
+      details: {assigneeId, assigneeName}
+    })
       .then(() => {
         this.fetchData()
       })
@@ -93,6 +103,8 @@ export default class ViewTicket extends React.Component {
     return (
       <div>
         <CreateTicketUpdateForm
+          assignees={this.state.admins}
+          assigneeId={this.state.ticket.details.assigneeId}
           ticket={this.state.ticket}
           onSubmit={fields => this.handleSubmitUpdate(fields)} />
         <LoadingBox show={this.state.isLoadingUpdates}>&nbsp;</LoadingBox>

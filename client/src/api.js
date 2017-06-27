@@ -118,3 +118,7 @@ module.exports.getChat = function (chatId) {
 module.exports.getAdminChat = function () {
   return get(`/admin/chat`)
 }
+
+module.exports.getAdmins = function () {
+  return get('/admin/admins')
+}

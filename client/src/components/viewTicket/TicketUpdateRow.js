@@ -12,6 +12,16 @@ export default class TicketUpdateRow extends React.Component {
     )
   }
 
+  renderAssignee () {
+    const assignee = this.props.ticketUpdate.details.assigneeName
+    return (
+      <span className='ticket-update-assignee' >
+        { strings.ticket.assignedTo + ': ' }
+        { assignee }
+      </span>
+    )
+  }
+
   formatDate (date) {
     return new Date(date).toLocaleString()
   }
@@ -19,6 +29,8 @@ export default class TicketUpdateRow extends React.Component {
   render () {
     const ticketUpdate = this.props.ticketUpdate
     const user = this.props.ticketUpdate.user
+    const details = this.props.ticketUpdate.details
+    const assigneeName = details && details.assigneeName
     return (
       <table key={ticketUpdate.id} className='ticket-update-table'>
         <tbody>
@@ -38,6 +50,7 @@ export default class TicketUpdateRow extends React.Component {
                 { ticketUpdate.text }
               </span>
               { ticketUpdate.status && this.renderStatusChange() }
+              { assigneeName && this.renderAssignee() }
             </td>
           </tr>
         </tbody>
