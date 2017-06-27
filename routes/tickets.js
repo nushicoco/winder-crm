@@ -118,7 +118,7 @@ module.exports = function (app, passport) {
       where: { isSuperuser: true }
     })
       .then(superusers =>
-            res.status(200).send(superusers.map(superuser =>
+            res.status(200).send(superusers.filter(user => user.id >= 0).map(superuser =>
                                                 superuser.toJSON())))
   })
 }
