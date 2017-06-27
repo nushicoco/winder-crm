@@ -407,12 +407,48 @@ describe('GET /admin/admins', function () {
       .then(function (admins) {
         expect(admins).to.hav.lengthOf(2)
       })
-
   })
 })
 
 describe.only('POST /ticket_update', function () {
   beforeEach(makeGregAndScrappy)
+  const createTicketAndPostUpdate = function (ticketFields, updateFields) {
+    const agent = chai.request.agent(app)
+    let ticket
+
+    // Create Ticket:
+    return Ticket.create(Object.assign({
+      userId: scrappy.id
+    }, ticketFields))
+
+    // Login:
+      .then(function (newTicket) {
+        ticket = newTicket
+        return agent.post('/login').send({email: goodGuyGreg.email, password: gggPassword})
+      })
+
+    // Post:
+      .then(function () {
+        return agent.post('/update_ticket').send(Object.assign({
+          ticketId: ticket.id
+        }, updateFields))
+      })
+
+    // Check Response:
+      .then(function (response) {
+        response.status.should.equal(200)
+
+        // Find ticket
+        return Ticket.findOne({
+          where: {id: ticket.id},
+          include: [{all: true, nested: true}]
+        })
+      })
+      .then(function (ticket) {
+        expect(ticket.ticket_updates).to.have.lengthOf(1)
+        return {ticket, ticketUpdate: ticket.ticket_updates[0]}
+      })
+  }
 
   it('should not work for regular users', function () {
     const agent = chai.request.agent(app)
@@ -436,43 +472,99 @@ describe.only('POST /ticket_update', function () {
       })
   })
 
-  it('should create a ticket update with text + assigned user', function () {
-    const agent = chai.request.agent(app)
-    let ticket
-    return Ticket.create({
-      subject: 'Tofu is fat',
-      userId: scrappy.id
-    })
+  it('should create a ticket update with just text', function () {
+    const ticketFields = {}
+    const updateFields = {
+      text: 'my ticket is updated'
+    }
 
-      .then(function (newTicket) {
-        ticket = newTicket
-        return agent.post('/login').send({email: goodGuyGreg.email, password: gggPassword})
+    return createTicketAndPostUpdate(ticketFields, updateFields)
+      .then(function ({ticket, ticketUpdate}) {
+        expect(ticketUpdate.text).to.equal('my ticket is updated')
       })
+  })
 
-      .then(function () {
-        return agent.post('/update_ticket').send({
-          ticketId: ticket.id,
-          text: 'yes Tofu is a very fatty food',
-          details: {
-            assignedAdminId: goodGuyGreg.id
-          }
+  it('should create a ticket update with assigned user', function () {
+    const ticketFields = {}
+    const updateFields = {
+      details: {
+        assigneeId: 7
+      }
+    }
+
+    return createTicketAndPostUpdate(ticketFields, updateFields)
+      .then(function ({ticket, ticketUpdate}) {
+        expect(ticketUpdate.details).to.include({
+          assigneeId: 7
         })
       })
+  })
 
-      .then(function (response) {
-        expect(response.status).to.equal(200)
-        return TicketUpdate.findAll({where: {ticketId: ticket.id}})
-      })
+  it('should create a ticket update with text + assigned user that changes the status', function () {
+    const ticketFields = {
+      subject: 'Tofu is fat',
+      status: 'open'
+    }
 
-      .then(function (ticketUpdates) {
-        expect(ticketUpdates).to.have.lengthOf(1)
-        expect(ticketUpdates[0]).to.deep.include({
+    const updateFields = {
+      text: 'yes Tofu is a very fatty food',
+      status: 'closed',
+      details: {
+        assignedAdminId: goodGuyGreg.id
+      }
+    }
+    return createTicketAndPostUpdate(ticketFields, updateFields)
+      .then(function ({ticket, ticketUpdate}) {
+        expect(ticket.status).to.equal('closed')
+        expect(ticketUpdate).to.deep.include({
           userId: goodGuyGreg.id,
           text: 'yes Tofu is a very fatty food',
           details: {
             assignedAdminId: goodGuyGreg.id
           }
         })
+      })
+  })
+
+  it.only('should create a ticket update without status if the status is not changed', function () {
+    const ticketFields = {
+      status: 'closed'
+    }
+
+    const updateFields = {
+      text: 'still closed!',
+      status: 'closed'
+    }
+    return createTicketAndPostUpdate(ticketFields, updateFields)
+      .then(function ({ticket, ticketUpdate}) {
+        expect(ticketUpdate).to.include({
+          status: null,
+          text: 'still closed!'
+        })
+      })
+  })
+
+  it('should create a ticket update without assignee if the assignee is not changed', function () {
+    const ticketFields = {
+      status: 'closed',
+      details: {
+        assigneeId: 7
+      }
+    }
+
+    const updateFields = {
+      status: 'open',
+      details: {
+        assigneeId: 7
+      }
+    }
+
+    return createTicketAndPostUpdate(ticketFields, updateFields)
+      .then(function ({ticket, ticketUpdate}) {
+        expect(ticketUpdate).to.include({
+          status: 'open'
+        })
+        expect(ticketUpdate.details).to.not.have.property('assigneeId')
       })
   })
 })

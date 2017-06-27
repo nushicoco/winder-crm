@@ -22,16 +22,47 @@ module.exports = function (app, passport) {
   })
 
   app.post('/update_ticket', onlySuperuser, (req, res) => {
-    const {ticketId, text, details} = req.body
+    const {ticketId, text, details, status} = req.body
     const userId = req.user.id
-    Ticket.findById(ticketId).then((ticket) => {
-      return TicketUpdate.create({
-        ticketId,
-        text,
-        details,
-        userId
+    let newDetails, newStatus
+    Ticket.findById(ticketId)
+      .then((ticket) => {
+        const update = {}
+        let needsUpdate = false
+
+        // Check if new details are introduced:
+        Object.keys(details || {}).forEach((key) => {
+          if (ticket.details[key] !== details[key]) {
+            newDetails = newDetails || Object.assign({}, ticket.details)
+            newDetails[key] = details[key]
+          }
+        })
+        if (newDetails) {
+          needsUpdate = true
+          update.details = newDetails
+        }
+
+        // Check if new Status is set:
+        if (ticket.status !== status) {
+          needsUpdate = true
+          newStatus = status
+          update.status = status
+        }
+
+        if (needsUpdate) {
+          return ticket.update(update)
+        }
       })
-    })
+
+      .then(() => {
+        return TicketUpdate.create({
+          ticketId,
+          text,
+          status: newStatus,
+          details: newDetails,
+          userId
+        })
+      })
       .then((newTicketUpdate) => {
         res.status(200).send()
       })
@@ -59,35 +90,6 @@ module.exports = function (app, passport) {
           res.status(401).send()
         }
       })
-      .catch ((error) => {
-        console.error(error)
-        res.sendStatus(400)
-      })
-  })
-
-  app.post('/tickets/:id', onlySuperuser, function (req, res) {
-    const ticketId = req.params.id
-    const { status } = req.body
-
-    Ticket.findById(ticketId)
-      .then((ticket) => {
-        if (ticket.status !== status) {
-          ticket.status = status
-          return ticket.save()
-            .then(() => {
-              return TicketUpdate.create({
-                ticketId,
-                userId: req.user.id,
-                status
-              })
-            })
-        }
-      })
-
-      .then(() => {
-        res.status(200).send()
-      })
-
       .catch((error) => {
         console.error(error)
         res.sendStatus(400)

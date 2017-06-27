@@ -3,11 +3,6 @@
   margin-bottom: 10px;
 }
 
-.tickets-list-filter-button {
-  background: none;
-  box-shadow: none;
-}
-
 .tickets-list-no-ticket {
   color: silver;
   font-style: italic;

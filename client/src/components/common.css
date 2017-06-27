@@ -55,4 +55,7 @@ and (max-device-width: 500px) {
 
 }
 
-
+.ticket-status-selector-button {
+  background: none;
+  box-shadow: none;
+}

@@ -1,11 +1,15 @@
 .ticket-update-date {
   font-weight: bolder;
 }
-.ticket-update-text {
+.ticket-update-text-row {
   border: 1px solid black;
 }
 .ticket-update-status {
+  display: block;
   font-style: italic;
+}
+.ticket-update-text {
+  display: block;
 }
 
 .ticket-view-table {
@@ -41,11 +45,6 @@
   margin: auto;
   margin-top: 20px;
 }
-.update-text-input {
-}
-
-.update-text-button {
-}
 
 .ticket-update-table tr {
   border: none;
@@ -62,4 +61,8 @@
 .ticket-update-user{
   color: blue;
   text-align: right;
+}
+
+.create-update-form-text-button {
+  margin-right: 10px;
 }
