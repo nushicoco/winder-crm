@@ -92,7 +92,7 @@ pallete {
 }
 
 .ticket-status-inTherapy {
-  color: purple;
+  color: purple !important;
 }
 
 .ticket-status-open {

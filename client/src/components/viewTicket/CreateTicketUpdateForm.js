@@ -11,12 +11,18 @@ export default class CreateTicketUpdateForm extends React.Component {
 
     this.state = {
       status: props.ticket.status,
-      assigneeid: props.assigneeId,
+      assigneeId: props.assigneeId,
       text: '',
       assigned: null,
       admins: [],
       isLoading: true
     }
+  }
+
+  componentWillReceiveProps ({assigneeId}) {
+    this.setState({
+      assigneeId
+    })
   }
 
   handleSubmitUpdate (e) {
@@ -29,42 +35,42 @@ export default class CreateTicketUpdateForm extends React.Component {
       text, status, assigneeId
     })
   }
-
-  handleAssigned (assignedId) {
+  handleStatusChange (status) {
+    let assigneeId = status === 'inTherapy' ? this.state.assigneeId : null
     this.setState({
-      assigneeId: assignedId
+      status, assigneeId
     })
   }
 
   render () {
     return (
-      <Form>
+      <Form className='create-ticket-update-form'>
         <Row>
-          <Col sm={8} >
-            <FormControl
-              type='text'
-              value={this.state.text}
-              placeholder={strings.ticket.addUpdate}
-              onChange={(e) => this.setState({text: e.target.value})} />
-          </Col>
+          <FormControl
+            type='textarea'
+            componentClass='textarea'
+            value={this.state.text}
+            placeholder={strings.ticket.addUpdate}
+            onChange={(e) => this.setState({text: e.target.value})} />
+        </Row>
 
-          <Col sm={4} >
-            <TicketStatusSelector
-              assignees={this.props.assignees}
-              onAssigned={assignedId => this.handleAssigned(assignedId)}
-              expandInTherapy
-              onChange={(status) => { this.setState({status}) }}
-              assignedId={this.props.assignedId}
-              selected={this.state.status} />
+        <Row style={{marginTop: 10}}>
+          {strings.ticket.status}:&nbsp;
+          <TicketStatusSelector
+            assignees={this.props.assignees}
+            onSelect={assigneeId => this.setState({assigneeId})}
+            expandInTherapy
+            onChange={(status) => this.handleStatusChange(status)}
+            assigneeId={this.state.assigneeId}
+            selected={this.state.status} />
 
-            <Button
-              className='create-update-form-text-button'
-              type='submit'
-              disabled={this.state.isLoadingUpdates}
-              onClick={e => this.handleSubmitUpdate(e)}>
-              { strings.ticket.submit }
-            </Button>
-          </Col>
+          <Button
+            className='create-update-form-submit-button'
+            type='submit'
+            disabled={this.state.isLoadingUpdates}
+            onClick={e => this.handleSubmitUpdate(e)}>
+            { strings.ticket.update }
+          </Button>
         </Row>
       </Form>
     )

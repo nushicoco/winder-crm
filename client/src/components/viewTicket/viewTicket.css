@@ -10,6 +10,7 @@
 }
 .ticket-update-text {
   display: block;
+  white-space: pre-wrap;
 }
 
 .ticket-view-table {
@@ -63,6 +64,12 @@
   text-align: right;
 }
 
-.create-update-form-text-button {
-  margin-right: 10px;
+.create-update-form-submit-button {
+  float: left;
+}
+
+.create-ticket-update-form {
+  border: 1px solid darkgray;
+  padding: 30px;
+  margin: auto;
 }

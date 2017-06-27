@@ -3,48 +3,25 @@ import { DropdownButton, MenuItem, ButtonGroup, Button } from 'react-bootstrap'
 
 import Strings from '../../../strings'
 
-const NO_ASSIGNEE_KEY = 'no-one'
 export default class TicketStatusSelector extends React.Component {
-  constructor (props) {
-    super(props)
-    this.defaultAssignee = {
-      id: null,
-      firstName: Strings.ticket.noAssignee
-    }
-    this.state = {
-      selectedId: this.props.assigneeId
-    }
-  }
-
-  handleSelect (id) {
-    let selectedId = id === NO_ASSIGNEE_KEY ? null : id
-    this.setState({
-      selectedId
-    })
-    this.props.onAssigned(selectedId)
-  }
-
-  findAssignee (id) {
-    return this.props.assignees.filter(assignee => assignee.id === id)[0]
-  }
-
   renderInTherapyButton () {
     if (this.props.expandInTherapy) {
       let buttonTitle = Strings.ticket.statuses.inTherapy
-      if (this.state.selectedId) {
-        buttonTitle += ': ' + this.findAssignee(this.state.selectedId).firstName
+      let assignee = this.props.assignees.find(assignee => assignee.id === this.props.assigneeId)
+      if (assignee) {
+        buttonTitle += ': ' + assignee.firstName
       }
       return (
         <DropdownButton
           active={this.props.selected === 'inTherapy'}
-          onSelect={id => this.handleSelect(id)}
+          onSelect={id => this.props.onSelect(id)}
           className={'ticket-status-selector-button ticket-status-inTherapy'}
           onClick={() => this.props.onChange('inTherapy')}
           bsSize={this.props.bsSize}
           title={buttonTitle}
           id='inTherapy-status'>
 
-          <MenuItem eventKey={NO_ASSIGNEE_KEY} >{Strings.ticket.noAssignee}</MenuItem>
+          <MenuItem eventKey={null} >{Strings.ticket.noAssignee}</MenuItem>
           <MenuItem divider />
           { this.props.assignees.map(user => (
             <MenuItem eventKey={user.id} key={user.id} >{user.firstName}</MenuItem>

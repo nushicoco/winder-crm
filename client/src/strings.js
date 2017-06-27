@@ -59,7 +59,9 @@ export default {
   },
   back: 'חזרה',
   ticket: {
+    update: 'עדכן',
     assignedTo: 'הועבר לטיפול',
+    unknownAssignee: 'בטיפול.',
     noAssignee: 'ללא',
     csv: 'הורד CSV',
     noTickets: 'אין קריאות להצגה',

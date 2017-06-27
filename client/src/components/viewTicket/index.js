@@ -64,7 +64,8 @@ export default class ViewTicket extends React.Component {
       isLoadingUpdates: true
     })
     const ticketId = this.state.ticket.id
-    const assigneeName = assigneeId !== null && this.state.admins.find(admin => admin.id === assigneeId).firstName
+    const assignee = this.state.admins.find(admin => admin.id === assigneeId) || null
+    const assigneeName = assignee && assignee.firstName
     updateTicket({
       ticketId,
       text,
