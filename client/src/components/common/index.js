@@ -45,6 +45,9 @@ export class TicketStatusIndicator extends React.Component {
     return (
       <span className={`ticket-status-${this.props.status}`}>
         { Strings.ticket.statuses[this.props.status] }
+        { this.props.status === 'assigned' &&
+          this.props.assignee &&
+        ` (${this.props.assignee})` }
       </span>
     )
   }

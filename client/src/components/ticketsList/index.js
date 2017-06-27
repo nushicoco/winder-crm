@@ -212,6 +212,7 @@ export default class TicketsList extends React.Component {
 
   renderTicket = (ticket) => {
     const user = ticket.user || {}
+    const assignee = ticket.details.assigneeName
     return (
       <tr  key={ ticket.id } >
         <td>{ ticket.id }       </td>
@@ -222,7 +223,7 @@ export default class TicketsList extends React.Component {
             { ticket.details.subject }
           </Link>
         </td>
-        <td > <TicketStatusIndicator status={ticket.status} /></td>
+        <td > <TicketStatusIndicator status={ticket.status} assignee={assignee}/></td>
         <td className="ltr" > { this.formatDate(ticket.createdAt) }</td>
         <td className="ltr" > { this.formatDate(ticket.updatedAt) }</td>
       </tr>
