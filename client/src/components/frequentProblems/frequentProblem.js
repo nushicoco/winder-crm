@@ -34,9 +34,9 @@ export default class FrequentProblem extends Component {
         this.choseHelp = this.choseHelp.bind(this);
     }
 
-    recordProblemEvent = (event) => {
-        const { problemId, problemSubject, problemEnv, problemSubEnv} = this.state.problem
-        recordEvent(event, { problemId, problemSubject, problemEnv, problemSubEnv})
+    recordProblemEvent (event) {
+        const { id, subject, env, subEnv} = this.state.problem
+        recordEvent(event, { id, subject, env, subEnv })
     }
 
     choseDidntHelp() {

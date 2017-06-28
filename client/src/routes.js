@@ -2,6 +2,7 @@
  * Created by einavcarmon on 06/06/2017.
  */
 
+import RouteAnalytics from './components/RouteAnalytics'
 import FrequentProblemsList from './components/frequentProblems/frequentProblemsList';
 import FrequentProblem from './components/frequentProblems/frequentProblem';
 import NewTicket from './components/newTicket'
@@ -11,6 +12,11 @@ import ViewTicket from './components/viewTicket'
 import Chat from './components/chat/chat';
 import ChatsAdmin from './components/chat/chatsAdmin'
 export const routes = [
+    {
+      path: null,
+      component: RouteAnalytics,
+      exact: false
+    },
 
     {
         path: '/',
