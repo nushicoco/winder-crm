@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
-import { recordEvent } from './analytics'
 import App from './App';
 
 import registerServiceWorker from './registerServiceWorker';
@@ -18,4 +17,3 @@ ReactDOM.render(
     </Router>
     ), document.getElementById('root'))
 registerServiceWorker();
-recordEvent('init')

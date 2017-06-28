@@ -3,7 +3,7 @@ import {Row, Col, Form, FormGroup, FormControl, ControlLabel, Button} from 'reac
 import { Link } from 'react-router-dom'
 
 import Strings from '../../strings';
-
+import { recordEvent } from '../../analytics'
 import './newTicket.css'
 
 import { createTicket } from '../../api.js'
@@ -55,6 +55,7 @@ export default class NewTicket extends React.Component {
         content = content.trim()
         phone = phone.trim()
         this.setState({isLoading: true})
+        recordEvent('Ticket Created', {name, subject, content, room, phone})
         createTicket({name, phone, room, content, subject})
             .then( ({ id, accessToken }) => {
                 this.setState({
@@ -139,7 +140,7 @@ export default class NewTicket extends React.Component {
 
     renderSelectField = (field, options) => {
         const children = options.map(option => (
-            <option key={ option } value={ option } >{ option }</option>
+            <option key={ field + option } value={ option } >{ option }</option>
         ))
 
         return this.renderField(field, 'select', {
