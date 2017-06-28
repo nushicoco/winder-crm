@@ -1,0 +1,18 @@
+
+.create-update-form-submit-button {
+  position: relative;
+  left: 0px;
+}
+#update-ticket-form-tabs  {
+}
+#update-ticket-form-tabs > div {
+  margin-top: 8px;
+  padding: 10px;
+}
+.create-ticket-update-form {
+  border: 2px solid rgb(221, 221, 221) ;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  /* padding: 30px; */
+  margin: auto;
+}

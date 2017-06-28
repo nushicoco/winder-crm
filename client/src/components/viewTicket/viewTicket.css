@@ -63,13 +63,3 @@
   color: blue;
   text-align: right;
 }
-
-.create-update-form-submit-button {
-  float: left;
-}
-
-.create-ticket-update-form {
-  border: 1px solid darkgray;
-  padding: 30px;
-  margin: auto;
-}

@@ -25,6 +25,7 @@ export default function TicketForm ({fieldValues, lockName, onFieldChange}) {
   const fieldComponents = fields.map(([field, component, props]) => {
     return React.createElement(component, {
       key: field,
+      field: field,
       value: fieldValues[field],
       onChange: (e) => onFieldChange(field, e.target.value),
       ...props
