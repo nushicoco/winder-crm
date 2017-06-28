@@ -34,7 +34,7 @@ export default class chatTab extends Component {
       })
     })
   }
-ה
+
   componentWillMount () {
     this.socket.emit(`client:connected`, {
       chatId: this.props.chatId,
@@ -110,7 +110,7 @@ export default class chatTab extends Component {
               : Strings.chat.chatWithTech
           }
         </h2>
-        <div className="typing-container">
+        <div className='typing-container'>
           {this.state.whoIsTyping !== '' && (
             <p className='system-message'>{`${this.state.whoIsTyping} ${Strings.chat.isTyping}`}</p>
           )}

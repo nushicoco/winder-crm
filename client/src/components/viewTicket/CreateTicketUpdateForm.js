@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Row, Form, FormControl, Button } from 'react-bootstrap'
+import { Row, Form, FormControl, Button } from 'react-bootstrap'
 import TicketStatusSelector from '../common/TicketStatusSelector'
 
 import strings from '../../strings.js'
