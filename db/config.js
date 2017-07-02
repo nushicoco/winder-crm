@@ -1,4 +1,3 @@
-const debug = require('debug')
 require('dotenv-safe').load()
 
 module.exports = {
@@ -12,7 +11,7 @@ module.exports = {
     dialect: 'sqlite'
   },
 
-  production:   {
+  production: {
     url: `sqlite:///${__dirname}/winder.db`,
     dialect: 'sqlite'
   }

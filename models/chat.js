@@ -5,25 +5,25 @@ const { notifyNewChat } = require('../notifications.js')
 const Sequelize = require('sequelize')
 
 module.exports = function (sequelize) {
-    const Chat = sequelize.define('chat', {
-        active: {
-            type: Sequelize.BOOLEAN,
-            defaultValue: true
-        },
+  const Chat = sequelize.define('chat', {
+    active: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: true
+    },
 
-        clientName: Sequelize.TEXT,
-        clientId: Sequelize.TEXT,
-}, {
-        hooks: {
-            afterCreate: function (chat) {
-                notifyNewChat(chat)
-            }
-        }
-    });
+    clientName: Sequelize.TEXT,
+    clientId: Sequelize.TEXT
+  }, {
+    hooks: {
+      afterCreate: function (chat) {
+        notifyNewChat(chat)
+      }
+    }
+  })
 
-    Chat.associate = function (models) {
-        Chat.hasMany(models.ChatMessage)
-    };
+  Chat.associate = function (models) {
+    Chat.hasMany(models.ChatMessage)
+  }
 
-    return Chat;
-};
+  return Chat
+}

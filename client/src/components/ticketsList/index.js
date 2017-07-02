@@ -1,47 +1,50 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import strings from '../../strings.js'
-import { Button, ButtonGroup, Table} from 'react-bootstrap'
+import { Button, Table } from 'react-bootstrap'
 import { getTickets } from '../../api.js'
-import { BackToFrequentBtn } from '../common'
+import { TicketStatusIndicator, BackToFrequentBtn } from '../common'
 import './ticketsList.css'
 import LoadingBox from '../loadingBox'
 import CSVExport from './csvexport'
-import { TicketStatusIndicator } from '../common'
 import TicketStatusSelector from '../common/TicketStatusSelector'
 
-const NO_FILTER = 'all'
 export default class TicketsList extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       isLoading: true,
       tickets: [],
-      filter: 'all',
+      statusFilters: {
+        open: true,
+        assigned: true,
+        closed: false
+        // TODO: DRY?
+      },
       user: props.user
     }
-
+    this.filteredTickets = this.defineFilteredTickets()
   }
 
-  classForExtraColumns() {
+  classForExtraColumns () {
     return (this.state.user && this.state.user.isSuperuser)
       ? ''
       : 'hide'
   }
 
-  reload = () => {
+  reload () {
     this.setState({
       tickets: [],
       isLoading: true
     })
     getTickets()
-      .then( (tickets) => {
+      .then((tickets) => {
         this.setState({
           isLoading: false,
           tickets
         })
       })
-      .catch( (error) => {
+      .catch((error) => {
         if (error.status === 401) {
           this.props.doLogin()
           return
@@ -53,21 +56,21 @@ export default class TicketsList extends React.Component {
       })
   }
 
-  filteredTickets = (() => {
+  defineFilteredTickets () {
     let allTickets, filteredTickets, lastFilter
     return () => {
-      if (this.state.tickets === allTickets
-          && this.state.filter === lastFilter )  {
+      if (this.state.tickets === allTickets &&
+          this.state.filter === lastFilter) {
         return filteredTickets
       }
       allTickets = this.state.tickets
-      filteredTickets = allTickets.filter(this.filter)
-      lastFilter = this.state.filter
+      filteredTickets = allTickets.filter(this.filter.bind(this))
+      lastFilter = this.state.statusFilters
       return filteredTickets
     }
-  })()
+  }
 
-  ticketsAsDataForCSV = () => {
+  ticketsAsDataForCSV () {
     const headers = [[
       'id',
       'username',
@@ -84,7 +87,7 @@ export default class TicketsList extends React.Component {
       ticket.details.subject,
       ticket.status,
       ticket.createdAt,
-      ticket.updatedAt,
+      ticket.updatedAt
     ]))
   }
 
@@ -101,55 +104,59 @@ export default class TicketsList extends React.Component {
     this.reload()
   }
 
-  renderToolbar() {
+  handleStatusFilterClick (status) {
+    const statusFilters = Object.assign({}, this.state.statusFilters)
+    statusFilters[status] = !statusFilters[status]
+    this.setState({ statusFilters })
+  }
+
+  renderToolbar () {
     return (
-      <div className="tickets-list-filters">
-        { strings.ticket.filters }
+      <div className='tickets-list-filters'>
+        { strings.ticket.display }:&nbsp;
         <TicketStatusSelector
-          extra={NO_FILTER}
           bsSize='xsmall'
-          onChange={filter => this.setState({filter})}
-          selected={this.state.filter}/>
-          <div className="tickets-list-left-buttons">
+          onChange={this.handleStatusFilterClick.bind(this)}
+          multiple
+          selected={this.state.statusFilters} />
+        <div className='tickets-list-left-buttons'>
+          <Button
+            disabled={!!this.state.isLoading}
+            style={{float: 'left'}}
+            className='tickets-list-refresh-button inline'
+            bsSize='xsmall'
+            onClick={() => this.reload()} >
+            { strings.TicketsList.reload }
+          </Button>
+
+          <CSVExport
+            className='inline'
+            data={this.ticketsAsDataForCSV()}
+            filename='tickets.csv'>
             <Button
-              className="inline"
-              disabled={ !!this.state.isLoading }
-              style={ {float: 'left'} }
-              className="tickets-list-refresh-button"
-              bsSize="xsmall"
-              onClick={ () => this.reload() } >
-              { strings.TicketsList.reload }
-            </Button>
-
-            <CSVExport
-              className="inline"
-              data={this.ticketsAsDataForCSV()}
-              filename="tickets.csv">
-              <Button
-                bsSize="xsmall"
-                disabled={ !!this.state.isLoading }
+              bsSize='xsmall'
+              disabled={!!this.state.isLoading}
                 >{ strings.ticket.csv } </Button>
-            </CSVExport>
+          </CSVExport>
 
-          </div>
+        </div>
       </div>)
   }
 
-  filter = (ticket) => {
-    return this.state.filter === NO_FILTER || ticket.status === this.state.filter
+  filter (ticket) {
+    return this.state.statusFilters[ticket.status]
   }
 
   renderNoTicketsRow () {
     return (
       <tr>
-        <td className="tickets-list-no-ticket" colSpan="7" >
-          <LoadingBox show={ this.state.isLoading }>
+        <td className='tickets-list-no-ticket' colSpan='7' >
+          <LoadingBox show={this.state.isLoading}>
             { strings.ticket.noTickets }
           </LoadingBox>
         </td>
       </tr>
     )
-
   }
 
   renderTickets () {
@@ -157,7 +164,7 @@ export default class TicketsList extends React.Component {
     return (
       <div>
         { this.renderToolbar() }
-        <Table className="tickets-list-table center centered" striped bordered condensed hover>
+        <Table className='tickets-list-table center centered' striped bordered condensed hover>
           <thead>
             <tr>
               <th>#</th>
@@ -172,7 +179,7 @@ export default class TicketsList extends React.Component {
           <tbody>
             { filteredTickets.length === 0
               ? this.renderNoTicketsRow()
-              : filteredTickets.map(this.renderTicket)
+              : filteredTickets.map(this.renderTicket.bind(this))
             }
           </tbody>
         </Table>
@@ -191,13 +198,13 @@ export default class TicketsList extends React.Component {
 
   render () {
     return (
-      <div className="container">
+      <div className='container'>
         { this.state.user && (
           <h1>{ strings.TicketsList.headline[this.state.user.isSuperuser ? 'admin' : 'user'] }</h1>
         )}
-      { this.renderTickets() }
-        <BackToFrequentBtn/>
-        </div>
+        { this.renderTickets() }
+        <BackToFrequentBtn />
+      </div>
     )
   }
   formatDate (date) {
@@ -210,22 +217,22 @@ export default class TicketsList extends React.Component {
       : ''
   }
 
-  renderTicket = (ticket) => {
+  renderTicket (ticket) {
     const user = ticket.user || {}
     const assignee = ticket.details.assigneeName
     return (
-      <tr  key={ ticket.id } >
-        <td>{ ticket.id }       </td>
+      <tr key={ticket.id} >
+        <td>{ ticket.id } </td>
         <td className={this.classForExtraColumns()}>{ this.formatUsername(user) } </td>
-        <td className={this.classForExtraColumns()}>{ ticket.details.name }     </td>
-        <td  >
-          <Link to={ `/view-ticket/${ticket.id}?accessToken=${ticket.accessToken}` }>
+        <td className={this.classForExtraColumns()}>{ ticket.details.name } </td>
+        <td >
+          <Link to={`/view-ticket/${ticket.id}?accessToken=${ticket.accessToken}`}>
             { ticket.details.subject }
           </Link>
         </td>
-        <td > <TicketStatusIndicator status={ticket.status} assignee={assignee}/></td>
-        <td className="ltr" > { this.formatDate(ticket.createdAt) }</td>
-        <td className="ltr" > { this.formatDate(ticket.updatedAt) }</td>
+        <td > <TicketStatusIndicator status={ticket.status} assignee={assignee} /></td>
+        <td className='ltr' > { this.formatDate(ticket.createdAt) }</td>
+        <td className='ltr' > { this.formatDate(ticket.updatedAt) }</td>
       </tr>
     )
   }

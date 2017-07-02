@@ -3,15 +3,15 @@
  */
 const Sequelize = require('sequelize')
 module.exports = function (sequelize) {
-    const ChatMessage = sequelize.define('chat_message', {
-        clientName: Sequelize.TEXT,
-        clientId: Sequelize.TEXT,
-        text: Sequelize.TEXT,
-    });
+  const ChatMessage = sequelize.define('chat_message', {
+    clientName: Sequelize.TEXT,
+    clientId: Sequelize.TEXT,
+    text: Sequelize.TEXT
+  })
 
-    ChatMessage.associate = function (models) {
-        ChatMessage.belongsTo(models.Chat);
-    };
+  ChatMessage.associate = function (models) {
+    ChatMessage.belongsTo(models.Chat)
+  }
 
-    return ChatMessage;
-};
+  return ChatMessage
+}

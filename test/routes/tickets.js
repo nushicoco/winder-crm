@@ -1,4 +1,6 @@
-/* global describe it beforeEach */
+/* eslint-env mocha */
+/* eslint-disable no-unused-expressions */
+
 const chai = require('chai')
 chai.use(require('chai-as-promised'))
 const expect = chai.expect
@@ -280,7 +282,7 @@ describe('GET /ticket/:id', function () {
           password: gggPassword
         })
           .end(function (error, response) {
-                        expect(error).to.be.null
+            expect(error).to.be.null
 
             response.status.should.equal(200)
             agent.get(`/tickets/${ticketId}`)
@@ -410,7 +412,7 @@ describe('GET /admin/admins', function () {
   })
 })
 
-describe.only('POST /ticket_update', function () {
+describe('POST /ticket_update', function () {
   beforeEach(makeGregAndScrappy)
   const createTicketAndPostUpdate = function (ticketFields, updateFields) {
     const agent = chai.request.agent(app)
@@ -526,7 +528,7 @@ describe.only('POST /ticket_update', function () {
       })
   })
 
-  it.only('should create a ticket update without status if the status is not changed', function () {
+  it('should create a ticket update without status if the status is not changed', function () {
     const ticketFields = {
       status: 'closed'
     }
