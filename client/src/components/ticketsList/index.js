@@ -9,14 +9,18 @@ import LoadingBox from '../loadingBox'
 import CSVExport from './csvexport'
 import TicketStatusSelector from '../common/TicketStatusSelector'
 
-const NO_FILTER = 'all'
 export default class TicketsList extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       isLoading: true,
       tickets: [],
-      filter: 'all',
+      statusFilters: {
+        open: true,
+        assigned: true,
+        closed: false
+        // TODO: DRY?
+      },
       user: props.user
     }
     this.filteredTickets = this.defineFilteredTickets()
@@ -61,7 +65,7 @@ export default class TicketsList extends React.Component {
       }
       allTickets = this.state.tickets
       filteredTickets = allTickets.filter(this.filter.bind(this))
-      lastFilter = this.state.filter
+      lastFilter = this.state.statusFilters
       return filteredTickets
     }
   }
@@ -100,15 +104,21 @@ export default class TicketsList extends React.Component {
     this.reload()
   }
 
+  handleStatusFilterClick (status) {
+    const statusFilters = Object.assign({}, this.state.statusFilters)
+    statusFilters[status] = !statusFilters[status]
+    this.setState({ statusFilters })
+  }
+
   renderToolbar () {
     return (
       <div className='tickets-list-filters'>
-        { strings.ticket.filters }
+        { strings.ticket.display }:&nbsp;
         <TicketStatusSelector
-          extra={NO_FILTER}
           bsSize='xsmall'
-          onChange={filter => this.setState({filter})}
-          selected={this.state.filter} />
+          onChange={this.handleStatusFilterClick.bind(this)}
+          multiple
+          selected={this.state.statusFilters} />
         <div className='tickets-list-left-buttons'>
           <Button
             disabled={!!this.state.isLoading}
@@ -134,7 +144,7 @@ export default class TicketsList extends React.Component {
   }
 
   filter (ticket) {
-    return this.state.filter === NO_FILTER || ticket.status === this.state.filter
+    return this.state.statusFilters[ticket.status]
   }
 
   renderNoTicketsRow () {
