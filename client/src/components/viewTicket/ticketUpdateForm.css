@@ -4,15 +4,26 @@
   left: 0px;
 }
 #update-ticket-form-tabs  {
+
 }
-#update-ticket-form-tabs > div {
+#update-ticket-form-tabs ul {
+  padding: 0px;
+  margin: 0px;
+  padding-right: 10px;
+}
+
+#update-ticket-form-tabs a {
+  white-space: nowrap;
   margin-top: 8px;
-  padding: 10px;
+  /* padding: 10px; */
 }
 .create-ticket-update-form {
   border: 2px solid rgb(221, 221, 221) ;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  /* padding: 30px; */
+  padding: 5px 0px 10px 0px;
   margin: auto;
+}
+
+
+.create-ticket-update-form .tab-content {
+  padding: 10px;
 }

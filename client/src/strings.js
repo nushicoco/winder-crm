@@ -59,6 +59,8 @@ export default {
   },
   back: 'חזרה',
   ticket: {
+    addUpdate: 'הוספת עדכון',
+    edit: 'עריכה',
     update: 'עדכן',
     assignedTo: 'הועבר לטיפול',
     unknownAssignee: 'בטיפול.',

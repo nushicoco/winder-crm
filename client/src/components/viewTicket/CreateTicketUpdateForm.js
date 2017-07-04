@@ -62,7 +62,7 @@ export default class CreateTicketUpdateForm extends React.Component {
     return (
       <Form className='create-ticket-update-form' >
         <Tabs defaultActiveKey={1} id='update-ticket-form-tabs'>
-          <Tab eventKey={1} title={'הוספת עידכון'}>
+          <Tab eventKey={1} title={strings.ticket.addUpdate}>
             <FormControl
               type='textarea'
               componentClass='textarea'
@@ -71,8 +71,8 @@ export default class CreateTicketUpdateForm extends React.Component {
               onChange={(e) => this.setState({text: e.target.value})} />
 
             <Row style={{marginTop: 10}}>
-            {strings.ticket.status}:&nbsp;
-            <TicketStatusSelector
+              { strings.ticket.status }:&nbsp;
+              <TicketStatusSelector
                 assignees={this.props.assignees}
                 onSelect={assigneeId => this.setState({assigneeId})}
                 expandAssigned
@@ -82,7 +82,7 @@ export default class CreateTicketUpdateForm extends React.Component {
             </Row>
           </Tab>
 
-          <Tab eventKey={2} title={'עריכה'}>
+          <Tab eventKey={2} title={strings.ticket.edit}>
             <TicketForm
               fieldValues={this.state.ticketFieldValues}
               onFieldChange={this.handleTicketFieldChange.bind(this)} />
