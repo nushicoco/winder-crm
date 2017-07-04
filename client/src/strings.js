@@ -65,7 +65,7 @@ export default {
     noAssignee: 'ללא',
     csv: 'הורד CSV',
     noTickets: 'אין קריאות להצגה',
-    filters: 'סינון: ',
+    display: 'הצג',
     noUpdates: 'אין עדכונים לקריאה זו.',
     headlinePrefix: 'קריאה #',
     watchMyTicket: 'למעקב אחר הקריאה שלי',
