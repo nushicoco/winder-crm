@@ -1,18 +1,3 @@
-.ticket-update-date {
-  font-weight: bolder;
-}
-.ticket-update-text-row {
-  border: 1px solid black;
-}
-.ticket-update-status {
-  display: block;
-  font-style: italic;
-}
-.ticket-update-text {
-  display: block;
-  white-space: pre-wrap;
-}
-
 .ticket-view-table {
   margin: auto;
   text-align: right;
@@ -44,15 +29,10 @@
 .ticket-update-table {
   width: 100%;
   margin: auto;
-  margin-top: 20px;
 }
 
 .ticket-update-table tr {
   border: none;
-}
-
-.ticket-update-table > tbody > tr {
-  border-bottom: 1px solid silver;
 }
 
 .ticket-update-date {
@@ -62,4 +42,57 @@
 .ticket-update-user{
   color: blue;
   text-align: right;
+}
+
+.ticket-update-date {
+  font-weight: bolder;
+}
+.ticket-update-head-row {
+}
+.ticket-update-head-row td{
+  border-top: 1px solid black;
+}
+.ticket-update-text-row {
+}
+.ticket-update-text-row td {
+  border-bottom: 1px solid black;
+  padding: 5px;
+}
+.ticket-update-status {
+  display: block;
+  font-style: italic;
+}
+.ticket-update-text {
+  display: block;
+  background: whitesmoke;
+  border: 1px solid black;
+  white-space: pre-wrap;
+}
+
+.ticket-details-list {
+  display: inline-block;
+  padding: 0px;
+  margin: 0px;
+}
+
+.ticket-details-list li {
+  margin: 2px;
+  white-space: nowrap;
+}
+.ticket-update-detail {
+}
+
+.ticket-update-detail-name{
+  font-weight: bolder;
+  text-decoration: underline;
+}
+
+.ticket-update-detail-value{
+  display: inline-block;
+  text-align: right;
+  white-space: pre;
+  vertical-align: top;
+  border: 1px solid gray;
+  background: whitesmoke;
+  padding: 0px 2px;
 }

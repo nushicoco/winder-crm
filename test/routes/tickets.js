@@ -569,4 +569,32 @@ describe('POST /ticket_update', function () {
         expect(ticketUpdate.details).to.not.have.property('assigneeId')
       })
   })
+
+  it('should create a ticket update without assignee if the assignee is not changed but with other details', function () {
+    const ticketFields = {
+      status: 'closed',
+      details: {
+        assigneeId: 7
+      }
+    }
+
+    const updateFields = {
+      status: 'open',
+      details: {
+        mockDetail: 'bla',
+        assigneeId: 7
+      }
+    }
+
+    return createTicketAndPostUpdate(ticketFields, updateFields)
+      .then(function ({ticket, ticketUpdate}) {
+        expect(ticketUpdate).to.include({
+          status: 'open'
+        })
+        expect(ticketUpdate.details).to.not.have.property('assigneeId')
+        expect(ticketUpdate.details).to.include({
+          mockDetail: 'bla'
+        })
+      })
+  })
 })

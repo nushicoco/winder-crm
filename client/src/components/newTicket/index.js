@@ -7,7 +7,7 @@ import { recordEvent } from '../../analytics'
 import { createTicket } from '../../api.js'
 
 import './newTicket.css'
-import TicketForm from './TicketForm'
+import TicketForm from '../common/TicketForm'
 
 export default class NewTicket extends React.Component {
   constructor (props) {

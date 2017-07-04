@@ -5,7 +5,7 @@ import { Table } from 'react-bootstrap'
 
 import './viewTicket.css'
 import { TicketStatusIndicator } from '../common'
-import TicketUpdateRow from './TicketUpdateRow'
+import TicketUpdatesTable from './TicketUpdatesTable'
 import CreateTicketUpdateForm from './CreateTicketUpdateForm'
 import { getTicket, updateTicket, getAdmins } from '../../api.js'
 import strings from '../../strings.js'
@@ -60,18 +60,16 @@ export default class ViewTicket extends React.Component {
     return new Date(date).toLocaleString()
   }
 
-  handleSubmitUpdate ({ text, status, assigneeId }) {
+  handleSubmitUpdate ({ text, status, details }) {
     this.setState({
       isLoadingUpdates: true
     })
     const ticketId = this.state.ticket.id
-    const assignee = this.state.admins.find(admin => admin.id === assigneeId) || null
-    const assigneeName = assignee && assignee.firstName
     updateTicket({
       ticketId,
       text,
       status,
-      details: {assigneeId, assigneeName}
+      details
     })
       .then(() => {
         this.fetchData()
@@ -106,7 +104,6 @@ export default class ViewTicket extends React.Component {
       <div>
         <CreateTicketUpdateForm
           assignees={this.state.admins}
-          assigneeId={this.state.ticket.details.assigneeId}
           ticket={this.state.ticket}
           onSubmit={fields => this.handleSubmitUpdate(fields)} />
         <LoadingBox show={this.state.isLoadingUpdates}>&nbsp;</LoadingBox>
@@ -115,14 +112,11 @@ export default class ViewTicket extends React.Component {
   }
 
   renderUpdatesTable () {
-    const updates = this.state.ticket.ticket_updates.length > 0
-          ? this.state.ticket.ticket_updates.map(ticketUpdate => <TicketUpdateRow key={ticketUpdate.id} ticketUpdate={ticketUpdate} />)
-          : strings.ticket.noUpdates
     return (
       <div className='updates'>
         <h2>{ strings.ticket.updates } </h2>
         { this.state.isSuperuser && this.renderNewUpdateForm() }
-        { updates }
+        <TicketUpdatesTable assignees={this.state.admins} updates={this.state.ticket.ticket_updates} />
       </div>
 
     )

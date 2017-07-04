@@ -1,10 +1,9 @@
 import React from 'react'
 import { Tabs, Tab, Row, Form, FormControl, Button } from 'react-bootstrap'
 
-
 import './ticketUpdateForm.css'
 import TicketStatusSelector from '../common/TicketStatusSelector'
-import TicketForm from '../newTicket/TicketForm' //TODO MOVE
+import TicketForm from '../common/TicketForm'
 
 import strings from '../../strings.js'
 import './viewTicket.css'
@@ -15,35 +14,44 @@ export default class CreateTicketUpdateForm extends React.Component {
 
     this.state = {
       status: props.ticket.status,
-      assigneeId: props.assigneeId,
+      assigneeId: props.ticket.details.assigneeId,
       text: '',
       assigned: null,
       admins: [],
       isLoading: true,
-      ticketFieldValues: {
+      ticketFieldValues: this.ticketFieldValuesFromTicket(props.ticket)
+    }
+  }
+
+  componentWillReceiveProps ({ticket}) {
+    this.setState({
+      ticketFieldValues: this.ticketFieldValuesFromTicket(ticket),
+      assigneeId: ticket.details.assigneeId
+    })
+  }
+
+  ticketFieldValuesFromTicket (ticket) {
+    return Object.assign(
+      {
         name: '',
         phone: '',
         subject: '',
         room: '',
         content: ''
-      }
-    }
-  }
-
-  componentWillReceiveProps ({assigneeId}) {
-    this.setState({
-      assigneeId
-    })
+      },
+      ticket.details
+    )
   }
 
   handleSubmitUpdate (e) {
-    const { text, status, assigneeId } = this.state
+    const { text, status, assigneeId, ticketFieldValues } = this.state
     e.preventDefault()
     this.setState({
       text: ''
     })
+    const details = Object.assign({}, ticketFieldValues, {assigneeId})
     this.props.onSubmit({
-      text, status, assigneeId
+      text, status, details
     })
   }
   handleStatusChange (status) {

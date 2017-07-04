@@ -18,7 +18,7 @@
   /* padding: 10px; */
 }
 .create-ticket-update-form {
-  border: 2px solid rgb(221, 221, 221) ;
+  border: none;
   padding: 5px 0px 10px 0px;
   margin: auto;
 }
@@ -26,4 +26,8 @@
 
 .create-ticket-update-form .tab-content {
   padding: 10px;
+  border-style: solid;
+  margin-bottom: 10px;
+  border-color: silver;
+  border-width: 0px 1px 1px 1px;
 }

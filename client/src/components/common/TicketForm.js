@@ -101,8 +101,8 @@ const TicketSelectField = function ({field, options, onChange, value}) {
   )
 }
 
-const TicketTextareaField = function ({field, onChange}) {
+const TicketTextareaField = function ({field, onChange, value}) {
   return (
-    <TicketField field={field} style={{height: 100}} componentClass='textarea' onChange={onChange} />
+    <TicketField value={value} field={field} style={{height: 100}} componentClass='textarea' onChange={onChange} />
   )
 }
