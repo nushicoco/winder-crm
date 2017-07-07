@@ -1,6 +1,9 @@
 import React from 'react'
-import { Row, Form, FormControl, Button } from 'react-bootstrap'
+import { Tabs, Tab, Row, Form, FormControl, Button } from 'react-bootstrap'
+
+import './ticketUpdateForm.css'
 import TicketStatusSelector from '../common/TicketStatusSelector'
+import TicketForm from '../common/TicketForm'
 
 import strings from '../../strings.js'
 import './viewTicket.css'
@@ -11,28 +14,44 @@ export default class CreateTicketUpdateForm extends React.Component {
 
     this.state = {
       status: props.ticket.status,
-      assigneeId: props.assigneeId,
+      assigneeId: props.ticket.details.assigneeId,
       text: '',
       assigned: null,
       admins: [],
-      isLoading: true
+      isLoading: true,
+      ticketFieldValues: this.ticketFieldValuesFromTicket(props.ticket)
     }
   }
 
-  componentWillReceiveProps ({assigneeId}) {
+  componentWillReceiveProps ({ticket}) {
     this.setState({
-      assigneeId
+      ticketFieldValues: this.ticketFieldValuesFromTicket(ticket),
+      assigneeId: ticket.details.assigneeId
     })
   }
 
+  ticketFieldValuesFromTicket (ticket) {
+    return Object.assign(
+      {
+        name: '',
+        phone: '',
+        subject: '',
+        room: '',
+        content: ''
+      },
+      ticket.details
+    )
+  }
+
   handleSubmitUpdate (e) {
-    const { text, status, assigneeId } = this.state
+    const { text, status, assigneeId, ticketFieldValues } = this.state
     e.preventDefault()
     this.setState({
       text: ''
     })
+    const details = Object.assign({}, ticketFieldValues, {assigneeId})
     this.props.onSubmit({
-      text, status, assigneeId
+      text, status, details
     })
   }
   handleStatusChange (status) {
@@ -42,36 +61,49 @@ export default class CreateTicketUpdateForm extends React.Component {
     })
   }
 
+  handleTicketFieldChange (field, value) {
+    const ticketFieldValues = Object.assign({}, this.state.ticketFieldValues, {[field]: value})
+    this.setState({ ticketFieldValues })
+  }
+
   render () {
     return (
-      <Form className='create-ticket-update-form'>
-        <Row>
-          <FormControl
-            type='textarea'
-            componentClass='textarea'
-            value={this.state.text}
-            placeholder={strings.ticket.addUpdate}
-            onChange={(e) => this.setState({text: e.target.value})} />
-        </Row>
+      <Form className='create-ticket-update-form' >
+        <Tabs defaultActiveKey={1} id='update-ticket-form-tabs'>
+          <Tab eventKey={1} title={strings.ticket.addUpdate}>
+            <FormControl
+              type='textarea'
+              componentClass='textarea'
+              value={this.state.text}
+              placeholder={strings.ticket.addUpdate}
+              onChange={(e) => this.setState({text: e.target.value})} />
 
-        <Row style={{marginTop: 10}}>
-          {strings.ticket.status}:&nbsp;
-          <TicketStatusSelector
-            assignees={this.props.assignees}
-            onSelect={assigneeId => this.setState({assigneeId})}
-            expandAssigned
-            onChange={(status) => this.handleStatusChange(status)}
-            assigneeId={this.state.assigneeId}
-            selected={this.state.status} />
+            <Row style={{marginTop: 10}}>
+              { strings.ticket.status }:&nbsp;
+              <TicketStatusSelector
+                assignees={this.props.assignees}
+                onSelect={assigneeId => this.setState({assigneeId})}
+                expandAssigned
+                onChange={(status) => this.handleStatusChange(status)}
+                assigneeId={this.state.assigneeId}
+                selected={this.state.status} />
+            </Row>
+          </Tab>
 
-          <Button
-            className='create-update-form-submit-button'
-            type='submit'
-            disabled={this.state.isLoadingUpdates}
-            onClick={e => this.handleSubmitUpdate(e)}>
-            { strings.ticket.update }
-          </Button>
-        </Row>
+          <Tab eventKey={2} title={strings.ticket.edit}>
+            <TicketForm
+              fieldValues={this.state.ticketFieldValues}
+              onFieldChange={this.handleTicketFieldChange.bind(this)} />
+          </Tab>
+        </Tabs>
+
+        <Button
+          className='create-update-form-submit-button'
+          type='submit'
+          disabled={this.state.isLoadingUpdates}
+          onClick={e => this.handleSubmitUpdate(e)}>
+          { strings.ticket.update }
+        </Button>
       </Form>
     )
   }

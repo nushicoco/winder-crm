@@ -33,13 +33,13 @@ module.exports = function (app, passport) {
         // Check if new details are introduced:
         Object.keys(details || {}).forEach((key) => {
           if (ticket.details[key] !== details[key]) {
-            newDetails = newDetails || Object.assign({}, ticket.details)
+            newDetails = newDetails || {}
             newDetails[key] = details[key]
           }
         })
         if (newDetails) {
           needsUpdate = true
-          update.details = newDetails
+          update.details = Object.assign({}, ticket.details, newDetails)
         }
 
         // Check if new Status is set:

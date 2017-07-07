@@ -59,6 +59,9 @@ export default {
   },
   back: 'חזרה',
   ticket: {
+    changedTo: 'עודכן ל-',
+    addUpdate: 'הוספת עדכון',
+    edit: 'עריכה',
     update: 'עדכן',
     assignedTo: 'הועבר לטיפול',
     unknownAssignee: 'בטיפול.',
@@ -74,6 +77,7 @@ export default {
     dateUpdated: 'תאריך עדכון',
     sent: 'פנייתך נשלחה בהצלחה',
     assigneeName: 'בטיפול של',
+    assigneeRemoved: 'הוסר מטיפול',
     name: 'שם',
     phone: 'טלפון',
     updates: 'עדכונים',
