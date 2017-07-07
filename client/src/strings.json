@@ -33,8 +33,8 @@
     }
   },
   "frequentProblems": {
-    "callTech": "במידת הצורך נא לחייג לטכנאי - 052-6613344",
-    "pleaseCallTech": "נא לחייג לטכנאי - 052-6613344",
+    "callTech": "במידת הצורך נא לחייג לטכנאי",
+    "pleaseCallTech": "נא לחייג לטכנאי",
     "thanksForFeedback": "מגניב! תודה על העדכון",
     "back": "חזרה",
     "header": "מדריכים ותקלות נפוצות",
@@ -94,12 +94,6 @@
       "closed": "סגור"
     },
     "subject": "נושא",
-    "subjects": [
-      "Avid",
-      "מחשב",
-      "סאונד",
-      "אחר"
-    ],
     "openTicket": "פתח קריאה",
     "select": "-- בחר --",
     "openTicketHeader": "פתח קריאה חדשה"
