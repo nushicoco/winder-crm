@@ -1,6 +1,6 @@
 import React from 'react'
 
-import strings from '../../strings.js'
+import strings from '../../strings'
 import { TicketStatusIndicator } from '../common'
 export default class TicketUpdatesTable extends React.Component {
   renderStatusChange (status) {

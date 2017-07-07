@@ -3,7 +3,7 @@ import { Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { getFrequentProblemsList } from '../../api.js'
 import Footer from './footer'
-import Strings from '../../strings.js'
+import Strings from '../../strings'
 import LoadingBox from '../loadingBox'
 
 import './frequentProblems.css'

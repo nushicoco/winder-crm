@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ButtonToolbar } from 'react-bootstrap'
 import { NewTicketButton, NewChatButton } from '../common'
-import Strings from '../../strings.js'
+import Strings from '../../strings'
 
 import './frequentProblems.css'
 

@@ -6,7 +6,7 @@ import { Button, ButtonToolbar } from 'react-bootstrap'
 import { NewTicketButton, BackToFrequentBtn } from '../common'
 
 import { recordEvent } from '../../analytics'
-import Strings from '../../strings.js'
+import Strings from '../../strings'
 import { getFrequentProblem } from '../../api.js'
 
 export default class FrequentProblem extends Component {

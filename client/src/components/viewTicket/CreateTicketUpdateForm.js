@@ -5,7 +5,7 @@ import './ticketUpdateForm.css'
 import TicketStatusSelector from '../common/TicketStatusSelector'
 import TicketForm from '../common/TicketForm'
 
-import strings from '../../strings.js'
+import strings from '../../strings'
 import './viewTicket.css'
 
 export default class CreateTicketUpdateForm extends React.Component {

@@ -1,6 +1,6 @@
 import React from 'react'
 import './loadingSpinner.css'
-import Strings from '../strings.js'
+import Strings from '../strings'
 
 export default class LoadingSpinner extends React.Component {
   render () {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import strings from '../../strings.js'
+import strings from '../../strings'
 import { Button, Table } from 'react-bootstrap'
 import { getTickets } from '../../api.js'
 import { TicketStatusIndicator, BackToFrequentBtn } from '../common'
