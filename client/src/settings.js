@@ -4,8 +4,8 @@ const DEFAULT_SETTINGS = {
   minPasswordLength: 1,
   logo: process.env.PUBLIC_URL + '/img/logo.png',
   rooms: [],
-  subjects: customerSettings.subjects,
-  techPhone: customerSettings.techPhone
+  subjects: [],
+  techPhone: ''
 }
 
 export default Object.assign(DEFAULT_SETTINGS, customerSettings)
