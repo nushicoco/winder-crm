@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Col, FormControl, ControlLabel, Form, FormGroup } from 'react-bootstrap'
 
-import Strings from '../../strings.js'
+import Strings from '../../strings'
 import validations from './validations.js'
 
 export default class SignupForm extends Component {

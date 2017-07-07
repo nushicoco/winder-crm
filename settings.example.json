@@ -1,0 +1,8 @@
+{
+  "minNameLength": 1,
+  "minPasswordLength": 1,
+  "logo": "/img/logo_alpha.png",
+  "rooms": ["101", "102", "Other"],
+  "subjects": ["Computer", "Sound"],
+  "techPhone": "*6900"
+}

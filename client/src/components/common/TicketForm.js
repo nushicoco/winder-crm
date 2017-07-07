@@ -2,23 +2,14 @@ import React from 'react'
 import { Row, Col, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 
 import Strings from '../../strings'
-
-const AVAILABLE_SUBJECTS = Strings.ticket.subjects
-const AVAILABLE_ROOMS = [
-  '501', '502', '503', '504', '505', '506', '507',
-  '508', '509', '510', '511', '512', '513', '514',
-  '515', '516', '517', '518', '519', '520', '521',
-  '522', '523', '524',
-  '601', '602', '603', '604', '605', '606', '607',
-  'Mix1', 'Mix2', 'אחר']
-    // TOOD Move to client-specific configuration
+import Settings from '../../settings'
 
 export default function TicketForm ({fieldValues, lockName, onFieldChange}) {
   const fields = [
     [ 'name', TicketTextField, {locked: lockName} ],
     [ 'phone', TicketTextField ],
-    [ 'subject', TicketSelectField, {options: AVAILABLE_SUBJECTS} ],
-    [ 'room', TicketSelectField, {options: AVAILABLE_ROOMS} ],
+    [ 'subject', TicketSelectField, {options: Settings.subjects} ],
+    [ 'room', TicketSelectField, {options: Settings.rooms} ],
     [ 'content', TicketTextareaField ]
   ]
 

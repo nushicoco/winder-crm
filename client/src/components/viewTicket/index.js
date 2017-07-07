@@ -8,7 +8,7 @@ import { TicketStatusIndicator } from '../common'
 import TicketUpdatesTable from './TicketUpdatesTable'
 import CreateTicketUpdateForm from './CreateTicketUpdateForm'
 import { getTicket, updateTicket, getAdmins } from '../../api.js'
-import strings from '../../strings.js'
+import strings from '../../strings'
 import LoadingBox from '../loadingBox'
 const SHOW_FIELDS = ['name', 'room', 'subject', 'content', 'assigneeName']
 

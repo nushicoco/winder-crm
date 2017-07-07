@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Route, Link } from 'react-router-dom'
 
+import Settings from './settings'
 import Login from './components/login'
 import LoginContainer from './components/loginContainer'
 import { routes } from './routes'
@@ -52,7 +53,7 @@ class App extends Component {
       <div className='App'>
         <div className='App-header'>
           <Link to=''>
-            <img src={process.env.PUBLIC_URL + '/img/logo_alpha.png'} className='App-logo' alt='logo' />
+            <img src={Settings.logo} className='App-logo' alt='logo' />
           </Link>
         </div>
 

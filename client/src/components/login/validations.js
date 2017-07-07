@@ -1,4 +1,4 @@
-const MIN_PASSWORD_LENGTH = 1 // TODO: Decide?
+import Settings from '../../settings'
 const EMAIL_REGEX = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i // source: https://stackoverflow.com/questions/46155/validate-email-address-in-javascript
 
 export default {
@@ -9,10 +9,10 @@ export default {
   },
 
   passwordLength (password) {
-    return password && password.length >= MIN_PASSWORD_LENGTH
+    return password && password.length >= Settings.minPasswordLength
   },
 
   name (name) {
-    return name && name.length > 1 // TODO: decide
+    return name && name.length > Settings.minNameLength
   }
 }

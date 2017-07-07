@@ -20,13 +20,10 @@ img.App-logo {
 
 .App-header {
   background-color: #ECEBF3;
-  /*height: 150px;*/
   width:100%;
   padding: 20px;
   color: white;
   display: inline-block;
-  /*background: url(bg_apple_little.gif) no - repeat center center;*/
-
   border-bottom: 4px #0C120C solid;
 }
 
